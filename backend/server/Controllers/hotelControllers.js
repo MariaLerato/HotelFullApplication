@@ -58,7 +58,7 @@ export default class HotelsController{
     static async apiGetHotels(req,res,next){
         const hotelsPerPage = req.query.hotelsPerPage ? parseInt(req.hotelsPerPage, 10) :20
         const page = req.query.page  ? parseInt(req.query.page, 10): 0
-        
+        console.log('loading....................')
         const filters = {}
         if(req.query.name){
             filters.name = req.query.name

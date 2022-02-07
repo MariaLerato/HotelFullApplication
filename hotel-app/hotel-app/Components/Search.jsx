@@ -5,29 +5,43 @@ import { Icon,Card } from 'react-native-elements'
 import SearchAlt from './searchAlt';
 import ProfilePicture from 'react-native-profile-picture'
 import { navbars } from './gallery/reusables';
+import BackendInfo from '../Components/backendService/service';
+import httpHotel from "../Components/backendService/http-hotel";
+import axios from "axios"
 
 
 const Search = ({ navigation, route }) => {
-   
+    const [hotels,setHotels] = useState([])
     const {id,name,status,dateIn,dateOut} = route.params
 
-    
+    const url = "https://192.168.0.109/api/v1/hotels"
+    const retrieveData = () =>{
+        axios.get("https://localhost:7000/api/v1/hotels").then((res)=>{
+            console.error(res.data)
+            setHotels(res.data.hotels)
+        }).catch((e)=>{
+            console.log(e,'database errotr')
+        })
+    }
+    useEffect(()=>{
+        retrieveData()
+    },[])
     const DisplayHotels = () => {
         return (
             <View>
                 <View style={{ display: 'flex', flexDirection: 'row',marginLeft:'1.5%' }}>
-                    {SearchAlt.hotels.filter(data =>
-                        data.province.includes(id)).map(action => (
+                    {hotels.map(data =>
+                        // data.province.includes(id)).map(action => (
                         <View style={{padding:'3%'}} >
-                                <ImageBackground source={action.image} style={{width:165,height:170,overflow:'hidden',borderRadius:20,borderWidth:1,borderColor:'white'}}>
-                                <TouchableOpacity  onPress={() => navigation.navigate(action.nav,{number:name})} style={styles.hotelname}>
-                                <Text style={styles.loca}>{action.location}</Text>
-                                    <Text style={styles.number}>{action.location.length} Hotels</Text>
+                                <ImageBackground source={data.image.image} style={{width:165,height:170,overflow:'hidden',borderRadius:20,borderWidth:1,borderColor:'white'}}>
+                                <TouchableOpacity  onPress={() => navigation.navigate({number:name})} style={styles.hotelname}>
+                                <Text style={styles.loca}>{data.province}</Text>
+                                    <Text style={styles.number}>{data.province.length} Hotels</Text>
                                 </TouchableOpacity>
                             </ImageBackground>
                         </View>
                            
-                        ))}
+                        )}
                 </View>
             </View>
         )
@@ -93,7 +107,15 @@ const Search = ({ navigation, route }) => {
                         </View>
 
                         <View style={{marginTop: '-3%'}} >
-                            <DisplayHotels />
+                             <DisplayHotels /> 
+                             
+                            {
+                                hotels.map(data=>
+                                    <View>
+                                        <Text>Monnica</Text>
+                                    </View>
+                                    )
+                            }
                         </View>
                     </View>
                     <View>
@@ -125,6 +147,18 @@ const Search = ({ navigation, route }) => {
             </View>
         </ScrollView>
             </View >
+            {
+                hotels.map(data=>
+                 <>
+                    <View>
+                        {data.name}
+                    </View>
+                      <View>
+                      {data.text}
+                  </View>
+                 </>
+                    )
+            }
         </View>
     )
 }
@@ -297,7 +331,8 @@ const styles = StyleSheet.create({
         fontSize: 20,
         fontWeight: '700',
         fontFamily: 'Roboto',
-        paddingLeft: '2%'
+        paddingLeft: '2%',
+        marginTop:'2%'
     },
     hoteltext: {
         color: '#1C5248',
