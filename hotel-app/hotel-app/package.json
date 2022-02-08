@@ -38,5 +38,7 @@
     "@types/react": "^17.0.35",
     "@types/react-native-datepicker": "^1.7.1"
   },
-  "private": true
+  "private": true,
+  "proxy": "http://localhost:7000"  
+
 }
