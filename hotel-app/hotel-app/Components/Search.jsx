@@ -5,8 +5,8 @@ import { Icon,Card } from 'react-native-elements'
 import SearchAlt from './searchAlt';
 import ProfilePicture from 'react-native-profile-picture'
 import { navbars } from './gallery/reusables';
-import BackendInfo from '../Components/backendService/service';
-import httpHotel from "../Components/backendService/http-hotel";
+import BackendInfo from './service'
+import httpHotel from "./http-hotel";
 import axios from "axios"
 
 
@@ -15,17 +15,18 @@ const Search = ({ navigation, route }) => {
     const {id,name,status,dateIn,dateOut} = route.params
 
     const url = "https://192.168.0.109/api/v1/hotels"
+   
     const retrieveData = () =>{
-        axios.get("https://localhost:7000/api/v1/hotels").then((res)=>{
-            console.error(res.data)
-            setHotels(res.data.hotels)
+        BackendInfo.getAll().then((res)=>{ console.log(res.data) 
+        setHotels(res.data.hotels)
         }).catch((e)=>{
-            console.log(e,'database errotr')
+            console.log(e)
         })
     }
     useEffect(()=>{
         retrieveData()
     },[])
+
     const DisplayHotels = () => {
         return (
             <View>
