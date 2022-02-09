@@ -23,7 +23,7 @@ app.use("/api/hotelGuests",hotelguests)
 app.use("/api/v1/hotelRoom",hotelroom)
 
 app.use("*",(req,res)=>res.status(404).json({error:"not found"}))
-app.post("/api",(req,res)=>{
+app.post("/api/v1/hotels",(req,res)=>{
     const data = req.body
     console.log(data)
     res.data(data)

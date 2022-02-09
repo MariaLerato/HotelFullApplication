@@ -33,7 +33,6 @@ export default class HotelDAO{
            return await hotels.insertOne(hotelDoc)
         }catch(e){
             console.error(`Unable to post hotels :${e}`)
-           
         }
     }
     static async deleteHotel(hotelId,adminId){
@@ -79,8 +78,6 @@ export default class HotelDAO{
             return {hotelList:[],totalNumHotels:0}
         }
     }
-   
- 
     static async updateHotel(hotelsId, hotel, date,text,adminId){
         try{
             const updateResponse =  await hotels.updateOne(
