@@ -1,7 +1,7 @@
 import axios from "axios";
 
 export default axios.create({
-    baseURL:"http://localhost:7000/api/v1/hotels",
+    baseURL:"https://server-app-new.herokuapp.com/api/v1/hotels",
     headers:{
         "Content-Type":"application/json"
     }

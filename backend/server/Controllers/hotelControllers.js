@@ -75,8 +75,8 @@ export default class HotelsController{
                 entries_per_page:hotelsPerPage,
                 total_results:totalNumHotels
             }
-            res.json(response)
-            console.log(response)
+            res.json(response.hotels)
+            console.log(response.hotels)
     }
     static async apiDeleteHotel(req,res,next){
         try{
