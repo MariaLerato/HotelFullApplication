@@ -27,6 +27,7 @@ export default class HotelDAO{
             adminId:adminId,
             image:image,
             province:hotel.province,
+            city:hotel.city
            
             }
             console.log(hotelDoc)

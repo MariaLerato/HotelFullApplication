@@ -21,11 +21,9 @@ const Search = ({ navigation, route }) => {
   const [hotels, setHotels] = useState([]);
   const { id, name, status, dateIn, dateOut } = route.params;
 
-  const url = "https://192.168.0.109/api/v1/hotels";
-
   const retrieveData = () => {
     axios
-      .get(`http://bc60-156-0-230-6.ngrok.io/api/v1/hotels`)
+      .get(`http://48df-156-0-230-6.ngrok.io/api/v1/hotels`)
       .then((res) => {
         console.log(res.data);
         setHotels(res.data);
@@ -37,6 +35,8 @@ const Search = ({ navigation, route }) => {
   useEffect(() => {
     retrieveData();
   }, []);
+ let searchString = id
+ const searchData = hotels.filter(data => data.province.includes(searchString) )
 
   const DisplayHotels = () => {
     return (
@@ -44,11 +44,10 @@ const Search = ({ navigation, route }) => {
         <View
           style={{ display: "flex", flexDirection: "row", marginLeft: "1.5%" }}
         >
-          {hotels.map((data) => (
-            // data.province.includes(id)).map(action => (
-            <View style={{ padding: "3%" }}>
+          {searchData.map((data)=>(
+            <View style={{ padding: "3%" }} key={data._id}>
               <ImageBackground
-                source={data.image.image}
+                source={{uri:data.image.image}}
                 style={{
                   width: 165,
                   height: 170,
@@ -59,7 +58,7 @@ const Search = ({ navigation, route }) => {
                 }}
               >
                 <TouchableOpacity
-                  onPress={() => navigation.navigate({ number: name })}
+                  onPress={() => navigation.navigate('Pretoria',{ number: name,name:data.name, hotelpic:data.image.image, des:data.text,place:data.province })}
                   style={styles.hotelname}
                 >
                   <Text style={styles.loca}>{data.province}</Text>
@@ -69,12 +68,11 @@ const Search = ({ navigation, route }) => {
                 </TouchableOpacity>
               </ImageBackground>
             </View>
-          ))}
+             ))}
         </View>
       </View>
     );
   };
-
   return (
     <View style={{ flex: 1 }}>
       <View style={styles.HeaderContainer}>

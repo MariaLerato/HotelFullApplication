@@ -19,20 +19,38 @@ export default class HotelRoomDAO{
     }
    
    
-    static async addHotelRoom(hotelId,name,description,date,image){
+    static async addHotelRoom(hotelId,name,description,date,image,price,province,city){
         try{
             const hotelRoomHoc = {
                 hotel_id:ObjectId(hotelId),
                 name:name,
-                image:image,
+                Bedroom:image.bed,
+                lounge:image.lounge,
+                pool:image.pool,
+                bathroom:image.bathroom,
                 text:description,
-                date:date
+                date:date,
+                price:price,
+                province:province,
+                city:city
 
             }
             console.log(hotelRoomHoc)
             return await hotelRoom.insertOne(hotelRoomHoc)
         }catch(e){
             console.error(`Unable to post hotel room :${e}`)
+        }
+    }
+    static async addFacilities(hotelId,icon,iconId){
+        try{
+            const FacilityDoc = {
+                hotel_id:ObjectId(hotelId),
+                name:icon.name,
+                iconId:iconId
+            }
+            console.log(FacilityDoc)
+        }catch(e){
+            console.error(`Unable to post hotel facility :${e} `)
         }
     }
     static async getHotelRoom({

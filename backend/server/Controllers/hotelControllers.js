@@ -12,7 +12,8 @@ export default class HotelsController{
             const description = req.body.text
             const hotelInfo = {
                 name:req.body.name,  
-                province:req.body.province
+                province:req.body.province,
+                city:req.body.city
             }
          
             const HotelResponse = await HotelDAO.addHotel(

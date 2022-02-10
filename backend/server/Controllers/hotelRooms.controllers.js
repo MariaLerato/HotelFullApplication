@@ -7,7 +7,15 @@ export default class HotelRoomController{
         try{
             const hotelId = req.body.hotel_id
              const name=  req.body.name
-             const image = req.body.image
+             const price = req.body.price
+             const province = req.body.province
+             const city = req.body.city 
+             const image ={
+                 bed: req.body.bed,
+                 lounge:req.body.lounge,
+                 pool:req.body.pool,
+                 bathroom:req.body.bathroom
+             }
              const roomId = req.body.roomId
             const description = req.body.text
             const date = new Date()
@@ -17,12 +25,38 @@ export default class HotelRoomController{
                 description,
                 date,
                 image,
-                roomId
+                roomId,
+                price,
+                province,
+                city
             )
             console.log(HotelRoomResponse)
             res.json({status:"Success"})
         }catch(e){
             res.status(500).json({error:e.message})
+        }
+    }
+    static async apiPostFacilities(req,res,next){
+        try{
+            const hotelId= req.body.hotel_id
+            const icons = {
+                name:req.body.name,
+            }
+            const iconId = req.body.iconId
+            const date = new Date()
+
+            const Facility =  await HotelRoomDAO.addFacilities(
+                ObjectId(hotelId),
+                icons,
+                iconId,
+                date
+            )
+            console.log(Facility)
+            res.status({status:"Success"})
+        }
+        catch(e){
+            res.status(500).json({error:e.message})
+
         }
     }
     static async apiGetHotelRooms(req,res,next){

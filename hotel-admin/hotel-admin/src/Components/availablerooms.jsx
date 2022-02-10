@@ -12,11 +12,15 @@ const Rooms = () => {
     const [selected, setSelected] = useState(null)
     const [rooms, setRooms] = useState([])
     const [name, setName] = useState()
-    const [image,setImage] = useState()
+    const [bedimage,setBedImage] = useState()
+    const [loungeimage,setLoungeImage] = useState()
+    const [Otherimage,setOtherImage] = useState()
     const [text, setText] = useState()
     const [disabled, setDisplay] = useState(true)
     const [hotelrooms,setGuestList] = useState([])
     const [roomId,setId] = useState()
+    const [province,setProvince] = useState()
+    const [city,setCity] = useState()
 
     const retrieveGuest = (e)=>{
         RoomData.getAllRooms()
@@ -37,7 +41,7 @@ const Rooms = () => {
     }  
     async  function addRoom(e){
         e.preventDefault()
-        const newRoom = {name,text,roomId,image}
+        const newRoom = {name,text,roomId,bedimage,province,city,loungeimage,Otherimage}
         console.log(newRoom)
        RoomData.createRoom(newRoom)
         .then((res)=>{
@@ -105,7 +109,7 @@ const Rooms = () => {
                         <div className='list'>
                             {
                                hotelrooms.map(data =>
-                                    <li key={data.id}>
+                                    <li key={data._id}>
                                         <img src={data.image.image} alt={data.name} style={{width:144,height:94,borderRadius:10}}/>           
                                         <button type='submit' style={{ height: 40, width: 144, marginLeft: '35%' }} onClick={() => disabled}>Available</button>
                                         <button type='submit' style={{ height: 40, width: 144 }} onClick={deleteHotelRoom}>Not Available</button>
@@ -123,7 +127,7 @@ const Rooms = () => {
                             style={{
                                 position: 'absolute',
                                 width: '40%',
-                                height: 450,
+                                // height: 450,
                                 padding:'2%',
                                 margin: 'auto',
                                 borderRadius: 10,
@@ -156,7 +160,17 @@ const Rooms = () => {
                                         <FileBase64
                                         type="file"
                                         multiple={false}
-                                        onDone={({base64})=>setImage({image:base64})}
+                                        onDone={({base64})=>setBedImage(base64)}
+                                        />
+                                         <FileBase64
+                                        type="file"
+                                        multiple={false}
+                                        onDone={({base64})=>setLoungeImage(base64)}
+                                        />
+                                         <FileBase64
+                                        type="file"
+                                        multiple={false}
+                                        onDone={({base64})=>setOtherImage(base64)}
                                         />
                                     </div>
                                        

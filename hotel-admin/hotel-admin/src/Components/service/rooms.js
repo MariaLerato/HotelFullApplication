@@ -10,5 +10,8 @@ class RoomData {
     deleteRoom(id){
         return httpCommon.delete(`?id=${id}`)
     }
+    createFacility(data){
+        return httpCommon.post("/",data)
+    }
 }
 export default new RoomData()
