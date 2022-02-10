@@ -10,11 +10,11 @@ import FileBase64 from 'react-file-base64'
 const Rooms = () => {
     const [open, setOpen] = useState(false)
     const [selected, setSelected] = useState(null)
-    const [rooms, setRooms] = useState([])
+    const [image, setImage] = useState([])
     const [name, setName] = useState()
-    const [bedimage,setBedImage] = useState()
-    const [loungeimage,setLoungeImage] = useState()
-    const [Otherimage,setOtherImage] = useState()
+    const [Bedroom,setBedroom] = useState()
+    const [lounge,setLounge] = useState()
+    const [pool,setpool] = useState()
     const [text, setText] = useState()
     const [disabled, setDisplay] = useState(true)
     const [hotelrooms,setGuestList] = useState([])
@@ -41,7 +41,7 @@ const Rooms = () => {
     }  
     async  function addRoom(e){
         e.preventDefault()
-        const newRoom = {name,text,roomId,bedimage,province,city,loungeimage,Otherimage}
+        const newRoom = {name,text,roomId,image,province,city,lounge,pool}
         console.log(newRoom)
        RoomData.createRoom(newRoom)
         .then((res)=>{
@@ -127,7 +127,6 @@ const Rooms = () => {
                             style={{
                                 position: 'absolute',
                                 width: '40%',
-                                // height: 450,
                                 padding:'2%',
                                 margin: 'auto',
                                 borderRadius: 10,
@@ -157,20 +156,26 @@ const Rooms = () => {
                                             value={roomId}
                                             onChange={(e)=>setId(e.target.value)}
                                         />
+                                          <i className='fa fa-map-marker fa-2x'></i>
+                                         <input type='text' placeholder=' Enter Province'
+                                            className='input-field'
+                                            value={province}
+                                            onChange={(e)=>setProvince(e.target.value)}
+                                        />
                                         <FileBase64
                                         type="file"
                                         multiple={false}
-                                        onDone={({base64})=>setBedImage(base64)}
+                                        onDone={({base64})=>setImage({image:base64})}
                                         />
                                          <FileBase64
                                         type="file"
                                         multiple={false}
-                                        onDone={({base64})=>setLoungeImage(base64)}
+                                        onDone={({base64})=>setLounge({lounge:base64})}
                                         />
                                          <FileBase64
                                         type="file"
                                         multiple={false}
-                                        onDone={({base64})=>setOtherImage(base64)}
+                                        onDone={({base64})=>setpool({pool:base64})}
                                         />
                                     </div>
                                        

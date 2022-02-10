@@ -69,8 +69,8 @@ const hotelroom = ({ navigation,route }) => {
                             <ScrollView horizontal style={{ padding: '2%' }}>
                                 <TouchableOpacity style={Styles.touchable} onPress={() => navigation.navigate('roomA',{pic:data.image.image})}>
                                     <Image source={{uri:data.image.image}} style={{ width: 200,borderRadius:20 ,height:150}}  /></TouchableOpacity>
-                                <TouchableOpacity style={Styles.touchable} onPress={() => navigation.navigate('roomA',{pic:data.image.image})}>
-                                    <Image source={{uri:data.image.image}} style={{ width: 200,borderRadius:20,height:150 }}  /></TouchableOpacity>
+                                <TouchableOpacity style={Styles.touchable} onPress={() => navigation.navigate('roomA',{pic:data.image.lounge})}>
+                                    <Image source={{uri:data.image.lounge}} style={{ width: 200,borderRadius:20,height:150 }}  /></TouchableOpacity>
                                     <TouchableOpacity style={Styles.touchable} onPress={() => navigation.navigate('roomA',{pic:data.image.image})}>
                                     <Image source={{uri:data.image.image}} style={{ width: 180,borderRadius:20,height:150 }}  /></TouchableOpacity>
                             </ScrollView>

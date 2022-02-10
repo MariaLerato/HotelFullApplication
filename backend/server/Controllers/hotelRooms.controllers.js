@@ -10,12 +10,9 @@ export default class HotelRoomController{
              const price = req.body.price
              const province = req.body.province
              const city = req.body.city 
-             const image ={
-                 bed: req.body.bed,
-                 lounge:req.body.lounge,
-                 pool:req.body.pool,
-                 bathroom:req.body.bathroom
-             }
+             const image = req.body.image
+             const lounge = req.body.lounge
+            const pool = req.body.pool
              const roomId = req.body.roomId
             const description = req.body.text
             const date = new Date()
@@ -28,7 +25,9 @@ export default class HotelRoomController{
                 roomId,
                 price,
                 province,
-                city
+                city,
+                lounge,
+                pool
             )
             console.log(HotelRoomResponse)
             res.json({status:"Success"})
