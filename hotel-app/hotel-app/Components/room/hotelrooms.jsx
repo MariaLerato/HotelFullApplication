@@ -5,7 +5,7 @@ import HotelRooms from './maping'
 import axios from 'axios';
 
 const hotelroom = ({ navigation,route }) => {
- const {number,main,name,longitude,latitude} = route.params
+ const {number,main,name,longitude,latitude,dateIn,dateOut} = route.params
  const [hotelrooms,setHotelRoom] = useState([])
 
 
@@ -37,11 +37,14 @@ const hotelroom = ({ navigation,route }) => {
                             <View style={Styles.subHead}>
                                 <TouchableOpacity onPress={() => navigation.navigate('detail',{
                                     hotelname:data.name,
-                                    // price:data.price,
-                                    des:data.description,
+                                    price:data.price,
+                                    des:data.text,
                                     number:number,
                                     main:main,
                                     name:name,
+                                    dateIn:dateIn,
+                                    dateOut:dateOut,
+                                    roomName:data.name,
                                     longitude:longitude,
                                     latitude:latitude
                                 })}>
@@ -49,7 +52,7 @@ const hotelroom = ({ navigation,route }) => {
                                         {data.name}
                                     </Text>
                                 </TouchableOpacity>
-                                {/* <Text style={Styles.price}>R {data.price}</Text> */}
+                                <Text style={Styles.price}>R {data.price}</Text>
                             </View>
                             <View>
                                 <Text style={Styles.subtext}>{data.text}</Text>
@@ -69,8 +72,8 @@ const hotelroom = ({ navigation,route }) => {
                             <ScrollView horizontal style={{ padding: '2%' }}>
                                 <TouchableOpacity style={Styles.touchable} onPress={() => navigation.navigate('roomA',{pic:data.image.image})}>
                                     <Image source={{uri:data.image.image}} style={{ width: 200,borderRadius:20 ,height:150}}  /></TouchableOpacity>
-                                <TouchableOpacity style={Styles.touchable} onPress={() => navigation.navigate('roomA',{pic:data.image.lounge})}>
-                                    <Image source={{uri:data.image.lounge}} style={{ width: 200,borderRadius:20,height:150 }}  /></TouchableOpacity>
+                                <TouchableOpacity style={Styles.touchable} onPress={() => navigation.navigate('roomA',{pic:data.lounge.lounge})}>
+                                    <Image source={{uri:data.lounge.lounge}} style={{ width: 200,borderRadius:20,height:150 }} /></TouchableOpacity>
                                     <TouchableOpacity style={Styles.touchable} onPress={() => navigation.navigate('roomA',{pic:data.image.image})}>
                                     <Image source={{uri:data.image.image}} style={{ width: 180,borderRadius:20,height:150 }}  /></TouchableOpacity>
                             </ScrollView>

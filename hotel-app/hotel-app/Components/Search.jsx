@@ -58,7 +58,7 @@ const Search = ({ navigation, route }) => {
                 }}
               >
                 <TouchableOpacity
-                  onPress={() => navigation.navigate('Pretoria',{ number: name,name:data.name, hotelpic:data.image.image, des:data.text,place:data.province })}
+                  onPress={() => navigation.navigate('Pretoria',{ number: name,name:data.name, hotelpic:data.image.image, des:data.text,place:data.province,dateIn:dateIn,dateOut:dateOut })}
                   style={styles.hotelname}
                 >
                   <Text style={styles.loca}>{data.province}</Text>

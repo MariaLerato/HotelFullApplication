@@ -6,13 +6,13 @@ import Info from '../info';
 
 const Detail = ({ route, navigation }) => {
 
-    const {name,main,number,des,price,id,longitude,latitude } = route.params
+    const {name,main,number,des,price,id,longitude,latitude, roomName,dateIn,dateOut } = route.params
 
 
     return (
         <>
          <View style={styles.container}>
-            <ImageBackground source={main} style={{width:'100%',height:'70%'}}>
+            <ImageBackground source={{uri:main}} style={{width:'100%',height:'70%'}}>
                 <View style={styles.head}>
                     <TouchableOpacity style={styles.back} onPress={()=>navigation.goBack()}>
                         <Icon name={'arrow-back'} color={'white'} />
@@ -27,7 +27,7 @@ const Detail = ({ route, navigation }) => {
                    <Text style={styles.title}>
                      {name}
                    </Text>
-                   <Text style={styles.sub}>{id}</Text>
+                   <Text style={styles.sub}>{roomName}</Text>
                    <Text style={styles.price}>Price</Text>
                    <Text style={styles.type}>R {price}/Night</Text>
                </View>
@@ -59,7 +59,10 @@ const Detail = ({ route, navigation }) => {
                             about:des,
                             number:number  ,
                             main:main ,
-                            hotelname:name
+                            hotelname:name,
+                            roomName:roomName,
+                            dateIn:dateIn,
+                            dateOut:dateOut
                         })} style={{backgroundColor:'#53B5A3',width:'92%',height:57,alignSelf:'center',justifyContent:'center',alignItems:'center',marginTop:'auto',borderRadius:10,marginBottom:'2%'}}>
                             <Text style={{color:'white',fontSize:24,fontWeight:'700'}}>Book Now</Text></TouchableOpacity>
                     </ImageBackground>

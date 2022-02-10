@@ -1,11 +1,24 @@
-import React from 'react';
+import React,{useState,useEffect} from 'react';
 import {View,Text,Image,TouchableOpacity,StyleSheet} from 'react-native'
 import { Icon } from 'react-native-elements';
 
 const ConfirmPayment = ({navigation,route})=>{
 
-    const {hotelname,date,name,number,cvv,price,guests,Room} = route.params
-    
+  
+
+    const {hotelname,date,name,number,cvv,price,guests,Room,dateIn,dateOut} = route.params
+  
+    async  function addClient(e){
+        e.preventDefault()
+        const newRoom = {name,province,city,lounge,pool,dateIn,dateOut}
+        console.log(newRoom)
+       RoomData.createRoom(newRoom)
+        .then((res)=>{
+            console.log(res.data)
+        }).catch((e)=>{
+            console.log(e)
+        })
+    }
     const PaymentCard = ()=>{
         return(
             <View style={{ width: '95%',borderRadius: 20,backgroundColor:'#1C5248',height:190,margin:'auto',padding:'auto',alignSelf:'center' }}>
@@ -65,11 +78,11 @@ const ConfirmPayment = ({navigation,route})=>{
             <View style={{borderBottomWidth:1,borderBottomColor:'#C4C4C4',display:'flex',flexDirection:'row',width:'100%',justifyContent:'space-between',padding:'2%'}}>
                 <View>
                     <Text style={{color:'#C4C4C4',fontSize:18}}>Check In</Text>
-                    <Text style={{ color:'#1C5248',fontWeight:'700',paddingLeft:'2%'}}>Thu, 02 Dec 2021</Text>
+                    <Text style={{ color:'#1C5248',fontWeight:'700',paddingLeft:'2%'}}>{dateIn}</Text>
                 </View>
                 <View >
                     <Text  style={{color:'#C4C4C4',fontSize:18}}>Check Out</Text>
-                    <Text style={{ color:'#1C5248',fontWeight:'700',paddingLeft:'-2%'}}>Fri,10 Dec 2021</Text>
+                    <Text style={{ color:'#1C5248',fontWeight:'700',paddingLeft:'-2%'}}>{dateOut}</Text>
                 </View>
             </View>
   

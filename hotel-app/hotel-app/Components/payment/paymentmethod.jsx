@@ -7,7 +7,7 @@ const Method = ({navigation,route}) => {
     const [checked, setChecked] = useState('first')
 
   
-    const {hotelname,number,date,name,cvv,price,Room,guests} = route.params
+    const {hotelname,number,date,name,cvv,price,Room,guests,dateIn,dateOut} = route.params
     const PaymentCard = ()=>{
         return(
             <View style={{ width: '95%',borderRadius: 15,backgroundColor:'#1C5248',height:180,margin:'auto',padding:'auto',alignSelf:'center' }}>
@@ -82,7 +82,9 @@ const Method = ({navigation,route}) => {
                     price:price,
                     Room:Room,
                     guests:guests,
-                    hotelname:hotelname
+                    hotelname:hotelname,
+                    dateIn:dateIn,
+                    dateOut:dateOut
                 })}><Text style={{color:'#61B0A2',fontSize:24}}>Save</Text></TouchableOpacity>
             </View>
         </View>

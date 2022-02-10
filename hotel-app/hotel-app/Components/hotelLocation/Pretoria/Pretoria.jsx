@@ -13,7 +13,7 @@ import Info from "../../info";
 
 const PretoriaHotels = ({ navigation, route }) => {
 //   const number = route.params.number;
-  const { hotelpic, des, name ,place,number} = route.params;
+  const { hotelpic, des, name ,place,number, dateIn, dateOut} = route.params;
 
   return (
     <>
@@ -53,7 +53,9 @@ const PretoriaHotels = ({ navigation, route }) => {
                     navigation.navigate("hotelrooms", {
                         number:number,
                         main:hotelpic,
-                        name:name
+                        name:name,
+                        dateIn:dateIn,
+                        dateOut:dateOut
                       //   latitude:data.latitude,
                       //   longitude:data.longitude
                     })

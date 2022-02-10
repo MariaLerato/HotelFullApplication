@@ -3,17 +3,15 @@ import {View,Text,ImageBackground,StyleSheet, TouchableOpacity} from 'react-nati
 import { Icon } from 'react-native-elements';
 
 const Confirm = ({navigation,route})=>{
-    const {name,main,number,total,hotelname} = route.params
+    const {name,main,number,total,hotelname,roomName,dateIn,dateOut} = route.params
     let price = number * total
     const TotalPrice = ()=>{
-     
         return (
             <Text>
                R {price}
             </Text>
         )
     }
-    
     console.log('Total',TotalPrice)
     
     return(
@@ -23,10 +21,10 @@ const Confirm = ({navigation,route})=>{
             <Text style={Styles.textHead}>Booking</Text>
         </TouchableOpacity>
         <View style={{alignItems:'center',padding:'2%',borderRadius:20,paddingTop:'-2%'}}>
-            <ImageBackground source={main} style={{width:'100%',height:220,borderRadius:20,overflow:'hidden'}}>
+            <ImageBackground source={{uri:main}} style={{width:'100%',height:220,borderRadius:20,overflow:'hidden'}}>
                 <View style={Styles.textContainer}>
                     <Text style={{color:'#C4C4C4',fontSize:20}}>JI, Makua -Johannesburg</Text>
-                    <Text style={{color:'#1C5248',fontSize:22,fontWeight:'700'}}>{hotelname}, {name}</Text>
+                    <Text style={{color:'#1C5248',fontSize:22,fontWeight:'700'}}>{hotelname}, {roomName}</Text>
                 </View>
             </ImageBackground>
             <View style={{alignItems:'flex-start',width:'100%',marginTop:'4%',padding:'2%'}}>
@@ -51,11 +49,11 @@ const Confirm = ({navigation,route})=>{
             <View style={{borderBottomWidth:1,borderBottomColor:'#C4C4C4',display:'flex',flexDirection:'row',width:'100%',justifyContent:'space-between',padding:'2%'}}>
                 <View>
                     <Text style={{color:'#C4C4C4',fontSize:18}}>Check In</Text>
-                    <Text style={{ color:'#1C5248',fontWeight:'700',paddingLeft:'2%'}}>Thu, 02 Dec 2021</Text>
+                    <Text style={{ color:'#1C5248',fontWeight:'700',paddingLeft:'2%'}}>{dateIn}</Text>
                 </View>
                 <View >
                     <Text  style={{color:'#C4C4C4',fontSize:18}}>Check Out</Text>
-                    <Text style={{ color:'#1C5248',fontWeight:'700',paddingLeft:'-2%'}}>Fri,10 Dec 2021</Text>
+                    <Text style={{ color:'#1C5248',fontWeight:'700',paddingLeft:'-2%'}}>{dateOut}</Text>
                 </View>
             </View>
             <View style={{borderBottomWidth:1,borderBottomColor:'#C4C4C4',display:'flex',flexDirection:'row',width:'100%',justifyContent:'space-between',padding:'2%'}}>
@@ -82,7 +80,9 @@ const Confirm = ({navigation,route})=>{
                     Totalprice:price,
                     Roomname:name,
                     Guestnumber:number,
-                    hotelname:hotelname
+                    hotelname:hotelname,
+                    dateIn:dateIn,
+                    dateOut:dateOut
 
                 })}><Text style={{color:'white',fontSize:20,alignSelf:'center',fontWeight:'700'}}>Confirm Booking</Text></TouchableOpacity>
                 <TouchableOpacity style={{ backgroundColor:'#75BFB2',margin:'2%',width:'40%',justifyContent:'center',borderRadius:10,marginLeft:'6%'}} onPress={()=>navigation.navigate('booking')}><Text style={{color:'white',fontSize:20,alignSelf:'center',fontWeight:'700'}}>Cancel</Text></TouchableOpacity>
