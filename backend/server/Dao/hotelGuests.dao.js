@@ -15,19 +15,19 @@ export  default class HotelGuestsDAO{
             console.error(`Unable to establish connection handle in hotelsDao: ${e}`)
         }
     }
-    static async addHotelGuests(guestId,name,address,status,adminId){
+    static async addHotelGuests(name,guestsNo,roomNo,Room,Totalprice,dateIn,dateOut,status,guestId,location){
         try{
             const hotelGuestsHoc = {
                 guest_id:ObjectId(guestId),
                 name:name,
-                province:address.province,
-                city:address.city,
+                guestsNo:guestsNo,
+                roomNo:roomNo,
+                Room:Room,
+                dateIn:dateIn,
+                dateOut:dateOut,
+                Totalprice:Totalprice,
                 status:status,
-                adminId:adminId,
-                room:address.room,
-                checkIn:address.checkIn,
-                checkOut:address.checkOut
-               
+                location:location
             }
             console.log(hotelGuestsHoc)
             return await hotelGuests.insertOne(hotelGuestsHoc)

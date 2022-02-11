@@ -9,21 +9,18 @@ import {
   ScrollView,
 } from "react-native";
 import Info from "./info";
-import { Icon, Card } from "react-native-elements";
+import { Icon } from "react-native-elements";
 import SearchAlt from "./searchAlt";
 import ProfilePicture from "react-native-profile-picture";
-import { navbars } from "./gallery/reusables";
-import BackendInfo from "./service";
-import httpHotel from "./http-hotel";
 import axios from "axios";
 
 const Search = ({ navigation, route }) => {
   const [hotels, setHotels] = useState([]);
-  const { id, name, status, dateIn, dateOut } = route.params;
+  const { location, roomNo, guestNo, dateIn, dateOut } = route.params;
 
   const retrieveData = () => {
     axios
-      .get(`http://48df-156-0-230-6.ngrok.io/api/v1/hotels`)
+      .get(`http://b244-156-0-230-6.ngrok.io/api/v1/hotels`)
       .then((res) => {
         console.log(res.data);
         setHotels(res.data);
@@ -35,8 +32,10 @@ const Search = ({ navigation, route }) => {
   useEffect(() => {
     retrieveData();
   }, []);
- let searchString = id
- const searchData = hotels.filter(data => data.province.includes(searchString) )
+  let searchString = location;
+  const searchData = hotels.filter((data) =>
+    data.province.includes(searchString)
+  );
 
   const DisplayHotels = () => {
     return (
@@ -44,10 +43,10 @@ const Search = ({ navigation, route }) => {
         <View
           style={{ display: "flex", flexDirection: "row", marginLeft: "1.5%" }}
         >
-          {searchData.map((data)=>(
+          {searchData.map((data) => (
             <View style={{ padding: "3%" }} key={data._id}>
               <ImageBackground
-                source={{uri:data.image.image}}
+                source={{ uri: data.image.image }}
                 style={{
                   width: 165,
                   height: 170,
@@ -58,7 +57,19 @@ const Search = ({ navigation, route }) => {
                 }}
               >
                 <TouchableOpacity
-                  onPress={() => navigation.navigate('Pretoria',{ number: name,name:data.name, hotelpic:data.image.image, des:data.text,place:data.province,dateIn:dateIn,dateOut:dateOut })}
+                  onPress={() =>
+                    navigation.navigate("Pretoria", {
+                      roomNo: roomNo,
+                      name: data.name,
+                      hotelpic: data.image.image,
+                      des: data.text,
+                      place: data.province,
+                      dateIn: dateIn,
+                      dateOut: dateOut,
+                      guestNo: guestNo,
+                      location:location 
+                    })
+                  }
                   style={styles.hotelname}
                 >
                   <Text style={styles.loca}>{data.province}</Text>
@@ -68,7 +79,7 @@ const Search = ({ navigation, route }) => {
                 </TouchableOpacity>
               </ImageBackground>
             </View>
-             ))}
+          ))}
         </View>
       </View>
     );
@@ -114,7 +125,7 @@ const Search = ({ navigation, route }) => {
           <View style={styles.padding}>
             <View>
               <Text style={styles.textDestination}>Destination</Text>
-              <Text style={styles.input}>{id}</Text>
+              <Text style={styles.input}>{location}</Text>
             </View>
             <View style={styles.dateContainer}>
               <View>
@@ -126,7 +137,7 @@ const Search = ({ navigation, route }) => {
               <View>
                 <Text style={styles.titles}>Rooms</Text>
                 <Text style={styles.rooms}>
-                  {status} Guests, {name} Rooms
+                  {guestNo} Guests, {roomNo} Rooms
                 </Text>
               </View>
             </View>
@@ -151,7 +162,7 @@ const Search = ({ navigation, route }) => {
           <View>
             <Text style={styles.neartext}>Near You</Text>
             {SearchAlt.nearby
-              .filter((data) => data.province === id)
+              .filter((data) => data.province === location)
               .map((action) => (
                 <View key={action.id} style={styles.near}>
                   <TouchableOpacity
@@ -190,7 +201,6 @@ const Search = ({ navigation, route }) => {
           </View>
         </ScrollView>
       </View>
-  
     </View>
   );
 };

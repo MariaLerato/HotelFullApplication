@@ -13,7 +13,7 @@ import Info from "../../info";
 
 const PretoriaHotels = ({ navigation, route }) => {
 //   const number = route.params.number;
-  const { hotelpic, des, name ,place,number, dateIn, dateOut} = route.params;
+  const { hotelpic, des, name ,place,roomNo, dateIn, dateOut,guestNo,location} = route.params;
 
   return (
     <>
@@ -51,11 +51,13 @@ const PretoriaHotels = ({ navigation, route }) => {
                 <TouchableOpacity
                   onPress={() =>
                     navigation.navigate("hotelrooms", {
-                        number:number,
+                       roomNo:roomNo,
                         main:hotelpic,
                         name:name,
                         dateIn:dateIn,
-                        dateOut:dateOut
+                        dateOut:dateOut,
+                        guestNo:guestNo,
+                        location:location
                       //   latitude:data.latitude,
                       //   longitude:data.longitude
                     })

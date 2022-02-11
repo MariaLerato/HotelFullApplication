@@ -1,7 +1,6 @@
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
 import "./Styles.css";
-export const GuestListCard = ({ data, index ,province,city}) => {
+export const GuestListCard = ({ data, index }) => {
   const [show, setShow] = useState(false);
 
 const handleClick=()=>{
@@ -13,7 +12,7 @@ const handleClick=()=>{
       <div  className="cardRow">
         <div>
           {data.name}
-          <p>{data.province},{data.city}</p>
+          <p>{data.location}</p>
         </div>
         <>
           <button type="submit"  onClick={()=>handleClick() }>
@@ -21,22 +20,21 @@ const handleClick=()=>{
           </button>
         </>
       </div>
-
       {show && (
         <div className="dropThingie" >
             <div className="roomLine">
                 <h5>Room</h5>
-                <p>  {index +1}.{data.room} </p>
+                <p>  {index +1}.{data.Room} </p>
               
             </div>
             <div className="roomLine">
             <h5>Check in</h5>
-           <p> {data.checkIn}
+           <p> {data.dateIn}
                </p> 
             </div>
             <div className="roomLine">
             <h5>Check Out</h5>
-            <p>{data.checkOut}</p>   
+            <p>{data.dateOut}</p>   
             </div>
             <div className="roomLine">
             <h5>Status</h5>
@@ -44,7 +42,7 @@ const handleClick=()=>{
             </div>
             <div className="roomLine">
             <h5>Total</h5>
-            {/* <p>  {data.total}</p>  */}
+            <p>  {data.Totalprice}</p> 
             </div>        
             </div>
       )}

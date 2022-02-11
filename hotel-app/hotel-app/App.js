@@ -36,7 +36,7 @@ import VendaHotels from './Components/hotelLocation/limpopo/venda';
 import DetailsHistory from './Components/BookingHisttory/historyDetails'; 
 import Limpoporooms from './Components/hotelLocation/limpopo/limpopoRooms';
 import LogIn from './Components/mongodbPractice/signIn';
-import checkDatabase from './Components/checkDatabase';
+
 
 const Menu = ()=>{
       const Stack = createNativeStackNavigator()
@@ -76,7 +76,7 @@ const Menu = ()=>{
             <Stack.Screen name={'historyDetails'} component={DetailsHistory}/>
             <Stack.Screen name={'limpopoRooms'} component={Limpoporooms}/>
             <Stack.Screen name={'signIn'} component={LogIn}/>
-            <Stack.Screen name='checkDatabase' component={checkDatabase}/>
+        
             </Stack.Navigator>
         </NavigationContainer>
         

@@ -16,8 +16,6 @@ const Home = ({ AddBooking,navigation }) => {
     const [date,setDate] = useState()
     const [checkOut,setOut] = useState()
 
-    const Search = ()=>{
-    }
     const Validate = Yup.object({
         place:Yup.string().required('Missing'),
         rooms:Yup.string().required('Missing').max(2,'Invalid'),
@@ -108,8 +106,6 @@ const Home = ({ AddBooking,navigation }) => {
                                 left:0,
                                 top:4,
                                 marginLeft:0,
-                                
-                               
                             },
                             dateInput:{
                                 marginLeft:36,
@@ -117,9 +113,7 @@ const Home = ({ AddBooking,navigation }) => {
                                 borderColor:'#ffffff'
                             }
                         }
-                       
                         }
-                        
                         onDateChange={handleChange('date')}
                        />
                          {errors.date && touched.date?(
@@ -190,14 +184,14 @@ const Home = ({ AddBooking,navigation }) => {
                         <Text style={styles.error}>{errors.rooms}</Text>
                     ):null }
                 
-                <TouchableOpacity style={styles.touchableOpacity} >
-                <Text style={styles.touchableText} onPress={handleSubmit,()=> navigation.navigate('Search',{
-                    id:values.place,
-                    name:values.rooms,
-                    status:values.guests,
+                <TouchableOpacity style={styles.touchableOpacity}  onPress={handleSubmit,()=> navigation.navigate('Search',{
+                    location:values.place,
+                    roomNo:values.rooms,
+                    guestNo:values.guests,
                     dateIn:values.date,
                     dateOut:values.checkOut
-        })}>Get it</Text>
+        })}>
+                <Text style={styles.touchableText}>Get it</Text>
                 </TouchableOpacity>
                        </>
                    )}
