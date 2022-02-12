@@ -15,6 +15,7 @@ export default class HotelRoomController{
             const pool = req.body.pool
              const roomId = req.body.roomId
             const description = req.body.text
+            const status = req.body.status
             const date = new Date()
             const HotelRoomResponse = await HotelRoomDAO.addHotelRoom(
                 ObjectId(hotelId),
@@ -27,7 +28,8 @@ export default class HotelRoomController{
                 province,
                 city,
                 lounge,
-                pool
+                pool,
+                status
             )
             console.log(HotelRoomResponse)
             res.json({status:"Success"})
@@ -35,29 +37,7 @@ export default class HotelRoomController{
             res.status(500).json({error:e.message})
         }
     }
-    static async apiPostFacilities(req,res,next){
-        try{
-            const hotelId= req.body.hotel_id
-            const icons = {
-                name:req.body.name,
-            }
-            const iconId = req.body.iconId
-            const date = new Date()
-
-            const Facility =  await HotelRoomDAO.addFacilities(
-                ObjectId(hotelId),
-                icons,
-                iconId,
-                date
-            )
-            console.log(Facility)
-            res.status({status:"Success"})
-        }
-        catch(e){
-            res.status(500).json({error:e.message})
-
-        }
-    }
+  
     static async apiGetHotelRooms(req,res,next){
         const  hotelRoomPerPage = req.query. hotelRoomPerPage ? parseInt(req. hotelRoomPerPage, 10) :20
         const page = req.query.page  ? parseInt(req.query.page, 10): 0
@@ -94,6 +74,30 @@ export default class HotelRoomController{
         }catch(e){
             res.status(500).json({error:e.message})
         }
-
+    }
+    static async apiUpdateHotelRooms(req,res,next){
+        try{
+            const roomId = req.body.room_id
+            const status = req.body.status
+            const date = new Date()
+            const roomResponse = await HotelRoomDAO.updateHotelRoom(
+                roomId,
+                req.body.hotel_id,
+                status,
+                date
+            )
+            console.log(roomResponse)
+            var {error} = roomResponse
+            if(error){
+                res.status(400).json({error})
+            }
+            if (roomResponse.modifiedCount === 0){
+                throw new Error(
+                    "unable to update hotel room"
+                )
+            }
+        }catch(e){
+            res.status(500).json({error:e.message})
+        }
     }
 }

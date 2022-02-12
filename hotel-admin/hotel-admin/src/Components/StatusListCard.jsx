@@ -6,14 +6,26 @@ export const StatusListCard = ({ data }) => {
   const [checked, setChecked] = useState();
   const navigate = useNavigate()
   const [out, setOut] = useState();
-  const [status,setStatus ] = useState(data.status)
+  const [status,setStatus ] = useState('pending')
 
-  const handleCheck = () => {
-    setStatus('Checked In')
+  const Change = () => {
+    if(data.status === null){
+      return status;
+     
+    }else if(data.status === 'booked'){
+      return setStatus('Checked In');
+    };
+  };
+  const handleIn = () => {
+    setStatus('Checked In');
     alert(
-      ` ${data.name} was successfully Checked In Room Number 214 `
+      ` ${data.name} was successfully Checked In To Room Number 214 `
     );
   };
+  setTimeout (()=>{
+
+  },5000)
+  
   const handleOut = () => {
     setStatus('Checked Out');
     alert(
@@ -28,15 +40,15 @@ export const StatusListCard = ({ data }) => {
     <div key={data.guest_id} className="statusList">
       <div>
        <h5> {data.name}</h5>
-        <p>{data.province},{data.city}</p>
-        <p style={{marginTop:'-5%',display:'flex'}}>Status:<p style={{color:'#f26741'}}>{data.status}</p></p>
+        {/* <p>{data.province},{data.city}</p> */}
+        <p style={{marginTop:'-5%',display:'flex'}}>Status:<p style={{color:'#f26741'}}><Change/></p></p>
       </div>
       <div style={{ display: "flex", marginRight: "20%" }}>
         <button
           type="submit"
           className="check"
           style={{ height: 40, width: '80%' }}
-          onClick={() => handleCheck()
+          onClick={() => handleIn()
           }
         >
           CheckIn

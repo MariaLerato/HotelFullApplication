@@ -13,5 +13,9 @@ class RoomData {
     createFacility(data){
         return httpCommon.post("/",data)
     }
+    update(data,id){
+        console.log(data)
+        return httpCommon.put("/",data)
+    }
 }
 export default new RoomData()

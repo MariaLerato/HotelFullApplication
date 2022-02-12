@@ -4,6 +4,7 @@ const ObjectId = mongodb.ObjectId
 
 let hotelRoom
 
+
 export default class HotelRoomDAO{
     static async injectDB(conn){
         if(hotelRoom){
@@ -19,12 +20,12 @@ export default class HotelRoomDAO{
     }
    
    
-    static async addHotelRoom(hotelId,name,description,date,image,price,province,city,roomId,lounge,pool){
+    static async addHotelRoom(hotelId,name,image,description,date,price,province,city,roomId,lounge,pool,status){
         try{
             const hotelRoomHoc = {
                 hotel_id:ObjectId(hotelId),
                 name:name,
-             image:image,
+                image:image,
                 text:description,
                 date:date,
                 price:price,
@@ -32,7 +33,7 @@ export default class HotelRoomDAO{
                 city:city,
                 roomId:roomId,
                 lounge:lounge,
-                pool:pool
+                pool:pool,status:status
 
             }
             console.log(hotelRoomHoc)
@@ -41,18 +42,7 @@ export default class HotelRoomDAO{
             console.error(`Unable to post hotel room :${e}`)
         }
     }
-    static async addFacilities(hotelId,icon,iconId){
-        try{
-            const FacilityDoc = {
-                hotel_id:ObjectId(hotelId),
-                name:icon.name,
-                iconId:iconId
-            }
-            console.log(FacilityDoc)
-        }catch(e){
-            console.error(`Unable to post hotel facility :${e} `)
-        }
-    }
+
     static async getHotelRoom({
         filters = null,
         page=0,
@@ -93,6 +83,17 @@ export default class HotelRoomDAO{
         }catch(e){
             console.error(`Unable to delete hotel:${e}`)
             return {error:e}
+        }
+    }
+    static async updateHotelRoom(roomId,hotelId,status,date){
+        try{
+            const updateHotel = await hotelRoom.updateOne(
+                {hotel_id:hotelId, _id:ObjectId(roomId)},
+                {$set:{ status:status,date:date}}
+            )
+            return updateHotel
+        }catch(e){
+            console.error(`Unable to update review`)
         }
     }
 }
