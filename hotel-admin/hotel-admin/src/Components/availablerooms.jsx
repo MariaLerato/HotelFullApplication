@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import './Styles.css'
-import k from '../images/male.png'
+import profilepicture from '../images/male.png'
 import { Link } from 'react-router-dom';
 import Modal from "@material-ui/core/Modal";
 import RoomData from './service/rooms'
@@ -32,7 +32,24 @@ const Rooms = () => {
     useEffect(()=>{
         retrieveGuest()
     },[])
-  
+ 
+    const Unavailable = (e)=>{
+        console.log('roomId')
+        RoomData.update(e, {status: true}).then(res=>{
+            console.log('done')
+        }).catch(err => console.log(err))
+    }
+    const renderItem = ({item,index}) =>{
+        return(
+            <>
+                <div style={[
+                    styles.item,{backgroundColor : data.status === true? "red" :"none"}
+                ]}>
+                </div>
+            </>
+        )
+    }
+
     const handleOpen = () => {
         setOpen(!open)
     }
@@ -79,7 +96,7 @@ const Rooms = () => {
                     </div>
                     <div className='user'>
                         <div className='profilepicture'>
-                            <img src={k} alt={'admin'} ></img>
+                            <img src={profilepicture} alt={'admin'} ></img>
                         </div>
 
                         <div className='username'>
@@ -111,7 +128,7 @@ const Rooms = () => {
                                hotelrooms.map(data =>
                                     <li key={data._id}>
                                         <img src={data.image.image} alt={data.name} style={{width:144,height:94,borderRadius:10}}/>           
-                                        <button type='submit' style={{ height: 40, width: 144, marginLeft: '35%' }} onClick={() => disabled}>Available</button>
+                                        <button type='submit' style={{ height: 40, width: 144, marginLeft: '35%' }} onClick={()=>Unavailable()}>Available</button>
                                         <button type='submit' style={{ height: 40, width: 144 }} onClick={deleteHotelRoom}>Not Available</button>
                                     </li>    
                                 )

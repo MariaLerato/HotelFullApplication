@@ -1,10 +1,22 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { View, Text, Image, ImageBackground, ScrollView, StyleSheet, TouchableOpacity, Avatar } from 'react-native'
 import { Icon } from 'react-native-elements';
 import { img } from './gallery/reusables';
 import ProfilePicture from 'react-native-profile-picture'
+import axios from 'axios'
 
 const Profile = ({ navigation ,route}) => {
+    const [user,setUser] = useState([])
+    const retrieveData =(e)=>{
+        axios.get(`http://localhost:7000/user`)
+        .then((res)=>{
+            console.log(res.data)
+            setUser(res.data.user)
+        })
+    }
+    useEffect(()=>{
+        retrieveData()
+    },[])
     return (
         <View style={Styles.container}>
             <View style={Styles.header}>

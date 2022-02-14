@@ -39,7 +39,7 @@ export default class HotelsController{
 
             const hotelResponse = await HotelDAO.updateHotel(
                 adminId,
-                req.body.hotelId,
+                req.body.admin_id,
                 text,
                 hotel
             )
