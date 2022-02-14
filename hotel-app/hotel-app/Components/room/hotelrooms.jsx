@@ -19,7 +19,7 @@ const hotelroom = ({ navigation, route }) => {
 
   const retrieveData = () => {
     axios
-      .get(`http://b244-156-0-230-6.ngrok.io/api/v1/hotelRoom`)
+      .get(`http://e628-156-0-230-6.ngrok.io/api/v1/hotelRoom`)
       .then((res) => {
         console.log(res.data);
         setHotelRoom(res.data.hotelrooms);

@@ -12,7 +12,7 @@ const PaymentMethod = ({navigation,route})=>{
   const [cvv,setCvv] = useState('')
   const [payment,setPayment] = useState([])
 
-  const {hotelname,Totalprice,Roomname,Guestnumber,dateIn,dateOut,roomNo,location} = route.params
+  const {hotelname,Totalprice,Roomname,Guestnumber,dateIn,dateOut,roomNo,location,image} = route.params
 
   const NewMethod = ()=>{
     setPayment([...payment,{
@@ -113,7 +113,8 @@ const PaymentMethod = ({navigation,route})=>{
               dateIn:dateIn,
               dateOut:dateOut,
               roomNo:roomNo,
-              location:location
+              location:location,
+              image:image
   
             })}><Text style={{color:'#61B0A2',fontSize:24}}>Save</Text></TouchableOpacity>
                </View>

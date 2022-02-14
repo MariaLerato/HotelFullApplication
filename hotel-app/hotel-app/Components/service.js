@@ -10,6 +10,12 @@ class BackendInfo {
     createGuest(data){
         return httpHotel.post("/",data)
     }
+    deleteBooking(id){
+        return httpHotel.delete(`/hotelGuest?id=${id}`)
+    }
+    getHotels(id){
+        return httpHotel.get(`/id/${id}`)
+    }
     
 }
 export default new BackendInfo()

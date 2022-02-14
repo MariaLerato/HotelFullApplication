@@ -92,5 +92,47 @@ export default class HotelDAO{
             return {error:e}
         }
     }
+    static async getHotelById(id){
+        try{
+            const pipeline = [
+                {
+                    $match:{
+                        _id : new ObjectId(id),
+                    },
+                },
+                {
+                    $lookup:{
+                        from :"hotelGuests",
+                        let:{
+                            id:"$_id",
+                        },
+                        pipeline:[
+                            {
+                                $match:{
+                                    $expr :{
+                                        $eq:["$hotels_id", "$$id"],
+                                    },
+                                },
+                            },
+                            {
+                                $sort:{
+                                    date:-1,
+                                },
+                            }
+                        ],
+                        as :"hotelGuests",
+                    },
+                },
+                {
+                    $addFields:{
+                        hotelGuests:'$hotelGuests'
+                    },
+                },
+            ]
+            return await hotels.aggregate(pipeline).next()
+        }catch(e){
+            console.error(`Something went wrong in getHotelByID:${e}`)
+        }
+    }
  
 }

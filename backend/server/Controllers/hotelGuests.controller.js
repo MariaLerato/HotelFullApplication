@@ -16,6 +16,7 @@ export default class HotelGuestController{
                 Totalprice,
                 dateIn,
                 dateOut,
+                guestId
             )
             console.log(HotelGuestResponse)
             res.json({status:"Success"})

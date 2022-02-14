@@ -266,7 +266,8 @@ const Confirm = ({ navigation, route }) => {
                 hotelname: hotelname,
                 dateIn: dateIn,
                 dateOut: dateOut,
-                location:location
+                location:location,
+                image:main
               })
             }
           >

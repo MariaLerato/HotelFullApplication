@@ -79,6 +79,19 @@ export default class HotelsController{
             res.json(response.hotels)
             console.log(response.hotels)
     }
+    static async apiGetRestaurantById(req,res,next){
+        try{
+            let id = req.params.id || {}
+            let hotel = await HotelDAO.getHotelById(id)
+            if(!hotel){
+                res.status(404).json({error:"Not found"})
+            }
+            res.json(hotel)
+        }catch(e){
+            console.log(`api,${e}`)
+            res.status(500).json({error:e})
+        }
+    }
     static async apiDeleteHotel(req,res,next){
         try{
             const hotelId = req.query.id

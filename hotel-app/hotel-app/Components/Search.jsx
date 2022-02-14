@@ -20,7 +20,7 @@ const Search = ({ navigation, route }) => {
 
   const retrieveData = () => {
     axios
-      .get(`http://b244-156-0-230-6.ngrok.io/api/v1/hotels`)
+      .get(`http://e628-156-0-230-6.ngrok.io/api/v1/hotels`)
       .then((res) => {
         console.log(res.data);
         setHotels(res.data);
@@ -36,7 +36,9 @@ const Search = ({ navigation, route }) => {
   const searchData = hotels.filter((data) =>
     data.province.includes(searchString)
   );
-
+  const getHotels = (id)=>{
+    
+  }
   const DisplayHotels = () => {
     return (
       <View>

@@ -17,6 +17,7 @@ const ConfirmPayment = ({ navigation, route }) => {
     dateIn,
     dateOut,
     roomNo,
+    image
     // location
   } = route.params;
  
@@ -39,7 +40,7 @@ async function addClient(e){
     }).catch((e)=>{
         console.log(e)
     })
-    navigation.navigate("message")
+    navigation.navigate("historyDetails",{hotelname:hotelname,dateIn:dateIn,dateOut:dateOut,roomNo:roomNo,Totalprice:Totalprice,name:name,image:image})
 }
   const PaymentCard = () => {
     return (

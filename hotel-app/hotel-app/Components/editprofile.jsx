@@ -4,6 +4,7 @@ import { Icon,Avatar } from 'react-native-elements';
 import { TextInput } from 'react-native-paper';
 import ProfilePicture from 'react-native-profile-picture'
 import * as ImagePicker from 'expo-image-picker'
+
 const EditProfile = ({navigation})=>{
     const [image,setImage]= useState(null)
     const pickImage = async()=>{
