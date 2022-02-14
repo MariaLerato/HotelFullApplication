@@ -83,6 +83,7 @@ const PaymentMethod = ({navigation,route})=>{
                 value={values.date}
                 onChangeText={handleChange('date')}
                 onBlur={handleBlur('date')}
+                type={'month'}
 
                 />
                 {errors.date && touched.date ?(

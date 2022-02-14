@@ -16,7 +16,7 @@ const Rooms = () => {
     const [lounge,setLounge] = useState()
     const [pool,setpool] = useState()
     const [text, setText] = useState()
-    const [disabled, setDisplay] = useState(true)
+    const [price, setPrice] = useState()
     const [hotelrooms,setGuestList] = useState([])
     const [roomId,setId] = useState()
     const [province,setProvince] = useState()
@@ -39,16 +39,6 @@ const Rooms = () => {
             console.log('done')
         }).catch(err => console.log(err))
     }
-    const renderItem = ({item,index}) =>{
-        return(
-            <>
-                <div style={[
-                    styles.item,{backgroundColor : data.status === true? "red" :"none"}
-                ]}>
-                </div>
-            </>
-        )
-    }
 
     const handleOpen = () => {
         setOpen(!open)
@@ -58,7 +48,7 @@ const Rooms = () => {
     }  
     async  function addRoom(e){
         e.preventDefault()
-        const newRoom = {name,text,roomId,image,province,city,lounge,pool}
+        const newRoom = {name,text,roomId,image,province,city,lounge,pool,price}
         console.log(newRoom)
        RoomData.createRoom(newRoom)
         .then((res)=>{
@@ -66,6 +56,7 @@ const Rooms = () => {
         }).catch((e)=>{
             console.log(e)
         })
+        setOpen(false)
     }
     const deleteHotelRoom = ()=>{
         RoomData.deleteRoom(roomId)
@@ -127,8 +118,8 @@ const Rooms = () => {
                             {
                                hotelrooms.map(data =>
                                     <li key={data._id}>
-                                        <img src={data.image.image} alt={data.name} style={{width:144,height:94,borderRadius:10}}/>           
-                                        <button type='submit' style={{ height: 40, width: 144, marginLeft: '35%' }} onClick={()=>Unavailable()}>Available</button>
+                               <Link to ={'/newroom' + data._id}><img src={data.image.image} alt={data.name} style={{width:144,height:94,borderRadius:10}}/></Link>      
+                                      
                                         <button type='submit' style={{ height: 40, width: 144 }} onClick={deleteHotelRoom}>Not Available</button>
                                     </li>    
                                 )
@@ -143,8 +134,9 @@ const Rooms = () => {
                             onClose={close}
                             style={{
                                 position: 'absolute',
-                                width: '40%',
+                                width: '50%',
                                 padding:'2%',
+                                height:"100%",
                                 margin: 'auto',
                                 borderRadius: 10,
                                 alignItems: 'center',
@@ -161,18 +153,31 @@ const Rooms = () => {
                                             value={name}
                                             onChange={(e)=>setName(e.target.value)}
                                         />
-                                        <i className='fa fa-address-card fa-2x'></i>
+
+                                        <i className='fa fa-info-circle fa-2x'></i>
                                          <input type='text' placeholder='About Room'
                                             className='input-field'
                                             value={text}
                                             onChange={(e)=>setText(e.target.value)}
                                         />
-                                        <i className='fa fa-address-card fa-2x'></i>
+                                           <i className='fa fa-dollar fa-2x'></i>
+                                         <input type='text' placeholder='Room Price'
+                                            className='input-field'
+                                            value={price}
+                                            onChange={(e)=>setPrice(e.target.value)}
+                                        /> <i class="fa fa-id-card fa-2x"></i>
                                          <input type='text' placeholder='Room No.'
                                             className='input-field'
                                             value={roomId}
                                             onChange={(e)=>setId(e.target.value)}
                                         />
+                                           <i className='fa fa-map-marker fa-2x'></i>
+                                         <input type='text' placeholder='Enter City'
+                                            className='input-field'
+                                            value={city}
+                                            onChange={(e)=>setCity(e.target.value)}
+                                        />
+                                      
                                           <i className='fa fa-map-marker fa-2x'></i>
                                          <input type='text' placeholder=' Enter Province'
                                             className='input-field'

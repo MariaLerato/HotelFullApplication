@@ -11,6 +11,7 @@ const Hotels = () => {
   const [open, setOpen] = useState(false);
   const [province, setProvince] = useState();
   const [name, setName] = useState();
+  const [city,setCity] = useState()
   const [search, setSearch] = useState();
   const [hotel, setHotels] = useState([])
   const [image, setImage] = useState()
@@ -34,23 +35,17 @@ const Hotels = () => {
     HotelDataService.getAll()
       .then(response => {
         console.log(response.data)
-        setHotels(response.data.hotels)
+        setHotels(response.data)
       })
   }
   async function registerHotel(e) {
     e.preventDefault()
-    const newHotel = { name, text, adminId, image, province }
+    const newHotel = { name, text, adminId, image, province,city }
     console.log(newHotel)
     HotelDataService.createHotel(newHotel)
       .then(res => console.log(res.data))
   }
 
-  const refreshList = () => {
-    retrieveHotels()
-  }
-
-
-  const navigate = useNavigate()
   return (
     <>
       <div className="GuestContainer">
@@ -100,21 +95,17 @@ const Hotels = () => {
               {hotel.map((data) => (
                 <ul>
                   <div key={data.id} className="listHotels">
-                   <div className="hotelList" style={{display:"flex"}}>
-                   <img src={data.image.image} alt={data.name} style={{width:68,height:70,borderRadius:40}} />
                     <p
                       style={{
-                        paddingLeft: "2%",
+                       
                         fontSize: 20,
                         fontWeight: "500",
                         color: "#3a8a70",
                       }}
                     >
-                      {" "}
+                  
                       {data.name}
                     </p>
-                   </div>
-                  
                     <div className="registerButton">
                       <button
                         type="submit"
@@ -138,7 +129,7 @@ const Hotels = () => {
                   style={{
                     position: "absolute",
                     width: "40%",
-                    height: 450,
+                    height:'70%',
                     margin: "auto",
                     borderRadius: 10,
                     alignItems: "center",
@@ -160,7 +151,7 @@ const Hotels = () => {
                         />
                       </div>
                       <div className="hotel-input-icons">
-                        <i className="fa fa-building fa-2x"></i>
+                      <i className="fa fa-info-circle fa-2x"></i>
                         <input
                           type="text"
                           placeholder="About Hotel"
@@ -170,7 +161,7 @@ const Hotels = () => {
                         />
                       </div>
                       <div className="hotel-input-icons">
-                        <i className="fa fa-user fa-2x"></i>
+                       <i className="fa fa-address-card  fa-2x"></i>
                         <input
                           type="text"
                           placeholder="Hotel ID"
@@ -179,13 +170,23 @@ const Hotels = () => {
                           value={adminId}
                         />
                         <div className="input-icons">
-                          <i className="fa fa-address-card  fa-2x"></i>
+                          <i className="fa fa-map-marker  fa-2x"></i>
                           <input
                             type="text"
                             placeholder="Province"
                             className="input-field"
                             onChange={(e) => setProvince(e.target.value)}
                             value={province}
+                          />
+                        </div>
+                        <div className="input-icons">
+                          <i className="fa fa-map-marker  fa-2x"></i>
+                          <input
+                            type="text"
+                            placeholder="City"
+                            className="input-field"
+                            onChange={(e) => setCity(e.target.value)}
+                            value={city}
                           />
                         </div>
                         <FileBase64
@@ -200,7 +201,7 @@ const Hotels = () => {
                         style={{ width: 170, marginLeft: "65%" }}
                         onClick={registerHotel}
                       >
-                        Add New Hotel
+                        Register Hotel
                       </button>
                     </form>
                   </div>

@@ -33,6 +33,9 @@ i {
   margin-bottom: 0%;
   font-size: 20px;
 }
+.add input{
+  width: 100%;
+}
 
 .button button {
   height: 60px;

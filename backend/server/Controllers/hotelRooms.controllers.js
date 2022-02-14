@@ -20,16 +20,21 @@ export default class HotelRoomController{
             const HotelRoomResponse = await HotelRoomDAO.addHotelRoom(
                 ObjectId(hotelId),
                 name,
-                description,
-                date,
-                image,
-                roomId,
                 price,
                 province,
                 city,
+                image,
                 lounge,
                 pool,
-                status
+                roomId,
+                description,
+                status,
+                date,
+           
+                
+                
+                
+                
             )
             console.log(HotelRoomResponse)
             res.json({status:"Success"})

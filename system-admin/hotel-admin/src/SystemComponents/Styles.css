@@ -426,7 +426,7 @@ i {
 }
 .hotel-input-icons i {
   position: absolute;
-  padding: 15px;
+  padding: 25px;
   min-width: 40px;
   color: #1c5248;
   margin-bottom: 0;
@@ -437,6 +437,7 @@ i {
   border-bottom-color: transparent;
   margin-bottom: 0px;
   border-radius: 10px;
+  width: 100%;
 }
 .cardContainer{
     padding: 10px;
