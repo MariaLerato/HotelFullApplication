@@ -6,17 +6,20 @@ const ObjectId = BSON.ObjectId
 export default class HotelGuestController{
     static async apiPostHotelGuests(req,res,next){
         try{
-            const {name,guestsNo,roomNo,Room,guestId,status,Totalprice,dateIn,dateOut,location} = req.body
+            const hotelId = req.body.hotel_id
+            const roomId = req.body.roomId
+            const GuestInfo = {
+                name:req.body.name,
+                rooms:req.body.rooms,
+                guests:req.body.guests,
+                guestId:req.body.guestId,
+                roomPrice:req.body.roomPrice
+            }
             console.log("Details",req.body)
             const HotelGuestResponse = await HotelGuestDAO.addHotelGuests(
-                name,
-                guestsNo,                                            
-                roomNo,
-                Room,
-                Totalprice,
-                dateIn,
-                dateOut,
-                guestId
+               ObjectId(hotelId),
+               roomId,
+               GuestInfo
             )
             console.log(HotelGuestResponse)
             res.json({status:"Success"})

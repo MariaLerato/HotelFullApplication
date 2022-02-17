@@ -11,7 +11,7 @@ const Status = ()=>{
     const [id,setId] = useState()
     
     const retrieveGuest = (e)=>{
-        BackendInfo.getAll()
+        BackendInfo.getAllGuests()
         .then((res)=>{
             console.log(res.data)
             setGuest(res.data.hotelGuest)

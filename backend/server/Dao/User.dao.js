@@ -34,6 +34,20 @@ export default class UserDAO{
         }
 
     }
+    static async logUser(hotelId,userId,email,password){
+        try{
+            const logDoc = {
+                hotelId:hotelId,
+                userId:userId,
+                email:email,
+                password:password
+            }
+            console.log(logDoc)
+            return await User.insertOne(logDoc)
+        }catch(e){
+            console.log('unable to log user')
+        }
+    }
     static async getUser({
         filters = null,
         page = 0,

@@ -1,5 +1,6 @@
 import React from "react";
-import {BrowserRouter,Routes,Route} from 'react-router-dom'
+import { useState } from "react";
+import {BrowserRouter,Routes,Route,useNavigate} from 'react-router-dom'
 import Rooms from "./availablerooms";
 import BookingHistory from "./bookings";
 import Guests from "./guestlist";
@@ -10,18 +11,23 @@ import Notifications from "./notifications";
 import Splash from "./splash";
 import Status from "./status";
 
-const Menu = ()=>{
+const Menu = ({props})=>{
+
+ const [users,setUser] = useState()
+ const [id,setId] = useState(null)
+
+ 
     return(
         <>
             <BrowserRouter>
                 <Routes>
-                    <Route exact path={'/login'} element={<Login/>}/>
-                    <Route exact path={'/guestlist'} element={<Guests/>}/>
-                    <Route exact path={'/availablerooms'} element={<Rooms/>}/>
-                    <Route exact path={'/status'} element={<Status/>}/>
-                    <Route exact path={'/notifications'} element={<Notifications/>}/>
-                    <Route exact path={'/newroom'} element={<SearchGuest/>}/>
-                    {/* <Route exact path={'/message'} element={<MessageAlert/>}/> */}
+                <Route exact path={'/login'} element={<Login  AddUser={setUser} />}/>
+                     <Route exact path={'/newroom/:id'} element={<SearchGuest users={users} />}/>
+                        <Route exact path={'/guestlist'} element={<Guests users={users} id={id} />}/>
+                         <Route exact path={'/availablerooms'} element={<Rooms />}/>
+                         <Route exact path={'/status'} element={<Status/>}/>
+                         <Route exact path={'/notifications'} element={<Notifications/>}/>
+               
                     <Route exact path={'/'} element={<Splash/>}/>
                     
                 </Routes>

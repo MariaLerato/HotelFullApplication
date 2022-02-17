@@ -1,11 +1,36 @@
 import React from 'react'
-import {Link} from 'react-router-dom'
+import {Link,useParams,useNavigate} from 'react-router-dom'
 import './Styles.css'
 import 'font-awesome/css/font-awesome.min.css'
 import 'bootstrap/dist/css/bootstrap.css'
-import Dropdown from 'react-bootstrap/Dropdown'
+import BackendInfo from './service/guest'
+import { useState } from 'react'
+import {Formik} from 'formik'
+import * as Yup from 'yup'
 
-const Login = ()=>{
+const Login = ({AddUser})=>{
+    const [email,setEmail] = useState('')
+    const [password,setPassword] = useState('')
+    const [hotelId,setHotelId] = useState([])
+    const [userId,setId] = useState()
+    const navigate = useNavigate()
+    
+    async  function SubmitForm(e){
+        e.preventDefault()
+        const logUser = {email,password,hotelId,userId}
+        console.log(logUser)
+       BackendInfo.logUser(logUser)
+        .then((res)=>{
+            console.log(res.data)
+        }).catch((e)=>{
+            console.log(e)
+        })  
+        AddUser(email)
+        console.log('user')
+        navigate(`/newroom/${email}`) 
+    }
+    
+    
     return(
         <div className='loginContainer'>
             <div className='link'>
@@ -33,24 +58,28 @@ const Login = ()=>{
                 <div className='heading'>
                     <h1>Welcome Admin</h1>
                 </div>
-                <div className='log' style={{justifyContent:'center',alignContent:'center',marginTop:8,marginLeft:'38%'}}>
+            
+                    <form className='log' onSubmit={SubmitForm} style={{justifyContent:'center',alignContent:'center',marginTop:8,marginLeft:'38%'}}>
                     <h2>E-mail</h2>
                    <div className='input-icons'>
                    <i className='fa fa-envelope fa-2x'></i>
                     <input type='email' placeholder='Hotel Email Address'
-                    className='input-field'
+                    className='input-field' value={email} onChange={(e)=>setEmail(e.target.value)} 
                     />
+                
                    </div>
                     <h2>Password</h2>
                     <div className='input-icons'>
                    <i className='fa fa-lock fa-2x'></i>
-                    <input type='password' placeholder='Ref. Number'
+                    <input type='password' placeholder='Ref. Number' value={password} onChange={(e)=>setPassword(e.target.value)}  
                     className='input-field'
                     />
+                   
                     <i className='fa fa-eye fa-2x' style={{marginLeft:'-3%'}}></i>
                    </div>
-                    <Link to='/guestlist'>  <button type='submit' name='submit' className='logbutton'>Submit</button></Link>
-                </div>
+             <button type='submit' name='submit' onClick={SubmitForm}  className='logbutton'>Submit</button> 
+                </form>
+               
             </div>
         </div>
     )

@@ -3,7 +3,6 @@ import mongodb from "mongodb"
 const ObjectId = mongodb.ObjectId
 
 let hotels 
-
 export default class HotelDAO{
     static async injectDB(conn){
         if(hotels){
@@ -17,19 +16,19 @@ export default class HotelDAO{
             )
         }
     }
-    static async addHotel(hotelsId, hotel,description,adminId,image){
+    static async addHotel(hotelId,image,adminInfo,name,text,province,city){
         try{
-            const hotelDoc = {
-            name: hotel.name,
-            hotel_id:hotelsId,
-            text:description,
-            adminId:adminId,
-            image:image,
-            province:hotel.province,
-            city:hotel.city
-           
+            const hotelDoc = { 
+            hotel_id:hotelId, 
+            image:image,  
+            email:adminInfo.email,
+            adminId:adminInfo.adminId,
+            name: name,
+            text:text,
+            province:province,
+            city:city
             }
-            console.log(hotelDoc)
+            console.log('info',hotelDoc)
            return await hotels.insertOne(hotelDoc)
         }catch(e){
             console.error(`Unable to post hotels :${e}`)
@@ -101,7 +100,7 @@ export default class HotelDAO{
                 },
                 {
                     $lookup:{
-                        from :"hotelGuests",
+                        from :"room",
                         let:{
                             id:"$_id",
                         },
@@ -124,7 +123,7 @@ export default class HotelDAO{
                 },
                 {
                     $addFields:{
-                        hotelGuests:'$hotelGuests'
+                        room:'$room'
                     },
                 },
             ]

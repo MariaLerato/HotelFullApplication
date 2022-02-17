@@ -16,8 +16,26 @@
   margin-top: 10%;
   justify-self: center;
 }
+.list-hotels{
+ text-align: center;
+  align-content: center;
+  color: #b2b2b2;
+}
+.tabled{
+padding:5%
+}
+.hotel-name{
+  font-size: 20px;
+  padding-left: 5%;
+}
 .right {
   width: 30%;
+}
+.province{
+  padding-left: 20%;
+}
+.city{
+  padding-left: 25%;
 }
 .right h1 {
   color: #3c7a6f;
@@ -33,10 +51,31 @@ i {
   margin-bottom: 0%;
   font-size: 20px;
 }
+.cards{
+  display:grid;
+  grid-template-columns: 1fr 1fr 1fr 1fr;
+ margin: 2%;
+ /* padding:2% */
+}
 .add input{
   width: 100%;
 }
+.hotel-list li{
+  list-style-type:none;
+ 
 
+}
+.hotel-list {
+  display: flex;
+  justify-content: space-evenly;
+  padding:4%;
+
+  
+}
+.hotel-list p{
+  font-size: 20px;
+  
+}
 .button button {
   height: 60px;
   width: 220px;
@@ -78,6 +117,8 @@ i {
 }
 .user {
   margin-top: 20%;
+  align-items: center;
+ 
 }
 .profile {
   background-color: white;
@@ -85,7 +126,7 @@ i {
   width: 80px;
   height: 80px;
   margin: 4%;
-  margin-left: 20%;
+  margin-left: 30%;
   
 }
 .reserv{

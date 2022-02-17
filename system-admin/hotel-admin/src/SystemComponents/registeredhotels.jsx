@@ -78,7 +78,7 @@ const Hotels = () => {
                 name="search"
                 placeholder="Search Hotels"
                 className="search-input"
-              // onChange={FilterSearch}
+           
 
               />
             </div>

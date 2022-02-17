@@ -3,39 +3,46 @@ import './Styles.css'
 import profilepicture from '../images/male.png'
 import { Link } from 'react-router-dom';
 import Modal from "@material-ui/core/Modal";
-import RoomData from './service/rooms'
-import bed from '../images/room2.png'
+import BackendInfo from './service/guest'
 import FileBase64 from 'react-file-base64'
 
 const Rooms = () => {
     const [open, setOpen] = useState(false)
-    const [selected, setSelected] = useState(null)
-    const [image, setImage] = useState([])
+    const [roomType, setRoomType] = useState(null)
+    const [other, setOther] = useState()
     const [name, setName] = useState()
-    const [Bedroom,setBedroom] = useState()
+    const [bedImage,setBedImage] = useState()
     const [lounge,setLounge] = useState()
-    const [pool,setpool] = useState()
+    const [hotelId,setHotelId] = useState()
     const [text, setText] = useState()
     const [price, setPrice] = useState()
     const [hotelrooms,setGuestList] = useState([])
     const [roomId,setId] = useState()
-    const [province,setProvince] = useState()
+    const [images,setImages] = useState([])
     const [city,setCity] = useState()
 
     const retrieveGuest = (e)=>{
-        RoomData.getAllRooms()
+        BackendInfo.getAllRooms()
         .then((res)=>{
             console.log(res.data)
             setGuestList(res.data.hotelrooms)
         })
     }
+    const retrieveRoom = (e)=>{
+        BackendInfo.getAllImages()
+        .then((res)=>{
+            console.log(res.data)
+            setImages(res.data.hotelrooms)
+        })
+    }
     useEffect(()=>{
         retrieveGuest()
+    
     },[])
  
     const Unavailable = (e)=>{
         console.log('roomId')
-        RoomData.update(e, {status: true}).then(res=>{
+        BackendInfo.update(e, {status: true}).then(res=>{
             console.log('done')
         }).catch(err => console.log(err))
     }
@@ -46,20 +53,20 @@ const Rooms = () => {
     const close = ()=>{
         setOpen(false)
     }  
+ 
     async  function addRoom(e){
         e.preventDefault()
-        const newRoom = {name,text,roomId,image,province,city,lounge,pool,price}
+        const newRoom = {name,text,roomId,price,hotelId,roomType,bedImage,lounge,other}
         console.log(newRoom)
-       RoomData.createRoom(newRoom)
+       BackendInfo.addRoom(newRoom)
         .then((res)=>{
             console.log(res.data)
         }).catch((e)=>{
             console.log(e)
-        })
-        setOpen(false)
+        })   
     }
     const deleteHotelRoom = ()=>{
-        RoomData.deleteRoom(roomId)
+        BackendInfo.deleteRoom(roomId)
         .then((res)=>{
             console.log(res.data)
         })
@@ -105,7 +112,13 @@ const Rooms = () => {
                             <button type='submit' onClick={handleOpen}>Add New Room</button>
                         </div>
                     </div>
-                    <div className='guestlist'>
+                   {/* Executive Suite :The sky’s the limit in these ultra-high hotel rooms around the world, which offer luxurious interiors paired with panoramic views to make for */}
+                    {/* Room-only hotel room :overnight accommodations include only a room: Dorm-style hotels, some inns, bed and breakfasts, and some hostels",*/}
+                   {/* Standard Hotel room : offer a room and separate bathroom area for travelers to book nightly */}
+                   {/* Minimalist hotel room:Designed with tech-savvy, budget-conscious travelers in mind, these hotels put more focus on the property’s communal spaces: The lobby, breakfast area, and outdoor areas",*/}
+                   {/* Deluxe hotel room :include patios, balconies, a private terrace, or other additions that set them apart from standard room types */}
+                    {/* Hotel Suite :Suites also tend to include a separate kitchen area with appliances, dining space, and the ability to store food. Not all suites include full kitchens, however, many only include kitchenettes — a scaled-down functional kitchen space */}
+                   <div className='guestlist'>
                         <div className='icon-home'>
                             <i className='fa fa-bed' style={{ marginTop: 4, marginLeft: -3, color: '#5bad9b' }}></i>
                             <p>/Rooms</p>
@@ -115,15 +128,20 @@ const Rooms = () => {
                             <p>Hotel @ Hatfield</p>
                         </div>
                         <div className='list'>
-                            {
-                               hotelrooms.map(data =>
-                                    <li key={data._id}>
-                               <Link to ={'/newroom' + data._id}><img src={data.image.image} alt={data.name} style={{width:144,height:94,borderRadius:10}}/></Link>      
+                                        {
+                                            hotelrooms.map(data =><div style={{display:'flex',margin:'2%',justifyContent:'space-between'}}>
+                                               <img src ={data.bedImage.bedImage} alt={'bedroom'} style={{width:144,height:90,borderRadius:10}}/>
+                                               <button type='submit' style={{ height: 40, width: 144 }} onClick={deleteHotelRoom}>Not Available</button>
+                                               </div>)
+
+                                        }
+                               {/* <Link to ={'/newroom' + data._id}> */}
+                                   {/* <img src={data.image.image} alt={data.name} style={{width:144,height:94,borderRadius:10}}/></Link>       */}
+                                     
                                       
-                                        <button type='submit' style={{ height: 40, width: 144 }} onClick={deleteHotelRoom}>Not Available</button>
-                                    </li>    
-                                )
-                            }
+                          
+                                
+                            
 
                         </div>
 
@@ -171,23 +189,15 @@ const Rooms = () => {
                                             value={roomId}
                                             onChange={(e)=>setId(e.target.value)}
                                         />
-                                           <i className='fa fa-map-marker fa-2x'></i>
-                                         <input type='text' placeholder='Enter City'
+                                          <input type='text' placeholder='Room No.'
                                             className='input-field'
-                                            value={city}
-                                            onChange={(e)=>setCity(e.target.value)}
-                                        />
-                                      
-                                          <i className='fa fa-map-marker fa-2x'></i>
-                                         <input type='text' placeholder=' Enter Province'
-                                            className='input-field'
-                                            value={province}
-                                            onChange={(e)=>setProvince(e.target.value)}
+                                            value={hotelId}
+                                            onChange={(e)=>setHotelId(e.target.value)}
                                         />
                                         <FileBase64
                                         type="file"
                                         multiple={false}
-                                        onDone={({base64})=>setImage({image:base64})}
+                                        onDone={({base64})=>setBedImage({bedImage:base64})}
                                         />
                                          <FileBase64
                                         type="file"
@@ -197,8 +207,9 @@ const Rooms = () => {
                                          <FileBase64
                                         type="file"
                                         multiple={false}
-                                        onDone={({base64})=>setpool({pool:base64})}
+                                        onDone={({base64})=>setOther({other:base64})}
                                         />
+                                      
                                     </div>
                                        
 

@@ -6,35 +6,22 @@ export default class HotelRoomController{
     static async apiPostHotelRooms(req,res,next){
         try{
             const hotelId = req.body.hotel_id
-             const name=  req.body.name
-             const price = req.body.price
-             const province = req.body.province
-             const city = req.body.city 
-             const image = req.body.image
-             const lounge = req.body.lounge
-            const pool = req.body.pool
-             const roomId = req.body.roomId
-            const description = req.body.text
-            const status = req.body.status
-            const date = new Date()
+            const roomId = req.body.roomId
+            const roomInfo = {
+                roomName:req.body.roomName,
+                roomType:req.body.roomType,
+                roomDes:req.body.roomType,
+                roomPrice:req.body.roomPrice
+            }
+            const images = {
+                bedImage :req.body.bedImage,
+                lounge:req.body.lounge,
+                other:req.body.other
+            }
             const HotelRoomResponse = await HotelRoomDAO.addHotelRoom(
-                ObjectId(hotelId),
-                name,
-                price,
-                province,
-                city,
-                image,
-                lounge,
-                pool,
+                hotelId,
                 roomId,
-                description,
-                status,
-                date,
-           
-                
-                
-                
-                
+                roomInfo,images
             )
             console.log(HotelRoomResponse)
             res.json({status:"Success"})
@@ -42,7 +29,7 @@ export default class HotelRoomController{
             res.status(500).json({error:e.message})
         }
     }
-  
+
     static async apiGetHotelRooms(req,res,next){
         const  hotelRoomPerPage = req.query. hotelRoomPerPage ? parseInt(req. hotelRoomPerPage, 10) :20
         const page = req.query.page  ? parseInt(req.query.page, 10): 0

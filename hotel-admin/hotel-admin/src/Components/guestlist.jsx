@@ -7,7 +7,7 @@ import { Link } from 'react-router-dom'
 import { GuestListCard } from './GuestListCard'
 import BackendInfo from './service/guest'
 
-const Guests = () => {
+const Guests = ({users}) => {
     const [adminId, setAdmin] = useState()
     const [province, setProvince] = useState()
     const [city, setCity] = useState()
@@ -16,7 +16,7 @@ const Guests = () => {
     const [name,setName] = useState('')
 
     const retrieveGuest = (e) => {
-        BackendInfo.getAll()
+        BackendInfo.getAllGuests()
             .then((res) => {
                 console.log(res.data)
                 setGuest(res.data.hotelGuest)
@@ -35,7 +35,7 @@ const Guests = () => {
                 </h1>
 
                 <div className='dropdown' style={{ height: 45, color: '#519c84', alignContent: 'center', textAlign: 'center', paddingTop: '4%' }}>
-                    Hotel @ Hatfield
+                    {users}
                 </div>
                 <h2 className='subheading'>Reservations</h2>
                 <div className='reserv'>

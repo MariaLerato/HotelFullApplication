@@ -1,102 +1,64 @@
-import React, { useState, useEffect } from 'react'
-import './Styles.css'
-import k from '../images/male.png'
-import { Link } from 'react-router-dom'
-import { GuestListCard } from './GuestListCard'
-import BackendInfo from './service/guest'
+import React, { useState, useEffect, Fragment } from "react";
+import "./Styles.css";
+import k from "../images/male.png";
+import { Link, useParams, useNavigate } from "react-router-dom";
+import { GuestListCard } from "./GuestListCard";
+import "bootstrap";
+import BackendInfo from "./service/guest";
+import Guests from "./guestlist";
+import HotelList from "./hotelList";
 
-const SearchGuest = () => {
-    const [adminId, setAdmin] = useState()
-    const [province, setProvince] = useState()
-    const [city, setCity] = useState()
-    const [hotelGuest, setGuest] = useState([])
-    const [id, setId] = useState()
-    const [name,setName] = useState('')
+const SearchGuest = ({ users }) => {
 
-    const retrieveGuest = (e) => {
-        BackendInfo.getAll()
-            .then((res) => {
-                console.log(res.data)
-                setGuest(res.data.hotelGuest)
-            })
-    }
-    useEffect(() => {
-        retrieveGuest()
-    }, [])
+  const [hotels, setGuest] = useState([]);
+  const [email, setEmail] = useState("");
+  console.log("users--->", users);
 
-    const Search = ()=>{
-        return(
-            <>
-                <div>
-                    {
-                        hotelGuest.filter(data=>
-                            data.province.includes(name).map(action=> (
-                                <h1>{action.name}</h1>
-                            ))
-                            
-                            )
-                    }
-                </div>
-            </>
-        )
-    }
+  const retrieveGuest = (e) => {
+    BackendInfo.getAll().then((res) => {
+      console.log(res.data);
+      setGuest(res.data);
+    });
+  };
 
-    return (
-        <>
-            <div className='link'>
-                <h1>
-                    Montello
-                </h1>
-
-                <div className='dropdown' style={{ height: 45, color: '#519c84', alignContent: 'center', textAlign: 'center', paddingTop: '4%' }}>
-                    Hotel @ Hatfield
-                </div>
-                <h2 className='subheading'>Reservations</h2>
-                <div className='reserv'>
-                <p className='activity2'> Guests</p>
-                <Link to='/status'>  <p> Check In</p></Link>
-                </div>
+  useEffect(() => {
+    retrieveGuest();
+  }, []);
+  const Check = (e) => {
+    e.preventDefault();
+    setEmail(users);
+    console.log("matched");
+  };
+  return (
+    <div className="hotels-container" style={{ backgroundColor: "#f2f9f8" }}>
+      <div
+        className="guestlist"
+        style={{
+          padding: "auto",
+          margin: "auto",
+          width: "80%",
+          border: "0.4px solid #dcf8f4",
+          marginTop: "0%",
+          paddingTop: "2%",
+        }}
+      >
+        <div className="list-hotels">
+          <h2 style={{ fontFamily: "", color: "#57a99a", fontSize: "45px" }}>
+            Please Select Your Hotel From The List Below{" "}
+          </h2>
+          <div className="cards">
+            {hotels.map((data) => (
+              <>
+               
+                  <HotelList data={data} Check={Check} users={users} />
               
-                <h2>Management</h2>
-                <div className='reserv'>
-                    <p className='settings'> Settings </p>
-                   <Link to='/availablerooms'> <p> Rooms </p></Link>
-                </div>
-                <div className='user'>
-                    <div className='profilepicture'>
-                        <img src={k} alt={'admin'} ></img>
-                    </div>
+              </>
+            ))}
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+};
+export default SearchGuest;
 
-                    <div className='username'>
-                        <h3>Richie Milliem</h3>
-                    </div>
-                </div>
-            </div>
-            <div className='guests'>
-                <div className='header'>
-                    <div className='input-icons'>
-                        <i className='fa fa-search fa-2x' style={{ padding: '1.8%' }}></i>
-                        <input type='text' name='search' placeholder='Search Guest' className='search-input' />
-                    </div>
-                    <div className='alarmNotfication'>
-                        <Link to='/notifications'> <i className='fa fa-bell  ' style={{ color: '#256b5e' }} ></i></Link>
-                    </div>
-                </div>
-                <div className='guestlist'>
-                    <div className='icon-home'>
-                        <i className='fa fa-home' style={{ marginTop: 4, marginLeft: -3, color: '#5bad9b' }}></i>
-                        <p>/Guests</p>
-                    </div>
-                    <div className='hotel'>
-                        <h2>Hotel Guests</h2>
-                        <p>Hotel @ Hatfield</p>
-                    </div>
-                    <div className='list'>
-                       <Search/>
-                    </div>
-                </div>
-            </div>
-        </>
-    )
-}
-export default  SearchGuest

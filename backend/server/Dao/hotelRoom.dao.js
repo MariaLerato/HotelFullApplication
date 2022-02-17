@@ -1,6 +1,6 @@
 import  mongodb from 'mongodb'
 
-const ObjectId = mongodb.ObjectId
+const ObjectId = mongodb.ObjectID
 
 let hotelRoom
 
@@ -18,24 +18,17 @@ export default class HotelRoomDAO{
             )
         }
     }
-   
-   
-    static async addHotelRoom(hotelId,name,price,province,city,image,lounge,pool,roomId,description,status,date){
+    static async addHotelRoom(hotelId,roomId,roomInfo,images){
         try{
             const hotelRoomHoc = {
                 hotel_id:ObjectId(hotelId),
-                name:name,  
-                price:price,
-                province:province,
-                city:city,
-                image:image,
-                lounge:lounge, 
-                pool:pool, 
                 roomId:roomId,
-                text:description, 
-                status:status,
-                date:date,
-
+                roomName:roomInfo.roomName,
+                roomDes:roomInfo.roomDes,
+                roomPrice:roomInfo.roomPrice,
+                bedImage:images.bedImage,
+                lounge:images.lounge,
+                other:images.other
             }
             console.log(hotelRoomHoc)
             return await hotelRoom.insertOne(hotelRoomHoc)
@@ -43,6 +36,7 @@ export default class HotelRoomDAO{
             console.error(`Unable to post hotel room :${e}`)
         }
     }
+
 
     static async getHotelRoom({
         filters = null,

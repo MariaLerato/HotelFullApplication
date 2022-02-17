@@ -8,14 +8,14 @@ export const StatusListCard = ({ data }) => {
   const [out, setOut] = useState();
   const [status,setStatus ] = useState('pending')
 
-  const Change = () => {
-    if(data.status === null){
-      return status;
+  // const Change = () => {
+  //   if(data.status === null){
+  //     return status;
      
-    }else if(data.status === 'booked'){
-      return setStatus('Checked In');
-    };
-  };
+  //   }else if(data.status === 'booked'){
+  //     return setStatus('Checked In');
+  //   };
+  // };
   const handleIn = () => {
     setStatus('Checked In');
     alert(
@@ -41,7 +41,7 @@ export const StatusListCard = ({ data }) => {
       <div>
        <h5> {data.name}</h5>
         {/* <p>{data.province},{data.city}</p> */}
-        <p style={{marginTop:'-5%',display:'flex'}}>Status:<p style={{color:'#f26741'}}><Change/></p></p>
+        <p style={{marginTop:'-5%',display:'flex'}}>Status:<p style={{color:'#f26741'}}>{status}</p></p>
       </div>
       <div style={{ display: "flex", marginRight: "20%" }}>
         <button

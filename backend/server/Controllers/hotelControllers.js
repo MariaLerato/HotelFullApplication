@@ -1,29 +1,34 @@
 import HotelDAO from "../Dao/hotelsDao.js";
-import BSON from "bson";
+import mongodb from "mongodb"
 
-const ObjectId = BSON.ObjectID
+const ObjectId = mongodb.ObjectId
 
 export default class HotelsController{
     static async apiPostHotel(req,res,next){
+    
         try{
-            const hotelsId = req.body.hotels_id
-            const adminId = req.body.adminId
-            const image = req.body.image
-            const description = req.body.text
-            const hotelInfo = {
-                name:req.body.name,  
-                province:req.body.province,
-                city:req.body.city
-            }
-         
+           const hotelId= req.body.hotel_id
+           const image = req.body.image
+        
+           const adminInfo = {
+               email:req.body.email,
+               adminId :req.body.adminId
+           }
+           const name = req.body.name
+           const text = req.body.text
+           const province = req.body.province
+           const city = req.body.city
             const HotelResponse = await HotelDAO.addHotel(
-                ObjectId(hotelsId),
-                hotelInfo,
-                description,
-                adminId,
-                image
+               hotelId,
+               image,
+               adminInfo,
+              name,
+              text,
+               province,
+               city
             )
             res.json({status: "Success Ok"})
+            console.log('mary',HotelResponse)
         }catch(e){
             res.status(500).json({error:e.message})
         }
@@ -57,6 +62,10 @@ export default class HotelsController{
         }
     }
     static async apiGetHotels(req,res,next){
+        
+      
+
+       
         const hotelsPerPage = req.query.hotelsPerPage ? parseInt(req.hotelsPerPage, 10) :20
         const page = req.query.page  ? parseInt(req.query.page, 10): 0
         console.log('loading....................')

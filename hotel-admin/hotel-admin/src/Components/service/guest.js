@@ -1,18 +1,42 @@
-import http from "./http-guest";
+import httpCommon from "./http-common"
 
 class BackendInfo{
  getAll(page=0){
-     return http.get(`?page=${page}`)
+     return httpCommon.get(`?page=${page}`)
+ }
+ getAllRooms(page=0){
+    return httpCommon.get(`/room?page=${page}`)
+}
+getAllGuests(page=0){
+    return httpCommon.get(`/guests?page=${page}`)
+}
+logUser(data){
+    return httpCommon.post("/log",data)
+}
+ addHotel(data){
+     return httpCommon.post("/",data)
  }
  createGuest(data){
-     return http.post("/",data)
+     return httpCommon.post("/guests",data)
+ }
+ addRoom(data){
+     return httpCommon.post("/room",data)
+ }
+ addFacility(data){
+     return httpCommon.post("/facility",data)
  }
  deleteUser(id){
-    return http.delete(`hotel?id=${id}`)
+    return httpCommon.delete(`hotel?id=${id}`)
 }
 find(query,by = "guest", page = 0){
-    return http.get(`?${by}=${query}&page=${page}`)
+    return httpCommon.get(`?${by}=${query}&page=${page}`)
 }
-
+deleteRoom(id){
+    return httpCommon.delete(`?id=${id}`)
+}
+update(data,id){
+    console.log(data)
+    return httpCommon.put("/",data)
+}
 }
 export default new BackendInfo()

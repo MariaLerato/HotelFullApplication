@@ -17,6 +17,25 @@ export default class UserController{
         console.log(response.User)
     
     }
+    static async apiLogUser(req,res,next){
+        try{
+            const hotelId = req.body.hotel_id
+            const userId = req.body.userId
+            const email = req.body.email
+            const password = req.body.password
+
+            const LogResponse = await UserDAO.logUser(
+                ObjectId(hotelId),
+                userId,
+                email,
+                password
+            )
+            console.log(LogResponse)
+            res.json({status:"Success"})
+        }catch(e){
+            res.status(500).json({error:e.message})
+        }
+    }
     static async apiPostUser(req,res,next){
         try{
             const adminId = req.body.adminId
