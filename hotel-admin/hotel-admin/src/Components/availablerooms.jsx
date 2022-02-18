@@ -6,22 +6,24 @@ import Modal from "@material-ui/core/Modal";
 import BackendInfo from './service/guest'
 import FileBase64 from 'react-file-base64'
 
-const Rooms = () => {
+const Rooms = ({users}) => {
+    console.log('user',users)
     const [open, setOpen] = useState(false)
     const [roomType, setRoomType] = useState(null)
     const [other, setOther] = useState()
-    const [name, setName] = useState()
+    const [roomName, setName] = useState()
     const [bedImage,setBedImage] = useState()
     const [lounge,setLounge] = useState()
     const [hotelId,setHotelId] = useState()
-    const [text, setText] = useState()
-    const [price, setPrice] = useState()
+    const [roomDes, setText] = useState()
+    const [roomPrice, setPrice] = useState()
     const [hotelrooms,setGuestList] = useState([])
     const [roomId,setId] = useState()
     const [images,setImages] = useState([])
     const [city,setCity] = useState()
 
     const retrieveGuest = (e)=>{
+        
         BackendInfo.getAllRooms()
         .then((res)=>{
             console.log(res.data)
@@ -29,6 +31,7 @@ const Rooms = () => {
         })
     }
     const retrieveRoom = (e)=>{
+
         BackendInfo.getAllImages()
         .then((res)=>{
             console.log(res.data)
@@ -56,7 +59,7 @@ const Rooms = () => {
  
     async  function addRoom(e){
         e.preventDefault()
-        const newRoom = {name,text,roomId,price,hotelId,roomType,bedImage,lounge,other}
+        const newRoom = {roomName,roomDes,roomId,roomPrice,hotelId,roomType,bedImage,lounge,other}
         console.log(newRoom)
        BackendInfo.addRoom(newRoom)
         .then((res)=>{
@@ -80,7 +83,7 @@ const Rooms = () => {
                     </h1>
 
                     <div className='dropdown' style={{ height: 45, color: '#519c84', alignContent: 'center', textAlign: 'center', paddingTop: '4%' }}>
-                        Hotel @ Hatfield
+                       {users}
                     </div>
                     <h2 className='subheading'>Reservations</h2>
                     <div className='reserv'>
@@ -128,11 +131,21 @@ const Rooms = () => {
                             <p>Hotel @ Hatfield</p>
                         </div>
                         <div className='list'>
+
                                         {
-                                            hotelrooms.map(data =><div style={{display:'flex',margin:'2%',justifyContent:'space-between'}}>
-                                               <img src ={data.bedImage.bedImage} alt={'bedroom'} style={{width:144,height:90,borderRadius:10}}/>
+                                            hotelrooms.map(data =>
+                                            <div style={{display:'flex',margin:'2%',justifyContent:'space-between'}}>
+                                               {users === data.email?(<>
+                                                <img src ={data.bedImage.bedImage} alt={'bedroom'} style={{width:144,height:90,borderRadius:10}}/>
                                                <button type='submit' style={{ height: 40, width: 144 }} onClick={deleteHotelRoom}>Not Available</button>
-                                               </div>)
+                                               
+                                               </>):(<>
+                                             
+                                               </>
+                                               )}
+                                            </div>
+                                            )   
+                                               
 
                                         }
                                {/* <Link to ={'/newroom' + data._id}> */}
@@ -152,9 +165,9 @@ const Rooms = () => {
                             onClose={close}
                             style={{
                                 position: 'absolute',
-                                width: '50%',
+                                width: '60%',
                                 padding:'2%',
-                                height:"100%",
+                                height:"95%",
                                 margin: 'auto',
                                 borderRadius: 10,
                                 alignItems: 'center',
@@ -168,20 +181,20 @@ const Rooms = () => {
                                         <i className='fa fa-bed fa-2x'></i>
                                         <input type='text' placeholder='Type Of Room'
                                             className='input-field'
-                                            value={name}
+                                            value={roomName}
                                             onChange={(e)=>setName(e.target.value)}
                                         />
 
                                         <i className='fa fa-info-circle fa-2x'></i>
                                          <input type='text' placeholder='About Room'
                                             className='input-field'
-                                            value={text}
+                                            value={roomDes}
                                             onChange={(e)=>setText(e.target.value)}
                                         />
                                            <i className='fa fa-dollar fa-2x'></i>
                                          <input type='text' placeholder='Room Price'
                                             className='input-field'
-                                            value={price}
+                                            value={roomPrice}
                                             onChange={(e)=>setPrice(e.target.value)}
                                         /> <i class="fa fa-id-card fa-2x"></i>
                                          <input type='text' placeholder='Room No.'
@@ -189,10 +202,10 @@ const Rooms = () => {
                                             value={roomId}
                                             onChange={(e)=>setId(e.target.value)}
                                         />
-                                          <input type='text' placeholder='Room No.'
+                                        <i class="fa fa-envelope fa-2x"></i>
+                                          <input type='text' placeholder='Email Address'
                                             className='input-field'
-                                            value={hotelId}
-                                            onChange={(e)=>setHotelId(e.target.value)}
+                                            value={users}
                                         />
                                         <FileBase64
                                         type="file"
@@ -209,7 +222,6 @@ const Rooms = () => {
                                         multiple={false}
                                         onDone={({base64})=>setOther({other:base64})}
                                         />
-                                      
                                     </div>
                                        
 

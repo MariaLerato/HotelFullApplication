@@ -2,7 +2,7 @@ import HotelDAO from "../Dao/hotelsDao.js";
 import mongodb from "mongodb"
 
 const ObjectId = mongodb.ObjectId
-
+let hotels
 export default class HotelsController{
     static async apiPostHotel(req,res,next){
     
@@ -116,6 +116,19 @@ export default class HotelsController{
             res.status(500).json({error:e.message})
         }
 
+    }
+    static async apiSearchHotel(req,res){
+        const {term} = req.body
+
+        try{
+            const hotelname = new RegExp(term,"i");
+            const result = await HotelDAO.getHotels({hotelname:term})
+            res.status("Success")
+            console.log(hotelname)
+            return result
+        }catch(e){
+            console.log(e)
+        }
     }
 
 

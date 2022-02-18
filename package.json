@@ -1,5 +1,7 @@
 {
   "dependencies": {
-    "firebase": "^9.6.6"
+    "bcryptjs": "^2.4.3",
+    "firebase": "^9.6.6",
+    "jsonwebtoken": "^8.5.1"
   }
 }
