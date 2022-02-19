@@ -13,7 +13,10 @@ export default class HotelGuestController{
                 rooms:req.body.rooms,
                 guests:req.body.guests,
                 guestId:req.body.guestId,
-                roomPrice:req.body.roomPrice
+                roomPrice:req.body.roomPrice,
+                hotelImage:req.body.hotelImage,
+                hotelname:req.body.hotelname,
+        
             }
             console.log("Details",req.body)
             const HotelGuestResponse = await HotelGuestDAO.addHotelGuests(

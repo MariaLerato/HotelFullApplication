@@ -39,7 +39,7 @@ const Notifications = ()=>{
                 <div className='header'>
                    <div className='input-icons'>
                       <i className='fa fa-search fa-2x' style={{padding:'2.5%'}}></i>
-                        <input type='text' name='search' placeholder='Search Notifications'  className='search-input'/>
+                        <input type='search' name='search' placeholder='Search Notifications'  className='search-input'/>
                    </div>
                    
                 </div>

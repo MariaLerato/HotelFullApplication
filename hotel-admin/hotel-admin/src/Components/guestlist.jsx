@@ -7,7 +7,7 @@ import { Link } from 'react-router-dom'
 import { GuestListCard } from './GuestListCard'
 import BackendInfo from './service/guest'
 
-const Guests = ({users}) => {
+const Guests = ({isLoaded,data}) => {
     const [adminId, setAdmin] = useState()
     const [province, setProvince] = useState()
     const [city, setCity] = useState()
@@ -22,11 +22,13 @@ const Guests = ({users}) => {
                 setGuest(res.data.hotelGuest)
             })
     }
+    console.log("name",data.name)
     useEffect(() => {
         retrieveGuest()
     }, [])
 
 
+    let searchTerm = name
     return (
         <>
             <div className='link'>
@@ -35,7 +37,7 @@ const Guests = ({users}) => {
                 </h1>
 
                 <div className='dropdown' style={{ height: 45, color: '#519c84', alignContent: 'center', textAlign: 'center', paddingTop: '4%' }}>
-                    {users}
+                    {data.name}
                 </div>
                 <h2 className='subheading'>Reservations</h2>
                 <div className='reserv'>
@@ -62,7 +64,7 @@ const Guests = ({users}) => {
                 <div className='header'>
                     <div className='input-icons'>
                         <i className='fa fa-search fa-2x' style={{ padding: '1.8%' }}></i>
-                      <input type='text' name='search' placeholder='Search Guest' className='search-input' /> 
+                      <input type='search' name='search' placeholder='Search Guest' className='search-input' value={name} onChange={(e)=>setName(e.target.value)} /> 
                     </div>
                     <div className='alarmNotfication'>
                         <Link to='/notifications'> <i className='fa fa-bell  ' style={{ color: '#256b5e' }} ></i></Link>
@@ -81,7 +83,7 @@ const Guests = ({users}) => {
                         {
                             hotelGuest.map((data, index) =>
 
-                                <GuestListCard data={data} index={index} />
+                                <GuestListCard data={data} index={index} isLoaded={isLoaded} />
                             )
 
 

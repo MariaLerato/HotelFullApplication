@@ -4,13 +4,14 @@ import { Icon, Avatar } from 'react-native-elements';
 import { TextInput } from 'react-native-paper';
 import ProfilePicture from 'react-native-profile-picture'
 import * as ImagePicker from 'expo-image-picker'
-import User from './user'
+import BackendInfo from './service/service'
 
 const EditProfile = ({ navigation }) => {
-    const [image, setImage] = useState(null)
-    const [name,setName] = useState()
-    const [surname,setSurname] = useState()
-    const [email,setEmail] = useState()
+    const [image, setImage] = useState()
+    const [name,setName] = useState('')
+    const [surname,setSurname] = useState('')
+    const [email,setEmail] = useState('')
+    const [client,setClient] = useState([])
     const [password,setPassword] = useState()
     const [userId,setId] = useState(0)
 
@@ -25,16 +26,24 @@ const EditProfile = ({ navigation }) => {
             setImage(result.uri)
         }
     }
-    const EditUser = (e)=>{
-        const user =  {name,surname,email,password,userId,image}
-        console.log(user)
-        User.createUser(user)
+    async function PostClient(e){
+        e.preventDefault()
+        const newClient = {
+            name,
+            surname,
+            image,
+            email,
+            password
+            // location
+          };
+        console.log(newClient)
+        BackendInfo.postClient(newClient)
         .then((res)=>{
             console.log(res.data)
         }).catch((e)=>{
             console.log(e)
         })
-         
+        navigation.goBack()
     }
     return (
         <>
@@ -43,7 +52,7 @@ const EditProfile = ({ navigation }) => {
                     <TouchableOpacity onPress={() => navigation.goBack()}>
                         <Icon name={'arrow-back'} color={'white'} style={{ fontWeight: '700', marginTop: '20%' }} onPress={() => navigation.goBack()} /></TouchableOpacity>
                     <Text style={Styles.textHead}>Edit Profile</Text>
-                    <TouchableOpacity onPress={EditUser}><Text style={Styles.subtext}>Done</Text></TouchableOpacity>
+                    <TouchableOpacity onPress={PostClient}><Text style={Styles.subtext}>Done</Text></TouchableOpacity>
                 </View>
                 <View style={{ alignItems: 'center', marginTop: '2%' }}>
 
@@ -58,7 +67,6 @@ const EditProfile = ({ navigation }) => {
                     backgroundColor='#d9d9d9'
                     userTextStyle={{ fontWeight: '600', fontSize: 25 }}
                     pictureStyle={Styles.image}
-
                 />
                     ) : (
                         <ProfilePicture
@@ -78,11 +86,11 @@ const EditProfile = ({ navigation }) => {
                         <Text style={{ color: 'white', fontSize: 24, marginBottom: '2%' }}>Change Profile Picture</Text>
                     </TouchableOpacity>
                     <View style={{ width: '100%', alignItems: 'center' }}>
-                        <TextInput placeholder={'Maria'} label={'First Name'} value={name} onChange={(e)=>setName(e.target.value)} style={{ backgroundColor: '#E8FDF9', borderRadius: 10, width: '80%', margin: '2%' }} />
-                        <TextInput placeholder={'Fenyane'} label={'Last Name'} value={surname} onChange={(e)=>setSurname(e.target.value)} style={{ backgroundColor: '#E8FDF9', borderRadius: 10, width: '80%', margin: '2%' }} />
-                        <TextInput placeholder={'@fenyane02'} label={'User Name'} value={name} onChange={(e)=>setName(e.target.value)} style={{ backgroundColor: '#E8FDF9', borderRadius: 10, width: '80%', margin: '2%' }} />
-                        <TextInput placeholder={'fenyane02@gmail.com'} label={'Email Address'} value={email} onChange={(e)=>setEmail(e.target.value)} style={{ backgroundColor: '#E8FDF9', borderRadius: 10, width: '80%', margin: '2%' }} />
-                        <TextInput placeholder={'*******'} label={'Old Password'} value={password} onChange={(e)=>setPassword(e.target.value)} style={{ backgroundColor: '#E8FDF9', borderRadius: 10, width: '80%', margin: '2%' }} />
+                        <TextInput placeholder={'Enter Name'} label={'First Name'} value={name} onChangeText={(e)=>setName(e)} style={{ backgroundColor: '#E8FDF9', borderRadius: 10, width: '80%', margin: '2%' }} />
+                        <TextInput placeholder={'Enter surname'} label={'Last Name'} value={surname} onChangeText={(e)=>setSurname(e)} style={{ backgroundColor: '#E8FDF9', borderRadius: 10, width: '80%', margin: '2%' }} />
+        
+                        <TextInput placeholder={'Email Address'} label={'Email Address'} value={email} onChangeText={(e)=>setEmail(e)} style={{ backgroundColor: '#E8FDF9', borderRadius: 10, width: '80%', margin: '2%' }} />
+                        <TextInput placeholder={''} label={'Old Password'} value={password} onChangeText={(e)=>setPassword(e)} style={{ backgroundColor: '#E8FDF9', borderRadius: 10, width: '80%', margin: '2%' }} />
                         <TextInput placeholder={' '} label={'New Password'} style={{ backgroundColor: '#E8FDF9', borderRadius: 10, width: '80%', margin: '2%' }} />
                     </View>
                 </View>

@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { View, Text, Image, TouchableOpacity, StyleSheet } from "react-native";
 import { Icon } from "react-native-elements";
 import axios from "axios";
-import BackendInfo from '../service'
+import BackendInfo from '../service/service'
 
 const ConfirmPayment = ({ navigation, route }) => {
   const {

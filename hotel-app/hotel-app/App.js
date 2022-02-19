@@ -1,6 +1,6 @@
-import React from 'react';
-import {NavigationContainer} from '@react-navigation/native'
-import {createNativeStackNavigator} from '@react-navigation/native-stack'
+import React, { useState } from 'react';
+import { NavigationContainer } from '@react-navigation/native'
+import { createNativeStackNavigator } from '@react-navigation/native-stack'
 import SplashScreen from './Components/fundamentals/SplashScreen';
 import WelcomeScreen from './Components/fundamentals/WelcomeScreen';
 import SignIn from './Components/fundamentals/SignIn';
@@ -10,7 +10,7 @@ import info from './Components/info';
 import Alert from './Components/fundamentals/passwordAlert'
 import Home from './Components/home';
 import TabNavigator from './Components/bottomTab';
-import Hotels from './Components/hotels';
+import HotelScreen from './Components/hotels';
 import RoomA from './Components/gallery/roomA';
 import RoomB from './Components/gallery/other';
 import BathA from './Components/gallery/bathA';
@@ -33,53 +33,92 @@ import hotelroom from './Components/room/hotelrooms';
 import Detail from './Components/room/detail';
 import PolokwaneHotels from './Components/hotelLocation/limpopo/limpopo';
 import VendaHotels from './Components/hotelLocation/limpopo/venda';
-import DetailsHistory from './Components/BookingHisttory/historyDetails'; 
+import DetailsHistory from './Components/BookingHisttory/historyDetails';
 import Limpoporooms from './Components/hotelLocation/limpopo/limpopoRooms';
-import LogIn from './Components/mongodbPractice/signIn';
+import 'localstorage-polyfill';
 
 
-const Menu = ()=>{
-      const Stack = createNativeStackNavigator()
-    return(
-        <NavigationContainer>
-            <Stack.Navigator initialRouteName={'bottomTab'} screenOptions={{headerShown:false}}>
-             <Stack.Screen name={'SplashScreen'} component={SplashScreen} />
-            <Stack.Screen name={'SignIn'} component={SignIn} />
-             <Stack.Screen name={'WelcomeScreen'} component={WelcomeScreen} />
-            <Stack.Screen name={'SignUp'} component={SignUp} />
-            <Stack.Screen name={'resetpassword'} component={Reset} />
-            <Stack.Screen name={'passwordAlert'} component={Alert} />  
-              <Stack.Screen name={'hotels'} component={Hotels}/> 
-            <Stack.Screen name={'roomA'} component={RoomA}/>
-            <Stack.Screen name={'other'} component={RoomB}/>
-            <Stack.Screen name={'bathA'} component={BathA}/>
-             <Stack.Screen name={'bookingDetails'} component={Confirm}/> 
-             <Stack.Screen name={'payment'} component={PaymentMethod}/>
-              <Stack.Screen name={'finalpayment'} component={ConfirmPayment}/> 
-              <Stack.Screen name={'paymentmethod'} component={Method}/>
-              <Stack.Screen name={'message'} component={Message}/>
-             <Stack.Screen name={'review'} component={Review}/> 
-             <Stack.Screen name={'feedback'} component={Feedback}/>
-             <Stack.Screen name={'notification'} component={Notification}/>
-             <Stack.Screen name={'searchHistory'} component={SearchHistory}/>
-             <Stack.Screen name={'editprofile'} component={EditProfile}/>
-              <Stack.Screen name='detail' component={Detail}/> 
-             <Stack.Screen name={'map'} component={Maps}/>  
-            <Stack.Screen name={'Search'} component={Search}/> 
-            <Stack.Screen name={'hotelrooms'} component={hotelroom}/>  
-            <Stack.Screen name={'Pretoria'} component={PretoriaHotels}/>
-            <Stack.Screen name={'sandton'} component={SandtonHotels}/>
-            <Stack.Screen name={'bottomTab'} component={TabNavigator}/>
-            <Stack.Screen name={'limpopo'} component={PolokwaneHotels}/>
-            <Stack.Screen name={'roomsMenu'} component={roomMenu}/> 
-            <Stack.Screen name={'venda'} component={VendaHotels}/>
-            <Stack.Screen name={'historyDetails'} component={DetailsHistory}/>
-            <Stack.Screen name={'limpopoRooms'} component={Limpoporooms}/>
-            <Stack.Screen name={'signIn'} component={LogIn}/>
-        
-            </Stack.Navigator>
-        </NavigationContainer>
-        
-    )
+
+const Menu = () => {
+  const Stack = createNativeStackNavigator()
+  const [email, setEmail] = useState('')
+  const [password, setPassword] = useState('')
+  const uid = localStorage.getItem('userid')
+
+  return (
+    <NavigationContainer>
+    
+        <Stack.Navigator initialRouteName={'bottomTab'} screenOptions={{ headerShown: false }}>
+          {uid?(
+            <>
+                 <Stack.Screen name={'bottomTab'} component={TabNavigator} />
+                <Stack.Screen name={'roomA'} component={RoomA} />
+          <Stack.Screen name={'other'} component={RoomB} />
+          <Stack.Screen name={'bathA'} component={BathA} />
+          <Stack.Screen name={'bookingDetails'} component={Confirm} />
+          <Stack.Screen name={'payment'} component={PaymentMethod} />
+          <Stack.Screen name={'finalpayment'} component={ConfirmPayment} />
+          <Stack.Screen name={'paymentmethod'} component={Method} />
+          <Stack.Screen name={'message'} component={Message} />
+          <Stack.Screen name={'review'} component={Review} />
+          <Stack.Screen name={'feedback'} component={Feedback} />
+          <Stack.Screen name={'notification'} component={Notification} />
+          <Stack.Screen name={'searchHistory'} component={SearchHistory} />
+          <Stack.Screen name={'editprofile'} component={EditProfile} />
+          <Stack.Screen name='detail' component={Detail} />
+          <Stack.Screen name={'map'} component={Maps} />
+          <Stack.Screen name={'Search'} component={Search} />
+          <Stack.Screen name={'hotelrooms'} component={hotelroom} />
+          <Stack.Screen name={'Pretoria'} component={PretoriaHotels} />
+          <Stack.Screen name={'sandton'} component={SandtonHotels} />
+     
+          <Stack.Screen name={'limpopo'} component={PolokwaneHotels} />
+          <Stack.Screen name={'roomsMenu'} component={roomMenu} />
+          <Stack.Screen name={'venda'} component={VendaHotels} />
+          <Stack.Screen name={'historyDetails'} component={DetailsHistory} />
+          <Stack.Screen name={'limpopoRooms'} component={Limpoporooms} />    
+            </>
+          ):(
+            <>
+                      <Stack.Screen name={'SplashScreen'} component={SplashScreen} />
+          <Stack.Screen name={'WelcomeScreen'} component={WelcomeScreen} />
+          <Stack.Screen name={'resetpassword'} component={Reset} />
+          <Stack.Screen name={'passwordAlert'} component={Alert} />
+          <Stack.Screen name={'bottomTab'} component={TabNavigator} />
+          <Stack.Screen name={'SignIn'} component={SignIn} setEmail={setEmail} setPassword={setPassword} />
+          <Stack.Screen name={'SignUp'} component={SignUp} setEmail={setEmail} setPassword={setPassword} />
+          <Stack.Screen name={'roomA'} component={RoomA} />
+          <Stack.Screen name={'other'} component={RoomB} />
+          <Stack.Screen name={'bathA'} component={BathA} />
+          <Stack.Screen name={'bookingDetails'} component={Confirm} />
+          <Stack.Screen name={'payment'} component={PaymentMethod} />
+          <Stack.Screen name={'finalpayment'} component={ConfirmPayment} />
+          <Stack.Screen name={'paymentmethod'} component={Method} />
+          <Stack.Screen name={'message'} component={Message} />
+          <Stack.Screen name={'review'} component={Review} />
+          <Stack.Screen name={'feedback'} component={Feedback} />
+          <Stack.Screen name={'notification'} component={Notification} />
+          <Stack.Screen name={'searchHistory'} component={SearchHistory} />
+          <Stack.Screen name={'editprofile'} component={EditProfile} />
+          <Stack.Screen name='detail' component={Detail} />
+          <Stack.Screen name={'map'} component={Maps} />
+          <Stack.Screen name={'Search'} component={Search} />
+          <Stack.Screen name={'hotelrooms'} component={hotelroom} />
+          <Stack.Screen name={'Pretoria'} component={PretoriaHotels} />
+          <Stack.Screen name={'sandton'} component={SandtonHotels} />
+     
+          <Stack.Screen name={'limpopo'} component={PolokwaneHotels} />
+          <Stack.Screen name={'roomsMenu'} component={roomMenu} />
+          <Stack.Screen name={'venda'} component={VendaHotels} />
+          <Stack.Screen name={'historyDetails'} component={DetailsHistory} />
+          <Stack.Screen name={'limpopoRooms'} component={Limpoporooms} />
+            </>
+          )}
+          
+  
+        </Stack.Navigator>    
+    </NavigationContainer>
+
+  )
 }
 export default Menu

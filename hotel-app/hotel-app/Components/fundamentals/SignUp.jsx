@@ -3,22 +3,21 @@ import { View, Text, StyleSheet, TouchableOpacity } from 'react-native'
 import { Input, Icon } from 'react-native-elements'
 import * as Yup from 'yup'
 import { Formik } from 'formik';
+import Client from '../firebase/authentication'
+import firebase from '../firebase/firebase';
 
 const SignUp = ({ navigation }) => {
     const [isVisible, setIsVisible] = useState(true)
-    const [email, setEmail] = useState()
-    const [password, setPassword] = useState()
+    const [email, setEmail] = useState('')
+    const [password, setPassword] = useState('')
     const [confirm, setConfirm] = useState()
-    const [signUp, setSignUp] = useState([])
 
-    const Log = () => {
-        setSignUp([...signUp, {
-            email: email,
-            password: password,
-            confirm: confirm
-        }])
-        navigation.navigate('bottomTab')
-    }
+
+    // const Log = () => {
+        const Log = () => {
+            Client.signUp(email,password)
+        }  
+   
 
     const Validate = Yup.object({
         email: Yup.string().required('Invalid').email('Invalid Email'),
@@ -48,7 +47,7 @@ const SignUp = ({ navigation }) => {
             <View style={styles.SignInContainer}>
                 <Text style={styles.WelcomeText}>Register Now!</Text>
             </View>
-            <Formik
+            {/* <Formik
                 initialValues={{
                     email: '', password: '', confirm: ''
                 }}
@@ -58,21 +57,21 @@ const SignUp = ({ navigation }) => {
             >
                 {({
                     errors, touched, handleChange, handleSubmit, handleBlur, values
-                }) => (
+                }) => ( */}
                     <View>
                         <View style={styles.Sign}>
                             <Text style={styles.title}>E-mail</Text>
                             <Input
                                 placeholder=" Email Address"
                                 style={styles.input}
-                                value={values.email}
-                                onChangeText={handleChange('email')}
-                                onBlur={handleBlur('email')}
+                                value={email}
+                                onChangeText={()=>setEmail()}
+                                onBlur={(e)=>setEmail(e.target.value)}
                                 leftIcon={<Icon name="envelope-o" type="font-awesome" color='#1C5248' />}
                             />
-                            {errors.email && touched.email ? (
+                            {/* {errors.email && touched.email ? (
                                 <Text>{errors.email}</Text>
-                            ) : null}
+                            ) : null} */}
                             <Text style={styles.title} >Password</Text>
                             <Input
                                 placeholder=" Your Password"
@@ -80,13 +79,13 @@ const SignUp = ({ navigation }) => {
                                 leftIcon={<Icon name="lock" type="font-awesome" color='#1C5248' />}
                                 rightIcon={<PasswordView />}
                                 secureTextEntry={isVisible}
-                                value={values.password}
-                                onChangeText={handleChange('password')}
-                                onBlur={handleBlur('email')}
+                                value={password}
+                                onChangeText={()=>setPassword()}
+                                onBlur={(e)=>setPassword(e.target.value)}
                             />
-                            {errors.password && touched.password ? (
+                            {/* {errors.password && touched.password ? (
                                 <Text>{errors.password}</Text>
-                            ) : null}
+                            ) : null} */}
                             <Text style={styles.title}>Confirm Password</Text>
                             <Input
                                 placeholder=" Re-enter Password"
@@ -94,20 +93,20 @@ const SignUp = ({ navigation }) => {
                                 leftIcon={<Icon name="lock" type="font-awesome" color='#1C5248' />}
                                 rightIcon={<PasswordView />}
                                 secureTextEntry={isVisible}
-                                value={values.confirm}
-                                onChangeText={handleChange('confirm')}
-                                onBlur={handleBlur('confirm')}
+                                value={confirm}
+                                onChangeText={()=>setConfirm()}
+                                onBlur={()=>setConfirm()}
                             />
-                            {errors.confirm && touched.confirm ? (
+                            {/* {errors.confirm && touched.confirm ? (
                                 <Text> {errors.confirm}</Text>
-                            ) : null}
+                            ) : null} */}
                             <Text>By sigining up you agree to the terms of the service and privacy policy</Text>
-                            <TouchableOpacity style={styles.touchableOpacity} onPress={handleSubmit} ><Text style={styles.touchableText}>Sign Up</Text></TouchableOpacity>
+                            <TouchableOpacity style={styles.touchableOpacity} onPress={Log} ><Text style={styles.touchableText}>Sign Up</Text></TouchableOpacity>
                             <TouchableOpacity style={styles.touchable} onPress={() => navigation.navigate('SignIn')}><Text style={styles.touchabletext}>Sign In</Text></TouchableOpacity>
                         </View>
                     </View>
-                )}
-            </Formik>
+                {/* )}
+            </Formik> */}
         </>
     )
 }

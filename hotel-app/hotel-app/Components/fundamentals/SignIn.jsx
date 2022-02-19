@@ -2,24 +2,24 @@ import React, { useState } from 'react';
 import { View, Text, StyleSheet, TouchableOpacity } from 'react-native'
 import { Input, Icon } from 'react-native-elements'
 import * as Yup from 'yup'
-import { Formik } from 'formik';
+import { Formik, Form } from 'formik';
+import Client from '../firebase/authentication'
+import { TextInput } from 'react-native-paper';
 
 const SignIn = ({ navigation }) => {
-    const [isVisible, setIsVisible] = useState(true)
-    const [email, setEmail] = useState('')
-    const [password, setPassword] = useState('')
+    const [isVisible, setIsVisible] = React.useState(true)
+    const [email, setEmail] = React.useState('')
+    const [password, setPassword] = React.useState('')
     const [log, setLog] = useState([])
 
     const Change = () => {
         setIsVisible(!isVisible);
     };
 
-    const signIn = () => {
-        setLog([...log, {
-            email: email,
-            password: password
-        }])
-        navigation.navigate('bottomTab')
+    const LogIn = () => {
+        alert(email)
+       Client.signIn(email,password,navigation)
+       
     }
     const Validate = Yup.object({
         email: Yup.string().required('Invalid'),
@@ -41,17 +41,8 @@ const SignIn = ({ navigation }) => {
     }
     return (
         <>
-            <Formik
-                initialValues={{
-                    email: '',
-                    password: ''
-                }}
-                validateOnMount={true}
-                validationSchema={Validate}
-                onSubmit={values => signIn(values.email, values.password)}
-            >
-                {({ errors, handleBlur, handleChange, handleSubmit, values, touched
-                }) => (
+        {/* <TextInput value={email} tppe={'email'} onChangeText={(e)=>setEmail(e)}/> */}
+         
                     <View style={{flex:1}}>
                         <View style={styles.SignInContainer}>
                             <Text style={styles.WelcomeText}>Welcome!</Text>
@@ -61,35 +52,37 @@ const SignIn = ({ navigation }) => {
                             <Input
                                 placeholder=" Email Address"
                                 style={styles.input}
-                                value={values.email}
-                                onBlur={handleBlur('email')}
-                                onChangeText={handleChange('email')}
+                                value={email}
+                                tppe={'email'}
+                                // onBlur={handleBlur('email')}
+                                onChangeText={(e)=>setEmail(e)}
                                 leftIcon={<Icon name="envelope-o" type="font-awesome" color='#1C5248' />}
                             />
-                            {errors.email && touched.email ? (
+                            {/* {errors.email && touched.email ? (
                                 <Text style={{ color: 'red', paddingLeft: '2%', fontSize: 12 }}>{errors.email}</Text>
-                            ) : null}
+                            ) : null} */}
                             <Text style={styles.title} >Password</Text>
                             <Input
                                 placeholder=" Your Password"
                                 style={styles.input}
-                                value={values.password}
-                                onChangeText={handleChange('password')}
-                                onBlur={handleBlur('password')}
+                                value={password}
+                                onChangeText={(e)=>setPassword(e)}
+                                tppe={'password'}
+                               
                                 leftIcon={<Icon name="lock" type="font-awesome" color='#1C5248' />}
                                 rightIcon={<PasswordView />}
                                 secureTextEntry={isVisible}
                             />
-                            {errors.password && touched.password ? (
+                            {/* {errors.password && touched.password ? (
                                 <Text style={{ color: 'red', paddingLeft: '2%', fontSize: 12 }}>{errors.password}</Text>
-                            ) : null}
+                            ) : null} */}
                             <Text style={styles.password} onPress={() => navigation.navigate('resetpassword')}>Forgot Password?</Text>
-                            <TouchableOpacity style={styles.touchableOpacity} onPress={handleSubmit}><Text style={styles.touchableText}>Sign In</Text></TouchableOpacity>
+                            <TouchableOpacity style={styles.touchableOpacity} onPress={LogIn}><Text style={styles.touchableText}>Sign In</Text></TouchableOpacity>
                             <TouchableOpacity style={styles.touchable} onPress={() => navigation.navigate('SignUp')}><Text style={styles.touchabletext}>Sign Up</Text></TouchableOpacity>
                         </View>
                     </View>
-                )}
-            </Formik>
+                {/* )}
+            </Formik> */}
         </>
     )
 }

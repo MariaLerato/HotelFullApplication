@@ -13,14 +13,14 @@ import { Icon } from "react-native-elements";
 import SearchAlt from "./searchAlt";
 import ProfilePicture from "react-native-profile-picture";
 import axios from "axios";
+import BackendInfo from './service/service'
 
 const Search = ({ navigation, route }) => {
   const [hotels, setHotels] = useState([]);
   const { location, roomNo, guestNo, dateIn, dateOut } = route.params;
 
   const retrieveData = () => {
-    axios
-      .get(`http://e628-156-0-230-6.ngrok.io/api/v1/hotels`)
+    BackendInfo.getAll()
       .then((res) => {
         console.log(res.data);
         setHotels(res.data);
@@ -36,9 +36,6 @@ const Search = ({ navigation, route }) => {
   const searchData = hotels.filter((data) =>
     data.province.includes(searchString)
   );
-  const getHotels = (id)=>{
-    
-  }
   const DisplayHotels = () => {
     return (
       <View>

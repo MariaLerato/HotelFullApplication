@@ -9,22 +9,44 @@ import Guests from "./guestlist";
 import HotelList from "./hotelList";
 import Skeleton from '@mui/material/Skeleton';
 import Login from "./login";
+import { toast } from "react-toastify";
 
-const SearchGuest = ({ users },props) => {
+const SearchGuest = ({ users }, props) => {
 
   const [hotels, setGuest] = useState([]);
   const [email, setEmail] = useState("");
-  const [loading,setLoading] = useState(false)
+  const [isLoaded, setLoading] = useState(false)
   console.log("users--->", users);
 
   const retrieveGuest = (e) => {
     BackendInfo.getAll().then((res) => {
-      console.log(res.data,'lerato wa gafa');
-      setGuest(res.data);
+      console.log(res.data, 'lerato wa gafa');
       setLoading(true)
+      setGuest(res.data);
+
     });
   };
 
+  const DisplayResults = () => {
+    if (!isLoaded) {
+      return <Skeleton animation="wave" width={'100%'} height={100} />;
+    }
+    else {
+      return (
+        <div>
+          {hotels.map((data) => (
+            <>
+              {
+                users === data.email ? (
+                  <Guests data={data} isLoaded={isLoaded} />
+                ) : null
+              }
+            </>
+          ))}
+        </div>
+      )
+    }
+  }
   useEffect(() => {
     retrieveGuest();
   }, []);
@@ -34,21 +56,8 @@ const SearchGuest = ({ users },props) => {
     console.log("matched");
   };
   return (
-    <div className="hotels-container" style={{ backgroundColor: "#f2f9f8" ,flex:1,height:'100vh'}}>
-      <div>
-      
-            
-            {hotels.map((data) => (
-              <>
-                  {
-                    users === data.email?(
-                      <Guests/>
-                    ):null
-                  }
-              </>
-            ))}
-        
-      </div>
+    <div className="hotels-container" style={{ backgroundColor: "#f2f9f8", flex: 1, height: '100vh' }}>
+     <DisplayResults/>
     </div>
   );
 };

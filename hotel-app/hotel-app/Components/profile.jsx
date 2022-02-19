@@ -3,42 +3,46 @@ import { View, Text, Image, ImageBackground, ScrollView, StyleSheet, TouchableOp
 import { Icon } from 'react-native-elements';
 import { img } from './gallery/reusables';
 import ProfilePicture from 'react-native-profile-picture'
-import axios from 'axios'
+import BackendInfo from './service/service'
 
-const Profile = ({ navigation ,route}) => {
-    const [user,setUser] = useState([])
-    const retrieveData =(e)=>{
-        axios.get(`http://localhost:7000/user`)
-        .then((res)=>{
-            console.log(res.data)
-            setUser(res.data.user)
-        })
+const Profile = ({ navigation, route }) => {
+    const [client, setClient] = useState([])
+    const retrieveData = (e) => {
+        BackendInfo.getClient()
+            .then((res) => {
+                console.log(res.data)
+                setClient(res.data)
+            })
     }
-    useEffect(()=>{
+    useEffect(() => {
         retrieveData()
-    },[])
+    }, [])
     return (
         <View style={Styles.container}>
-            <View style={Styles.header}>
-                <ProfilePicture
-                  isPicture={false}
-                  user='Maria Fenyane'
-                    shape='circle'
-                   width={90}
-                   height={90}
-                   backgroundColor='#d9d9d9'
-                   userTextStyle={{fontWeight:'600',fontSize:25}}
-                
-                />
-                <Text style={Styles.headText}>Maria Fenyane</Text>
-                <TouchableOpacity onPress={() => navigation.navigate('editprofile')} style={Styles.edit}>
-                    <Text  style={{ color: '#C4C4C4' }}>Edit Profile</Text>
-                </TouchableOpacity >
-
-
-            </View>
-            <ScrollView style={Styles.history}>
-                <View style={Styles.historyHead}>
+            {
+                client.map(data =>
+                    <>
+                        <View style={Styles.header}>
+                            <Image source={{ uri: data.image }} style={{ width: 160, height: 160, borderRadius: 70, borderColor: 'grey', borderWidth: 5, marginTop: '-8%' }}></Image>
+                            <Text style={Styles.headText}>{data.name} {data.surname}</Text>
+                            <TouchableOpacity onPress={() => navigation.navigate('editprofile')} style={Styles.edit}>
+                                <Text style={{ color: 'black', fontSize: 24, fontWeight: '600' }}>Edit Profile</Text>
+                            </TouchableOpacity >
+                            <TouchableOpacity onPress={() => navigation.navigate('editprofile')} style={Styles.touchableOpacity}>
+                                <Text style={Styles.touchableText}>View History</Text>
+                            </TouchableOpacity >
+                            <TouchableOpacity onPress={() => navigation.navigate('editprofile')} style={Styles.touchable}>
+                                <Text style={Styles.text}>View History</Text>
+                            </TouchableOpacity >
+                        </View>
+                    </>
+                )
+            }
+        </View>
+    )
+    {/* <ScrollView style={Styles.history}>
+            </ScrollView> */}
+    {/* <View style={Styles.historyHead}>
                     <Icon name={'trash'} type={'font-awesome'} color='#4C9285' />
                     <Text style={{ color: '#1C5248', fontWeight: '700', fontSize: 18, marginLeft: '30%' }}>My History </Text>
                     <TouchableOpacity onPress={() => navigation.navigate('searchHistory')}><Icon name={'search'} type={'font-awesome'} color='#4C9285' style={{ alignSelf: 'flex-end', marginLeft: '20%' }} /></TouchableOpacity>
@@ -82,10 +86,9 @@ const Profile = ({ navigation ,route}) => {
                             </ImageBackground>
                         </TouchableOpacity>
                     </View>
-                </View>
-            </ScrollView>
-        </View>
-    )
+                </View> */}
+
+
 }
 const Styles = StyleSheet.create({
     container: {
@@ -102,24 +105,34 @@ const Styles = StyleSheet.create({
         alignSelf: 'center',
         justifyContent: 'center',
         backgroundColor: 'white',
-        height: '50%',
+        flex: 1,
         width: '100%',
         alignItems: 'center'
     },
     headText: {
         color: '#1C5248',
-        fontSize: 22,
-        fontWeight: '600',
-        marginBottom: '2%'
+        fontSize: 30,
+        fontWeight: '700',
+        marginBottom: '2%',
+        marginTop: '2%'
     },
     edit: {
-        borderRadius: 20,
-        borderColor: '#1C5248',
-        borderWidth: 1,
-        padding: '3%',
-        width: '30%',
+        backgroundColor: '#EBE9E9',
+        height: 60,
+        marginTop: '15%',
+        borderRadius: 40,
         alignItems: 'center',
-        marginBottom: '2%'
+        justifyContent: 'center',
+        shadowColor: "#000",
+        shadowOffset: {
+            width: 0,
+            height: 1,
+        },
+        shadowOpacity: 0.20,
+        shadowRadius: 1.41,
+        elevation: 1,
+        width: '80%',
+        borderColor: 'black',
     },
     history: {
         marginTop: '-15%',
@@ -144,6 +157,29 @@ const Styles = StyleSheet.create({
         padding: '4%',
         borderRadius: 15,
         marginBottom: '4%'
+    },
+    touchableOpacity: {
+        backgroundColor: '#06AC8E',
+        height: 68,
+        marginTop: '6%',
+        borderRadius: 40,
+        alignItems: 'center',
+        justifyContent: 'center',
+        shadowColor: "#000",
+        shadowOffset: {
+            width: 0,
+            height: 1,
+        },
+        shadowOpacity: 0.20,
+        shadowRadius: 1.41,
+        elevation: 1,
+        width: '80%',
+        borderColor: 'rgba(0,0,0,.2)',
+    },
+    touchableText: {
+        fontSize: 24,
+        color: '#FFFFFF',
+        fontWeight: '600'
     }
 
 })

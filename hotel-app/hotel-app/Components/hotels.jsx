@@ -3,7 +3,7 @@ import {View,TouchableOpacity,Text,Image,ImageBackground, FlatList, SafeAreaView
 import info from './info'
 import { Icon } from 'react-native-elements'
 
-const Hotels = ({navigation})=> {
+const HotelScreen = ({navigation})=> {
     return(
         <ScrollView>
        <View style={styles.container}>
@@ -59,10 +59,7 @@ const Hotels = ({navigation})=> {
                     )
             }
            </ScrollView>
-        
        </View>
-      
-    
         </ScrollView>
     )
 }
@@ -119,4 +116,4 @@ const styles= StyleSheet.create({
         padding:'3%'
     }
 })
-export default Hotels
+export default HotelScreen

@@ -2,7 +2,7 @@ import React from 'react';
 import { useState } from 'react';
 import {View,Text,ScrollView,TouchableOpacity,StyleSheet} from 'react-native'
 import { Avatar,Icon } from 'react-native-elements';
-import BackendInfo from '../service'
+import BackendInfo from '../service/service'
 
 const DetailsHistory = ({navigation,route}) =>{
     const {name,Totalprice,dateIn,dateOut,roomNo,image,hotelname,guestId} = route.params
@@ -16,7 +16,6 @@ const DetailsHistory = ({navigation,route}) =>{
             return;
         }
     }
-    
     const deleteBooking = (guestId,index)=>{
         BackendInfo.deleteBooking(guestId)
         .then(response=>{

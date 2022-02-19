@@ -109,7 +109,7 @@ const Rooms = ({users}) => {
                     <div className='header'>
                         <div className='input-icons'>
                             <i className='fa fa-search fa-2x' style={{ padding: '2.5%' }}></i>
-                            <input type='text' name='search' placeholder='Search Rooms' className='search-input' />
+                            <input type='search' name='search' placeholder='Search Rooms' className='search-input' />
                         </div>
                         <div className='alarm'>
                             <button type='submit' onClick={handleOpen}>Add New Room</button>

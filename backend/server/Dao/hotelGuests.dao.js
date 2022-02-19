@@ -24,7 +24,9 @@ export  default class HotelGuestsDAO{
                 rooms:GuestInfo.rooms,
                 guests:GuestInfo.guests,
                 guestId:GuestInfo.guestId,
-                roomPrice:GuestInfo.roomPrice
+                roomPrice:GuestInfo.roomPrice,
+                hotelImage:GuestInfo.hotelImage,
+                hotelname:GuestInfo.hotelname
             }
             console.log(hotelGuestsHoc)
             return await hotelGuests.insertOne(hotelGuestsHoc)
