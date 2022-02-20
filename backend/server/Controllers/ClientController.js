@@ -39,4 +39,36 @@ export default class ClientController{
             res.status(500).json({error:e.message})
         }
     }
+    static async apiUpdateClient(req,res,next){
+        try{
+            const userId = req.body.user_id
+            const personal ={
+                name:req.body.name,
+               surname:req.body.surname,
+                age:req.body.age,
+                image:req.body.image,
+                email:req.body.email,
+                password:req.body.password
+            }
+            const date = new Date()
+            const ClientResponse = await ClientDao.updateClient(
+               ObjectId(userId),
+                req.body.user_id,
+                personal,
+                date
+            )
+            console.log(ClientResponse)
+            var {error} = ClientResponse
+            if(error){
+                res.status(400).json({error})
+            }
+            if (ClientResponse.modifiedCount === 0){
+                throw new Error(
+                    "unable to update hotel room"
+                )
+            }
+        }catch(e){
+            res.status(500).json({error:e.message})
+        }
+    }
 }

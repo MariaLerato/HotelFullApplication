@@ -83,7 +83,7 @@ export default class HotelRoomDAO{
     static async updateHotelRoom(roomId,hotelId,status,date){
         try{
             const updateHotel = await hotelRoom.updateOne(
-                {hotel_id:hotelId, _id:ObjectId(roomId)},
+                {hotel_id:hotelId,_id:ObjectId(roomId)},
                 {$set:{ status:status,date:date}}
             )
             return updateHotel

@@ -25,6 +25,9 @@ class BackendInfo {
     getHotels(id){
         return http.get(`/:id/${id}`)
     }
+    updateClient(data){
+        return http.put("/client",data)
+    }
     
 }
 export default new BackendInfo()

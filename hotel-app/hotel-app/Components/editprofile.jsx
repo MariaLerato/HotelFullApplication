@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { View, Text, ScrollView, TouchableOpacity, StyleSheet, Image } from 'react-native'
 import { Icon, Avatar } from 'react-native-elements';
 import { TextInput } from 'react-native-paper';
@@ -8,12 +8,12 @@ import BackendInfo from './service/service'
 
 const EditProfile = ({ navigation }) => {
     const [image, setImage] = useState()
-    const [name,setName] = useState('')
-    const [surname,setSurname] = useState('')
-    const [email,setEmail] = useState('')
-    const [client,setClient] = useState([])
-    const [password,setPassword] = useState()
-    const [userId,setId] = useState(0)
+    const [name, setName] = useState('')
+    const [surname, setSurname] = useState('')
+    const [email, setEmail] = useState('')
+    const [Client, setClient] = useState([])
+    const [password, setPassword] = useState()
+    const [userId, setId] = useState(0)
 
     const pickImage = async () => {
         let result = await ImagePicker.launchImageLibraryAsync({
@@ -26,7 +26,20 @@ const EditProfile = ({ navigation }) => {
             setImage(result.uri)
         }
     }
-    async function PostClient(e){
+    const retrieveData = () => {
+        BackendInfo.getClient()
+          .then((res) => {
+            console.log(res.data);
+            setClient(res.data);
+          })
+          .catch((e) => {
+            console.log(e);
+          });
+      };
+    useEffect(() => {
+        retrieveData()
+    }, [])
+    async function PostClient(e) {
         e.preventDefault()
         const newClient = {
             name,
@@ -34,18 +47,18 @@ const EditProfile = ({ navigation }) => {
             image,
             email,
             password
-            // location
-          };
+        };
         console.log(newClient)
-        BackendInfo.postClient(newClient)
-        .then((res)=>{
-            console.log(res.data)
-        }).catch((e)=>{
-            console.log(e)
-        })
+        BackendInfo.updateClient(newClient)
+            .then((res) => {
+                console.log(res.data)
+            }).catch((e) => {
+                console.log(e)
+            })
         navigation.goBack()
     }
     return (
+
         <>
             <ScrollView style={Styles.container}>
                 <View style={Styles.header}>
@@ -55,44 +68,20 @@ const EditProfile = ({ navigation }) => {
                     <TouchableOpacity onPress={PostClient}><Text style={Styles.subtext}>Done</Text></TouchableOpacity>
                 </View>
                 <View style={{ alignItems: 'center', marginTop: '2%' }}>
-
-                    {image ? (
-                    // <Image source={{ uri: image }} style={Styles.image} />
-                    <ProfilePicture
-                    isPicture={true}
-                    source={{ uri: image }}
-                    shape='circle'
-                    width={90}
-                    height={90}
-                    backgroundColor='#d9d9d9'
-                    userTextStyle={{ fontWeight: '600', fontSize: 25 }}
-                    pictureStyle={Styles.image}
-                />
-                    ) : (
-                        <ProfilePicture
-                            isPicture={false}
-                            user='Maria Fenyane'
-                            shape='circle'
-                            width={90}
-                            height={90}
-                            backgroundColor='#d9d9d9'
-                            userTextStyle={{ fontWeight: '600', fontSize: 25 }}
-                            pictureStyle={Styles.image}
-
-                        />
-                    )}
+                    {Client.map(data => <>
+                     <Avatar source={{uri:image}} rounded style={{ width: 100, height: 100,borderRadius:50}}></Avatar>
                     <TouchableOpacity onPress={pickImage}>
-
                         <Text style={{ color: 'white', fontSize: 24, marginBottom: '2%' }}>Change Profile Picture</Text>
                     </TouchableOpacity>
                     <View style={{ width: '100%', alignItems: 'center' }}>
-                        <TextInput placeholder={'Enter Name'} label={'First Name'} value={name} onChangeText={(e)=>setName(e)} style={{ backgroundColor: '#E8FDF9', borderRadius: 10, width: '80%', margin: '2%' }} />
-                        <TextInput placeholder={'Enter surname'} label={'Last Name'} value={surname} onChangeText={(e)=>setSurname(e)} style={{ backgroundColor: '#E8FDF9', borderRadius: 10, width: '80%', margin: '2%' }} />
-        
-                        <TextInput placeholder={'Email Address'} label={'Email Address'} value={email} onChangeText={(e)=>setEmail(e)} style={{ backgroundColor: '#E8FDF9', borderRadius: 10, width: '80%', margin: '2%' }} />
-                        <TextInput placeholder={''} label={'Old Password'} value={password} onChangeText={(e)=>setPassword(e)} style={{ backgroundColor: '#E8FDF9', borderRadius: 10, width: '80%', margin: '2%' }} />
-                        <TextInput placeholder={' '} label={'New Password'} style={{ backgroundColor: '#E8FDF9', borderRadius: 10, width: '80%', margin: '2%' }} />
+                        <TextInput  label={'First Name'} value={data.name} onChangeText={(e) => setName(e)} style={{ backgroundColor: '#E8FDF9', borderRadius: 10, width: '80%', margin: '2%' }} />
+                        <TextInput  label={'Last Name'} value={data.surname} onChangeText={(e) => setSurname(e)} style={{ backgroundColor: '#E8FDF9', borderRadius: 10, width: '80%', margin: '2%' }} />
+                        <TextInput  label={'Email Address'} value={data.email} onChangeText={(e) => setEmail(e)} style={{ backgroundColor: '#E8FDF9', borderRadius: 10, width: '80%', margin: '2%' }} />
+                        <TextInput type={'password'} label={'Old Password'} value={data.password} onChangeText={(e) => setPassword(e)} style={{ backgroundColor: '#E8FDF9', borderRadius: 10, width: '80%', margin: '2%' }} />
+                        <TextInput  label={'New Password'} style={{ backgroundColor: '#E8FDF9', borderRadius: 10, width: '80%', margin: '2%' }} />
                     </View>
+                    </>)}
+    
                 </View>
             </ScrollView>
         </>

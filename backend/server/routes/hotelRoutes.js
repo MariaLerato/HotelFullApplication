@@ -24,6 +24,7 @@ router.route("/id/:id")
 
 router.route('/client').get(ClientCtrl.apiGetClient)
 .post(ClientCtrl.apiPostClient)
+.put(ClientCtrl.apiUpdateClient)
 
 router.route("/room").get(HotelRoomCtrl.apiGetHotelRooms)
 .post(HotelRoomCtrl.apiPostHotelRooms)

@@ -6,35 +6,39 @@ import ProfilePicture from 'react-native-profile-picture'
 import BackendInfo from './service/service'
 
 const Profile = ({ navigation, route }) => {
-    const [client, setClient] = useState([])
+    const [Client, setClient] = useState([])
     const retrieveData = (e) => {
         BackendInfo.getClient()
+
             .then((res) => {
                 console.log(res.data)
                 setClient(res.data)
             })
     }
+
     useEffect(() => {
         retrieveData()
     }, [])
     return (
         <View style={Styles.container}>
             {
-                client.map(data =>
+                Client.map(data =>
                     <>
                         <View style={Styles.header}>
                             <Image source={{ uri: data.image }} style={{ width: 160, height: 160, borderRadius: 70, borderColor: 'grey', borderWidth: 5, marginTop: '-8%' }}></Image>
                             <Text style={Styles.headText}>{data.name} {data.surname}</Text>
+                            
                             <TouchableOpacity onPress={() => navigation.navigate('editprofile')} style={Styles.edit}>
                                 <Text style={{ color: 'black', fontSize: 24, fontWeight: '600' }}>Edit Profile</Text>
                             </TouchableOpacity >
-                            <TouchableOpacity onPress={() => navigation.navigate('editprofile')} style={Styles.touchableOpacity}>
+                            <TouchableOpacity onPress={() => navigation.navigate('myHistory')} style={Styles.touchableOpacity}>
                                 <Text style={Styles.touchableText}>View History</Text>
                             </TouchableOpacity >
-                            <TouchableOpacity onPress={() => navigation.navigate('editprofile')} style={Styles.touchable}>
-                                <Text style={Styles.text}>View History</Text>
+                            <TouchableOpacity onPress={() => navigation.navigate('login')} style={Styles.touchable}>
+                                <Icon name='logout' size={45} />
                             </TouchableOpacity >
-                        </View>
+                            </View>
+                        
                     </>
                 )
             }
@@ -114,13 +118,13 @@ const Styles = StyleSheet.create({
         fontSize: 30,
         fontWeight: '700',
         marginBottom: '2%',
-        marginTop: '2%'
+        marginTop: '4%'
     },
     edit: {
         backgroundColor: '#EBE9E9',
         height: 60,
-        marginTop: '15%',
-        borderRadius: 40,
+        marginTop: '10%',
+        borderRadius: 10,
         alignItems: 'center',
         justifyContent: 'center',
         shadowColor: "#000",
@@ -162,7 +166,7 @@ const Styles = StyleSheet.create({
         backgroundColor: '#06AC8E',
         height: 68,
         marginTop: '6%',
-        borderRadius: 40,
+        borderRadius: 10,
         alignItems: 'center',
         justifyContent: 'center',
         shadowColor: "#000",
@@ -180,6 +184,9 @@ const Styles = StyleSheet.create({
         fontSize: 24,
         color: '#FFFFFF',
         fontWeight: '600'
+    },
+    touchable:{
+        marginTop:'12%'
     }
 
 })

@@ -25,6 +25,9 @@ const DetailsHistory = ({navigation,route}) =>{
                     ...e
                 })
             })
+            console.log(guestId ,' deleted')
+        }).catch((e)=>{
+            console.log(e)
         })
     }
     return(
@@ -63,7 +66,7 @@ const DetailsHistory = ({navigation,route}) =>{
            </View>
            <View>
                
-           <TouchableOpacity style={styles.touchableOpacity}>
+           <TouchableOpacity style={styles.touchableOpacity} onPress={deleteBooking}>
                <Text style={styles.touchableText}>Delete Booking</Text>
             </TouchableOpacity>
            </View>
