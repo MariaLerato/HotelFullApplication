@@ -7,11 +7,13 @@ import BackendInfo from './service/service'
 
 const Profile = ({ navigation, route }) => {
     const [Client, setClient] = useState([])
+    const [isLoaded,setIsLoaded] = useState(false)
     const retrieveData = (e) => {
         BackendInfo.getClient()
 
             .then((res) => {
                 console.log(res.data)
+                setIsLoaded(true)
                 setClient(res.data)
             })
     }
@@ -24,20 +26,20 @@ const Profile = ({ navigation, route }) => {
             {
                 Client.map(data =>
                     <>
-                        <View style={Styles.header}>
-                            <Image source={{ uri: data.image }} style={{ width: 160, height: 160, borderRadius: 70, borderColor: 'grey', borderWidth: 5, marginTop: '-8%' }}></Image>
-                            <Text style={Styles.headText}>{data.name} {data.surname}</Text>
-                            
-                            <TouchableOpacity onPress={() => navigation.navigate('editprofile')} style={Styles.edit}>
-                                <Text style={{ color: 'black', fontSize: 24, fontWeight: '600' }}>Edit Profile</Text>
-                            </TouchableOpacity >
-                            <TouchableOpacity onPress={() => navigation.navigate('myHistory')} style={Styles.touchableOpacity}>
-                                <Text style={Styles.touchableText}>View History</Text>
-                            </TouchableOpacity >
-                            <TouchableOpacity onPress={() => navigation.navigate('login')} style={Styles.touchable}>
-                                <Icon name='logout' size={45} />
-                            </TouchableOpacity >
-                            </View>
+                    <View style={Styles.header}>
+                        <Image source={{ uri: data.image }} style={{ width: 160, height: 160, borderRadius: 70, borderColor: 'grey', borderWidth: 5, marginTop: '-8%' }}></Image>
+                        <Text style={Styles.headText}>{data.name} {data.surname}</Text>
+                        
+                        <TouchableOpacity onPress={() => navigation.navigate('editprofile')} style={Styles.edit}>
+                            <Text style={{ color: 'black', fontSize: 24, fontWeight: '600' }}>Edit Profile</Text>
+                        </TouchableOpacity >
+                        <TouchableOpacity onPress={() => navigation.navigate('myHistory')} style={Styles.touchableOpacity}>
+                            <Text style={Styles.touchableText}>View History</Text>
+                        </TouchableOpacity >
+                        <TouchableOpacity onPress={() => navigation.navigate('login')} style={Styles.touchable}>
+                            <Icon name='logout' size={45} />
+                        </TouchableOpacity >
+                        </View>
                         
                     </>
                 )

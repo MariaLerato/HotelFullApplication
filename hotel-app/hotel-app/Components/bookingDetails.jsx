@@ -10,7 +10,7 @@ import { Icon } from "react-native-elements";
 
 const Confirm = ({ navigation, route }) => {
   const {
-    name,
+    about,
     main,
     roomNo,
     price,
@@ -19,9 +19,10 @@ const Confirm = ({ navigation, route }) => {
     dateIn,
     dateOut,
     guestNo,
-    location
+    location,
+
   } = route.params;
-  let total = (roomNo + guestNo) * price;
+  let total = parseFloat((roomNo * guestNo )* price);
 
   const TotalPrice = () => {
     return <Text>R {total}</Text>;
@@ -29,7 +30,7 @@ const Confirm = ({ navigation, route }) => {
   console.log("Total", TotalPrice);
 
   return (
-    <View style={{ marginTop: "10%", flex: 1 }}>
+    <View style={{ marginTop: "5%", flex: 1 }}>
       <TouchableOpacity
         style={Styles.header}
         onPress={() => navigation.goBack()}
@@ -46,7 +47,7 @@ const Confirm = ({ navigation, route }) => {
           alignItems: "center",
           padding: "2%",
           borderRadius: 20,
-          paddingTop: "-2%",
+          paddingTop: "-5%",
         }}
       >
         <ImageBackground
@@ -56,16 +57,16 @@ const Confirm = ({ navigation, route }) => {
             height: 220,
             borderRadius: 20,
             overflow: "hidden",
-            borderTopEndRadius: 0,
-            borderTopStartRadius: 0,
+            borderTopEndRadius: 20,
+            borderTopStartRadius: 20,
           }}
         >
           <View style={Styles.textContainer}>
             <Text style={{ color: "#C4C4C4", fontSize: 20 }}>
-              JI, Makua -Johannesburg
+              {location} , {hotelname}
             </Text>
             <Text style={{ color: "#1C5248", fontSize: 22, fontWeight: "700" }}>
-              {hotelname}, {roomName}
+              {roomName}
             </Text>
           </View>
         </ImageBackground>
@@ -79,79 +80,27 @@ const Confirm = ({ navigation, route }) => {
         >
           <Text
             style={{
-              color: "#C4C4C4",
+              color: "#1C5248",
               alignSelf: "center",
               fontSize: 20,
               width: "100%",
             }}
           >
-            Facility
+            Description
+          </Text>
+          <Text
+            style={{
+              color: "#C4C4C4",
+              alignSelf: "center",
+              fontSize: 15,
+              width: "100%",
+            }}
+          >
+            {about}
           </Text>
         </View>
 
-        <View
-          style={{
-            display: "flex",
-            flexDirection: "row",
-            alignContent: "flex-start",
-          }}
-        >
-          <View>
-            <Icon
-              name={"wifi"}
-              size={28}
-              color="#1C5248"
-              style={{ marginLeft: "-18%" }}
-            />
-            <Text
-              style={{
-                color: "#C4C4C4",
-                fontSize: 15,
-                width: "70%",
-                textAlign: "center",
-              }}
-            >
-              Unlimited Wifi
-            </Text>
-          </View>
-          <View>
-            <Icon
-              name={"bath"}
-              type={"font-awesome"}
-              color="#1C5248"
-              style={{ marginLeft: "-25%" }}
-            />
-            <Text
-              style={{
-                color: "#C4C4C4",
-                fontSize: 15,
-                width: "60%",
-                textAlign: "center",
-              }}
-            >
-              Personal Bathroom
-            </Text>
-          </View>
-          <View style={{ marginLeft: "-8%" }}>
-            <Icon
-              name={"swimming-pool"}
-              type={"font-awesome-5"}
-              color="#1C5248"
-              style={{ marginLeft: "-18%" }}
-            />
-            <Text
-              style={{
-                color: "#C4C4C4",
-                fontSize: 15,
-                width: "70%",
-                textAlign: "center",
-              }}
-            >
-              {" "}
-              Swimming Pool
-            </Text>
-          </View>
-        </View>
+        
         <View
           style={{
             borderBottomWidth: 1,

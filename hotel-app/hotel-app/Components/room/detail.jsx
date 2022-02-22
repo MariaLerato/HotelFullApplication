@@ -57,7 +57,7 @@ const Detail = ({ route, navigation }) => {
                             name:location,
                             price:price,
                             about:des,
-                            roomNo:roomNo  ,
+                            roomNo:roomNo,
                             main:main ,
                             hotelname:name,
                             roomName:roomName,

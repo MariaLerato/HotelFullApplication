@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState,useEffect } from 'react';
 import { View, Text, StyleSheet, Image, TouchableOpacity, Picker,TextInput } from 'react-native'
 import { Icon, Input } from 'react-native-elements';
 import Info from './info';
@@ -6,6 +6,7 @@ import DatePicker from 'react-native-datepicker'
 import * as Yup from 'yup'
 import { Formik } from 'formik';
 import ProfilePicture from 'react-native-profile-picture'
+import BackendInfo from './service/service'
 
 const Home = ({ AddBooking,navigation }) => {
     const [open,setOpen] = useState(true)
@@ -15,6 +16,7 @@ const Home = ({ AddBooking,navigation }) => {
     const [guests, setGuests] = useState('')
     const [date,setDate] = useState()
     const [checkOut,setOut] = useState()
+    const [client, setClient] = useState([]);
 
     const Validate = Yup.object({
         place:Yup.string().required('Missing'),
@@ -34,27 +36,33 @@ const Home = ({ AddBooking,navigation }) => {
         }])
        
     }
+    const retrieveData = () => {
+        BackendInfo.getClient()
+          .then((res) => {
+            console.log(res.data);
+            // setIsLoaded(true)
+            setClient(res.data);
+          })
+          .catch((e) => {
+            console.log(e);
+          });
+      };
+      useEffect(() => {
+        retrieveData()
+    },[])
     return (
         <>
             <View style={styles.image}>
                 <Image source={require('../assets/homeScreen.png')} style={styles.image} />
             </View>
             <View style={styles.container}>
-                {Info.info.map(data =>
-                    <View style={styles.header} key={data.id}>
+            {client.map(data =>
+                <View style={styles.header} key={data._id}>
                         <View>
                             <Text style={styles.headertext}>Hi {data.name}</Text>
                             <Text style={{ color: '#6E9B93', fontSize: 14, paddingLeft: '1%' }}>Where do you want to stay?</Text>
                         </View>
-
-                        <ProfilePicture
-                    isPicture={true}
-                    requirePicture={require('../assets/users.jpeg')}
-                    shape='circle'
-                    pictureResizeMode='cover'
-                    pictureStyle={styles.profile}
-                
-                />
+                        <Image source={{uri:data.image}} width={50} height={50}/>
 
                     </View>
                 )}

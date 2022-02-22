@@ -8,12 +8,13 @@ import DatePicker from 'react-native-datepicker';
 const PaymentMethod = ({navigation,route})=>{
   const [number,setNumber] = useState('')
   const [name,setName] = useState('')
-  const [date,setDate] = useState('')
+  const [date,setDate] = useState()
   const [cvv,setCvv] = useState('')
   const [payment,setPayment] = useState([])
 
   const {hotelname,Totalprice,Roomname,Guestnumber,dateIn,dateOut,roomNo,location,image} = route.params
-
+   
+  console.log(Totalprice)
   const NewMethod = ()=>{
     setPayment([...payment,{
       id:payment.length + 1,
@@ -34,7 +35,7 @@ const PaymentMethod = ({navigation,route})=>{
   
     return(
         <>
-        <View  style={{marginTop:'10%'}}>
+        <View  style={{    backgroundColor: '#FFFFFF',flex:1}}>
             <View style={Styles.header}>
                 <Icon name={'arrow-back'} color={'#C4C4C4'} style={{fontWeight:'700',marginTop:'20%'}} onPress={()=>navigation.goBack()} />
                 <Text style={Styles.textHead}>Payment Methods</Text>
@@ -76,16 +77,32 @@ const PaymentMethod = ({navigation,route})=>{
                 {errors.name && touched.name ? (
                   <Text style={{ color: 'red', paddingLeft: '2%', fontSize: 12 }}>{errors.name}</Text>
                 ):null}
-                  <Input 
-                placeholder={'Expiry Date'}
-                leftIcon={<Icon name={'calendar'} type={'font-awesome-5'} size={30} color={'#6DA399'}/>}
-                style={Styles.textbox}
-                value={values.date}
-                onChangeText={handleChange('date')}
-                onBlur={handleBlur('date')}
-                type={'month'}
-
-                />
+                    <DatePicker
+                       style={Styles.picker}
+                        date={values.date}
+                        mode='date'
+                        placeholder='Expiry Date'
+                        format='MM/YY'
+                        // minDate={'12/2022'}
+                        // maxDate={'12/2023'}
+                        confirmBtnText='Confirm'
+                        cancelBtnText='Cancel'
+                        customStyles={{
+                            dateIcon:{
+                                position:'absolute',
+                                left:0,
+                                top:4,
+                                marginLeft:0,
+                            },
+                            dateInput:{
+                              marginLeft:'-45%',
+                                backgroundColor:'#ffffff',
+                                borderColor:'#ffffff'
+                            }
+                        }
+                        }
+                        onDateChange={handleChange('date')}
+                       />
                 {errors.date && touched.date ?(
                   <Text style={{ color: 'red', paddingLeft: '2%', fontSize: 12 }}>{errors.date}</Text>
                 ):null}
@@ -130,7 +147,8 @@ const Styles = StyleSheet.create({
     header:{
         display:'flex',
         flexDirection:'row',
-        padding:'2%'
+        padding:'2%',
+        marginTop:'10%',
       },
     textHead:{
         color:'#1C5248',
@@ -141,7 +159,21 @@ const Styles = StyleSheet.create({
       
       },
       textbox:{
-        margin:'2%'
-      }
+        margin:'2%',
+        backgroundColor: '#FFFFFF',
+        
+      },
+      picker: {
+        width: 350,
+        // backgroundColor: '#FFFFFF',
+         margin: '1%',
+        marginLeft: '3%',
+        marginBottom:'2%',
+        height:50,
+        borderBottomColor:'grey',
+        borderBottomWidth:0.5,
+        fontSize:25,
+
+    },
 })
 export default PaymentMethod

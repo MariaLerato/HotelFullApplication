@@ -43,7 +43,7 @@ const DetailsHistory = ({navigation,route}) =>{
             </View>
        
            <View style={{alignItems:'center',marginTop:'15%'}}>
-               <Avatar size={'xlarge'} rounded source={{uri:image}}></Avatar>
+               <Avatar size={'xlarge'} rounded source={{uri:image.uri}}></Avatar>
                <Text style={{color:'#4C9285',fontSize:30,padding:'2%'}}>{hotelname}</Text>
            </View>
            <View style={{display:'flex',flexDirection:'row',marginTop:'10%'}}>

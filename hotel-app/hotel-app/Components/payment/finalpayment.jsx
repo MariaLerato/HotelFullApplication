@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { View, Text, Image, TouchableOpacity, StyleSheet } from "react-native";
 import { Icon } from "react-native-elements";
-import axios from "axios";
 import BackendInfo from '../service/service'
 
 const ConfirmPayment = ({ navigation, route }) => {
@@ -11,40 +10,19 @@ const ConfirmPayment = ({ navigation, route }) => {
     name,
     number,
     cvv,
-    Totalprice,
-    guestsNo,
+    roomPrice,
+    guests,
     Room,
     dateIn,
     dateOut,
-    roomNo,
-    image
-    // location
+    rooms,
+    hotelImage,
+    location,
   } = route.params;
- 
-async function addClient(e){
-    e.preventDefault()
-    const newGuest = {
-        name,
-        guestsNo,
-        roomNo,
-        Room,
-        Totalprice,
-        dateIn,
-        dateOut,
-        // location
-      };
-    console.log(newGuest)
-    BackendInfo.createGuest (newGuest)
-    .then((res)=>{
-        console.log(res.data)
-    }).catch((e)=>{
-        console.log(e)
-    })
-    navigation.navigate("historyDetails",{hotelname:hotelname,dateIn:dateIn,dateOut:dateOut,roomNo:roomNo,Totalprice:Totalprice,name:name,image:image})
-}
+ console.log('total',roomPrice)
+
   const PaymentCard = () => {
     return (
-    
       <View
         style={{
           width: "95%",
@@ -191,7 +169,7 @@ async function addClient(e){
         >
           <View>
             <Text style={{ color: "#C4C4C4", fontSize: 18 }}>
-              JI,Makua - Johannesburg
+            {location} , {hotelname}
             </Text>
             <Text
               style={{
@@ -201,7 +179,7 @@ async function addClient(e){
                 fontSize: 20,
               }}
             >
-              {hotelname}, {Room}
+             {Room}
             </Text>
           </View>
         </View>
@@ -252,7 +230,7 @@ async function addClient(e){
             <Text
               style={{ color: "#1C5248", fontWeight: "700", paddingLeft: "2%" }}
             >
-              {roomNo} Rooms, {guestsNo} Guests
+              {rooms} Rooms, {guests} Guests
             </Text>
           </View>
           <View style={{ marginTop: "7%" }}>
@@ -264,7 +242,7 @@ async function addClient(e){
                 fontSize: 18,
               }}
             >
-              R {Totalprice}{" "}
+              R {roomPrice}{" "}
             </Text>
           </View>
         </View>
@@ -279,7 +257,7 @@ async function addClient(e){
             alignSelf: "center",
             marginTop: "10%",
           }}
-          onPress={addClient}
+          onPress={()=>navigation.navigate("pay",{hotelname:hotelname,dateIn:dateIn,dateOut:dateOut,roomNo:rooms,roomPrice:roomPrice,name:name,image:hotelImage})}
         >
           <Text
             style={{

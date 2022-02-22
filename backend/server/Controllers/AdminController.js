@@ -4,6 +4,8 @@ import User from '../models/hotels.model.js'
 
 import dotenv from 'dotenv'
 
+
+
 export const SignIn = async(req,res)=>{
     const {email,password} = req.body;
     const isExist = await User.findOne({email});

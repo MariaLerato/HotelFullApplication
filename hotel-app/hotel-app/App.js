@@ -36,6 +36,7 @@ import VendaHotels from './Components/hotelLocation/limpopo/venda';
 import DetailsHistory from './Components/BookingHisttory/historyDetails';
 import Limpoporooms from './Components/hotelLocation/limpopo/limpopoRooms';
 import 'localstorage-polyfill';
+import Pay from './Components/payment/pay';
 
 
 
@@ -71,12 +72,12 @@ const Menu = () => {
           <Stack.Screen name={'hotelrooms'} component={hotelroom} />
           <Stack.Screen name={'Pretoria'} component={PretoriaHotels} />
           <Stack.Screen name={'sandton'} component={SandtonHotels} />
-     
           <Stack.Screen name={'limpopo'} component={PolokwaneHotels} />
           <Stack.Screen name={'roomsMenu'} component={roomMenu} />
           <Stack.Screen name={'venda'} component={VendaHotels} />
           <Stack.Screen name={'historyDetails'} component={DetailsHistory} />
-          <Stack.Screen name={'limpopoRooms'} component={Limpoporooms} />    
+          <Stack.Screen name={'limpopoRooms'} component={Limpoporooms} />
+          <Stack.Screen name='pay' component={Pay}/>
             </>
           ):(
             <>
@@ -112,6 +113,7 @@ const Menu = () => {
           <Stack.Screen name={'venda'} component={VendaHotels} />
           <Stack.Screen name={'historyDetails'} component={DetailsHistory} />
           <Stack.Screen name={'limpopoRooms'} component={Limpoporooms} />
+          <Stack.Screen name='pay' component={Pay}/>
             </>
           )}
           
