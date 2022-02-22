@@ -19,7 +19,7 @@ const  Pay=({navigation,route})=> {
             hotelImage
           };
         console.log(newGuest)
-        BackendInfo.createGuest (newGuest)
+        BackendInfo.createGuest(newGuest)
         .then((res)=>{
             console.log(res.data)
         }).catch((e)=>{
@@ -41,7 +41,24 @@ const  Pay=({navigation,route})=> {
             navigation.goBack()
         }}
         onSuccess={(res) => {
-        <BookRoom/>
+            const newGuest = {
+                name,
+                guests,
+                rooms,
+                Room,
+                roomPrice,
+                dateIn,
+                dateOut,
+                hotelImage
+              };
+            console.log(newGuest)
+            BackendInfo.createGuest(newGuest)
+            .then((res)=>{
+                console.log(res.data)
+            }).catch((e)=>{
+                console.log(e)
+            })
+            navigation.navigate("historyDetails",{hotelname:hotelname,dateIn:dateIn,dateOut:dateOut,roomNo:rooms,Totalprice:roomPrice,name:name,image:hotelImage})
         }}
         autoStart={true}
         currency="ZAR"
