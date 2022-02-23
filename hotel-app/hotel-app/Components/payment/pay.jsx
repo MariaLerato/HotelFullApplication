@@ -4,10 +4,10 @@ import { View } from 'react-native';
 import BackendInfo from '../service/service'
 
 const  Pay=({navigation,route})=> {
-    const {hotelname,dateIn,dateOut,roomPrice,name,hotelImage,guests,rooms,Room,} = route.params
-  
+    const {hotelname,dateIn,dateOut,roomPrice,name,hotelImage,guests,rooms,Room,roomId} = route.params
+    console.log(rooms,guests,hotelImage,hotelname)
     async function BookRoom(e){
-        e.preventDefault()
+        // e.preventDefault()
         const newGuest = {
             name,
             guests,
@@ -16,7 +16,8 @@ const  Pay=({navigation,route})=> {
             roomPrice,
             dateIn,
             dateOut,
-            hotelImage
+            hotelImage,
+            hotelname
           };
         console.log(newGuest)
         BackendInfo.createGuest(newGuest)
@@ -40,26 +41,7 @@ const  Pay=({navigation,route})=> {
             alert('Unable To Complete Payment')
             navigation.goBack()
         }}
-        onSuccess={(res) => {
-            const newGuest = {
-                name,
-                guests,
-                rooms,
-                Room,
-                roomPrice,
-                dateIn,
-                dateOut,
-                hotelImage
-              };
-            console.log(newGuest)
-            BackendInfo.createGuest(newGuest)
-            .then((res)=>{
-                console.log(res.data)
-            }).catch((e)=>{
-                console.log(e)
-            })
-            navigation.navigate("historyDetails",{hotelname:hotelname,dateIn:dateIn,dateOut:dateOut,roomNo:rooms,Totalprice:roomPrice,name:name,image:hotelImage})
-        }}
+        onSuccess={BookRoom}
         autoStart={true}
         currency="ZAR"
       />

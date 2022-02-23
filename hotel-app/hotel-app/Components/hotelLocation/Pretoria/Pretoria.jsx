@@ -8,13 +8,13 @@ import {
   StyleSheet,
   FlatList,
 } from "react-native";
-import { Icon } from "react-native-elements";
+import { Icon,ListItem ,Avatar} from "react-native-elements";
 import BackendInfo from '../../service/service'
 
 
 const PretoriaHotels = ({ navigation, route }) => {
   const [hotels, setHotels] = useState([]);
-  const { hotelpic, des, name ,place,roomNo, dateIn, dateOut,guestNo,location,email,city} = route.params;
+  const { hotelpic, des, name ,place,roomNo, dateIn, dateOut,guestNo,location,days,city} = route.params;
   const [isLoaded,setIsLoaded] = useState(false)
 
 
@@ -39,7 +39,7 @@ const PretoriaHotels = ({ navigation, route }) => {
   );
   return (
     <>
-      <View style={{flex:1}}>
+      <View style={{flex:1, backgroundColor:'white'}}>
         <View
           style={{
             display: "flex",
@@ -56,71 +56,32 @@ const PretoriaHotels = ({ navigation, route }) => {
           </Text>
         </View>
         <ScrollView>
+        
           {
             searchData.map(data=>
-              <View key={data._id}  style={{paddingRight:'18%'}}>
-             
-                  <View
-                  style={{
-                   
-                    display: "flex",
-                    flexDirection: "row",
-                    padding: "2%",
-                  }}
-                 >
-                  <TouchableOpacity
-                    onPress={() =>
-                      navigation.navigate("hotelrooms", {
-                         roomNo:roomNo,
-                          main:hotelpic,
-                          name:name,
-                          dateIn:dateIn,
-                          dateOut:dateOut,
-                          guestNo:guestNo,
-                          location:location,
-                          email:data.email
-                    
-                      })
-                    }
-                  >
-                    <Image
-                      source={{ uri: data.image.image  }}
-                      style={{
-                        width: 140,
-                        height: 150,
-                        borderRadius: 30,
-                        borderWidth: 2,
-                        borderColor: "white",
-                        marginTop:'11%'
-                      }}
-                    ></Image>
-                  </TouchableOpacity>
-                  <View style={{paddingRight:'2%',width: "80%",padding:'4%'}}>
-                    <Text
-                      style={{
-                      
-                        fontSize: 20,
-                        color: "#1C5248",
-                        fontWeight: "700",
-                      }}
-                    >
-                      {data.name}
-                    </Text>
-                    <Text style={{  fontSize: 13,marginLeft:'-4%'}}>{data.text}</Text>
-                    <TouchableOpacity
-                      onPress={() => navigation.navigate("review")}
-                    >
-                      <Text
-                        style={{
-                          color: "#F24C04",
-                          fontSize: 15,
-                        }}
-                      >
-                        Hotel Reviews
-                      </Text>
-                    </TouchableOpacity>
-                  </View>
-                </View>
+              <View key={data._id}>
+             <ListItem key={data._id} >
+                  <Avatar size={'xlarge'} source={{ uri: data.image.image }} onPress={() =>
+                    navigation.navigate("hotelrooms", {
+                      roomNo:roomNo,
+                       main:data.image.image,
+                       name:name,
+                       dateIn:dateIn,
+                       dateOut:dateOut,
+                       guestNo:guestNo,
+                       location:location,
+                       email:data.email,
+                       days:days
+                 
+                    })}></Avatar>
+               
+               <ListItem.Content  >
+                  <ListItem.Title style={{ color: "#1C5248",fontSize:20}}>{data.name}</ListItem.Title>
+                  <ListItem.Subtitle>{data.text}</ListItem.Subtitle>
+                </ListItem.Content>
+              
+            
+              </ListItem>
           </View>
               
               )

@@ -3,25 +3,31 @@ import HotelGuestDAO from '../Dao/hotelGuests.dao.js'
 
 const ObjectId = BSON.ObjectId
 
+
 export default class HotelGuestController{
     static async apiPostHotelGuests(req,res,next){
         try{
             const hotelId = req.body.hotel_id
             const roomId = req.body.roomId
+            const guestId=req.body.guestId
             const GuestInfo = {
                 name:req.body.name,
                 rooms:req.body.rooms,
                 guests:req.body.guests,
-                guestId:req.body.guestId,
                 roomPrice:req.body.roomPrice,
                 hotelImage:req.body.hotelImage,
                 hotelname:req.body.hotelname,
+                dateIn:req.body.dateIn,
+                dateOut:req.body.dateOut,
+                Room:req.body.Room
         
             }
+
             console.log("Details",req.body)
             const HotelGuestResponse = await HotelGuestDAO.addHotelGuests(
                ObjectId(hotelId),
                roomId,
+               ObjectId(guestId),
                GuestInfo
             )
             console.log(HotelGuestResponse)

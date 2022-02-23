@@ -20,8 +20,9 @@ const Search = ({ navigation, route }) => {
   const [hotels, setHotels] = useState([]);
   const [client,setClient] = useState([])
   const [isLoading,setIsLoaded] = useState(false)
-  const { location, roomNo, guestNo, dateIn, dateOut } = route.params;
+  const { location, roomNo, guestNo, dateIn, dateOut,days} = route.params;
 
+  console.log('diff',days)
   const retrieveData = () => {
     BackendInfo.getAll()
       .then((res) => {

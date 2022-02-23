@@ -23,7 +23,8 @@ const hotelroom = ({ navigation, route }) => {
     dateOut,
     guestNo,
     location,
-    email
+    email,
+    days
   } = route.params;
   const [hotelrooms, setHotelRoom] = useState([]);
   const [isLoaded,setIsLoaded] = useState(false)
@@ -70,6 +71,7 @@ const hotelroom = ({ navigation, route }) => {
                   navigation.navigate("detail", {
                     hotelname: data.name,
                     price: data.roomPrice,
+                    roomId:data._id,
                     des:data.roomDes,
                     roomNo: roomNo,
                     main: main,
@@ -81,6 +83,7 @@ const hotelroom = ({ navigation, route }) => {
                     latitude: latitude,
                     guestNo: guestNo,
                     location: location,
+                    days:days
                   })
                 }
               >

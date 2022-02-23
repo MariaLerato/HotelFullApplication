@@ -20,9 +20,11 @@ const Confirm = ({ navigation, route }) => {
     dateOut,
     guestNo,
     location,
+    roomId,
+    days
 
   } = route.params;
-  let total = parseFloat((roomNo * guestNo )* price);
+  let total = days + price;
 
   const TotalPrice = () => {
     return <Text>R {total}</Text>;
@@ -216,7 +218,8 @@ const Confirm = ({ navigation, route }) => {
                 dateIn: dateIn,
                 dateOut: dateOut,
                 location:location,
-                image:main
+                image:main,
+                roomId:roomId
               })
             }
           >
