@@ -7,6 +7,7 @@ import BackendInfo from '../service/service'
 const DetailsHistory = ({navigation,route}) =>{
     const {name,Totalprice,dateIn,dateOut,roomNo,image,hotelname,guestId} = route.params
  const [hotelGuests,setHotelGuests] = useState([])
+ const [isLoading,setLoading] = useState(true)
     const [status,setStatus] = useState('Booked')
     const ChangeStatus = () => {
         if(status === true){
@@ -41,9 +42,8 @@ const DetailsHistory = ({navigation,route}) =>{
                 <Icon name={'times'} type={'font-awesome-5'} color={'#C4C4C4'} onPress={() =>navigation.navigate('message')} />
             </TouchableOpacity>
             </View>
-       
-           <View style={{alignItems:'center',marginTop:'15%'}}>
-               <Avatar size={'xlarge'} rounded source={{uri:image}}></Avatar>
+           <View style={{alignItems:'center',marginTop:'15%',justifyContent:'center'}}>
+               <Avatar size={'xlarge'} rounded style={{borderColor:'white',borderWidth:0.5}} source={{uri:image}}></Avatar>
                <Text style={{color:'#4C9285',fontSize:30,padding:'2%'}}>{hotelname}</Text>
            </View>
            <View style={{display:'flex',flexDirection:'row',marginTop:'10%'}}>

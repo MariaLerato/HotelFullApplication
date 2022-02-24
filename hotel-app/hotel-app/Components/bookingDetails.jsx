@@ -147,16 +147,13 @@ const Confirm = ({ navigation, route }) => {
           }}
         >
           <View>
-            <Text style={{ color: "#C4C4C4", fontSize: 18 }}>Guest Name</Text>
+            <Text style={{ color: "#C4C4C4", fontSize: 18 }}>Number Of Nights</Text>
             <Text
               style={{
-                color: "#1C5248",
-                fontWeight: "700",
-                paddingLeft: "2%",
-                fontSize: 20,
+                color: "#1C5248", fontWeight: "700", paddingLeft: "2%" 
               }}
             >
-              Maria Fenyane
+           {days} /Night(s)
             </Text>
           </View>
         </View>

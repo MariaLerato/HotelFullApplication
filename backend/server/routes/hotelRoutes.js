@@ -40,6 +40,7 @@ router.route("/guests").get(HotelGuestCtrl.apiGetHotelGuests)
 .post(HotelGuestCtrl.apiPostHotelGuests)
 .delete(HotelGuestCtrl.apiDeleteHotelGuests)
 
+
 router.route('/facility').post(FacilityController.apiPostFacility)
 .get(FacilityController.apiGetFacility)
 

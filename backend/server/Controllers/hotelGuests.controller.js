@@ -22,7 +22,11 @@ export default class HotelGuestController{
                 Room:req.body.Room
         
             }
-
+            const status = {
+                checkIn :req.body.checkIn,
+                checkOut : req.body.checkOut
+            }
+            
             console.log("Details",req.body)
             const HotelGuestResponse = await HotelGuestDAO.addHotelGuests(
                ObjectId(hotelId),
@@ -32,6 +36,36 @@ export default class HotelGuestController{
             )
             console.log(HotelGuestResponse)
             res.json({status:"Success"})
+            if(checkIn){
+                return status = status.checkIn
+            }else{
+                return status = status.checkOut
+            }
+
+        }catch(e){
+            res.status(500).json({error:e.message})
+        }
+    }
+    static async apiPostGuestHistory(req,res){
+        try{
+            const hotelId = req.body.hotel_id
+            const roomId = req.body.roomId
+            const GuestInfo = {
+                name:req.body.name,
+                rooms:req.body.rooms,
+                guests:req.body.guests,
+                roomPrice:req.body.roomPrice,
+                hotelImage:req.body.hotelImage,
+                dateIn:req.body.dateIn,
+                dateOut:req.body.dateOut
+            }
+            const historyRes =  await HotelGuestDAO.addGuestHistory(
+                ObjectId(hotelId),
+                roomId,
+                GuestInfo
+
+            )
+            console.log('history',historyRes)
         }catch(e){
             res.status(500).json({error:e.message})
         }
@@ -74,5 +108,18 @@ export default class HotelGuestController{
             res.status(500).json({error:e.message})
         }
 
+    }
+    static async DeleteGuestHistory(req,res){
+        try{
+            const hotelId = req.query.hotel_id
+            const userId = req.query.roomId
+            console.log(hotelId)
+            const historyDes = await HotelGuestDAO.deleteHotelGuest(
+                hotelId,
+                userId
+            )
+        }catch(e){
+            res.status(500).json({error:e.message})
+        }
     }
 }

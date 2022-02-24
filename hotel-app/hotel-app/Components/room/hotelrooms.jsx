@@ -61,9 +61,12 @@ const hotelroom = ({ navigation, route }) => {
         <Text style={Styles.textHead}>Our Rooms</Text>
       </View>
       <View>
+        {!isLoaded?(
+        <Text>Please Wait for your rooms to load</Text> 
+        ):(
+        <> 
         {SearchRooms.map((data) => (
           <View key={data.id}>
-        
               <>
                 <View style={Styles.subHead}>
               <TouchableOpacity
@@ -129,10 +132,10 @@ const hotelroom = ({ navigation, route }) => {
               <Text> </Text>
             </ScrollView>
               </>
-            
-            
           </View>
         ))}
+        </>)}
+       
       </View>
     </ScrollView>
   );

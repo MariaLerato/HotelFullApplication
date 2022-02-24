@@ -12,22 +12,39 @@ import Info from "./info";
 import { Icon } from "react-native-elements";
 import SearchAlt from "./searchAlt";
 import ProfilePicture from "react-native-profile-picture";
-// import axios from "axios";
+import SkeletonContent from "react-native-skeleton-content";
 
 import BackendInfo from "./service/service";
 
 const Search = ({ navigation, route }) => {
   const [hotels, setHotels] = useState([]);
-  const [client,setClient] = useState([])
-  const [isLoading,setIsLoaded] = useState(false)
-  const { location, roomNo, guestNo, dateIn, dateOut,days} = route.params;
+  const [client, setClient] = useState([]);
+  const [isLoading, setIsLoaded] = useState(true);
+  const { location, roomNo, guestNo, dateIn, dateOut, days } = route.params;
 
-  console.log('diff',days)
+  const INTERVAL_Refresh = 3000;
+  const PlaceHolder = () => {
+    return (
+      <SkeletonContent
+        containerStyle={{ width: 200, height: 200, flexDirection: "row" }}
+        isLoading={isLoading}
+        // duration={120}
+        // animationType={"pulse"}
+        animationDirection={"horizontalLeft"}
+        boneColor={"#E1E9EE"}
+        layout={[
+          { key: "1", width: 165, height: 170, marginBottom: 1 },
+          { key: "2", width: 165, height: 170, marginBottom: 1 },
+        ]}
+      ></SkeletonContent>
+    );
+  };
+  console.log("diff", days);
   const retrieveData = () => {
     BackendInfo.getAll()
       .then((res) => {
         console.log(res.data);
-        setIsLoaded(true)
+        setIsLoaded(true);
         setHotels(res.data);
       })
       .catch((e) => {
@@ -38,7 +55,7 @@ const Search = ({ navigation, route }) => {
     BackendInfo.getClient()
       .then((res) => {
         console.log(res.data);
-        setIsLoaded(true)
+        setIsLoaded(false);
         setClient(res.data);
       })
       .catch((e) => {
@@ -47,22 +64,22 @@ const Search = ({ navigation, route }) => {
   };
   useEffect(() => {
     retrieveData();
-    getClient()
+    getClient();
+   
   }, []);
- 
+
   let searchString = location;
   const searchData = hotels.filter((data) =>
     data.province.includes(searchString)
   );
   const DisplayHotels = () => {
-   
     return (
-      <View>
+      
         <View
-          style={{ display: "flex", flexDirection: "row", marginLeft: "1.5%" }}
+     style={{flexDirection:'row',paddingLeft:'6%'}}
         >
           {searchData.map((data) => (
-            <View style={{ padding: "3%" }} key={data._id}>
+            <View style={{ padding: "2%" }} key={data._id}>
               <ImageBackground
                 source={{ uri: data.image.image }}
                 style={{
@@ -86,22 +103,21 @@ const Search = ({ navigation, route }) => {
                       dateOut: dateOut,
                       guestNo: guestNo,
                       location: location,
-                      email:data.email,
-                      city:data.city
+                      email: data.email,
+                      city: data.city,
+                      days: days,
                     })
                   }
                   style={styles.hotelname}
                 >
                   <Text style={styles.loca}>{data.city}</Text>
-                  <Text style={styles.number}>
-                    {data.city.length} Hotels
-                  </Text>
+                  <Text style={styles.number}>{data.city.length} Hotels</Text>
                 </TouchableOpacity>
               </ImageBackground>
             </View>
           ))}
         </View>
-      </View>
+    
     );
   };
 
@@ -110,13 +126,11 @@ const Search = ({ navigation, route }) => {
       <View style={styles.HeaderContainer}>
         <View>
           {client.map((action) => (
-
             <View key={action._id}>
-           
-                <View style={styles.ImageContainer}>
+              <View style={styles.ImageContainer}>
                 <ProfilePicture
                   isPicture={true}
-                  requirePicture={{uri:action.image}}
+                  requirePicture={{ uri: action.image }}
                   shape="circle"
                   pictureResizeMode="cover"
                   pictureStyle={styles.Image}
@@ -139,7 +153,6 @@ const Search = ({ navigation, route }) => {
                   />
                 </TouchableOpacity>
               </View>
-        
             </View>
           ))}
         </View>
@@ -155,7 +168,7 @@ const Search = ({ navigation, route }) => {
               <View>
                 <Text style={styles.title}>Date</Text>
                 <Text style={styles.input}>
-                  {dateIn} / {dateOut}
+                  {dateIn}/ {dateOut}
                 </Text>
               </View>
               <View>
@@ -178,8 +191,15 @@ const Search = ({ navigation, route }) => {
                 <Text style={styles.view}>View All</Text>
               </TouchableOpacity> */}
             </View>
-            <View style={{ marginTop: "-3%" }}>
-              <DisplayHotels />
+            <View style={{ marginTop: "-2%"  ,
+                  height: 190,}}>
+             {
+               !isLoading?(<>
+                <Text>Loading Available Hotels</Text>
+               </>):(<>
+                    <DisplayHotels/>
+               </>)
+}
             </View>
           </View>
           <View>
@@ -282,6 +302,7 @@ const styles = StyleSheet.create({
   dateContainer: {
     display: "flex",
     flexDirection: "row",
+    justifyContent: "space-between",
   },
   textDestination: {
     color: "#1C5248",
@@ -293,12 +314,12 @@ const styles = StyleSheet.create({
   },
   rooms: {
     color: "#B2B2B2",
-    alignItems: "flex-end",
-    paddingLeft: "19%",
+    // alignItems: "flex-end",
+    // paddingLeft: "19%",
   },
 
   titles: {
-    paddingLeft: "30%",
+    // paddingLeft: "30%",
     color: "#1C5248",
     fontWeight: "700",
   },
@@ -390,7 +411,7 @@ const styles = StyleSheet.create({
     fontWeight: "700",
     fontFamily: "Roboto",
     paddingLeft: "2%",
-    marginTop: "2%",
+    marginTop: "3%",
   },
   hoteltext: {
     color: "#1C5248",

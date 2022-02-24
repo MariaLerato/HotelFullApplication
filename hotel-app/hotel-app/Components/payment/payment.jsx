@@ -124,7 +124,7 @@ const PaymentMethod = ({navigation,route})=>{
               name:values.name,
               date:values.date,
               cvv:values.cvv,
-              Totalprice:Totalprice,
+              roomPrice:Totalprice,
               guests:Guestnumber,
               Room:Roomname,
               hotelname:hotelname,

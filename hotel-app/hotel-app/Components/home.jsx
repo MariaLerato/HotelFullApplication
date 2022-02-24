@@ -64,22 +64,17 @@ const Home = ({ AddBooking, navigation }) => {
   };
   useEffect(() => {
     retrieveData();
-    CalculateDifference();
+    // CalculateDifference();
   }, []);
 
-//   var a = moment(checkOut);
-//   var b = moment(date);
-//  var differents=(a.diff(b, 'days'));
-  const CalculateDifference = (date1,date2,values) => {
+  const CalculateDifference = (date1, date2) => {
     var a = moment(date1);
     var b = moment(date2);
- setdays(a.diff(b, 'days'));
-   console.log(date1,'---',date2)
-   console.log(a.diff(b, 'days'));
-   console.log('differemce',differents)
-
-//   console.log('num',days)
-}
+    setdays(a.diff(b, "days"));
+    console.log(date1, "---", date2);
+    console.log(a.diff(b, "days"));
+ 
+  };
   return (
     <>
       <View style={styles.image}>
@@ -112,17 +107,17 @@ const Home = ({ AddBooking, navigation }) => {
           }}
           validateOnMount={true}
           validationSchema={Validate}
-          onSubmit={(values) =>{
+          onSubmit={(values) => {
             CalculateDifference(values.checkOut, values.date);
-           navigation.navigate("Search" , {
-                location: values.place,
-                roomNo: values.rooms,
-                guestNo:values.guests,
-                dateIn: values.date,
-                dateOut: values.checkOut,
-                days:days })
-            }
-         }
+            navigation.navigate("Search", {
+              location: values.place,
+              roomNo: values.rooms,
+              guestNo: values.guests,
+              dateIn: values.date,
+              dateOut: values.checkOut,
+              days: days,
+            });
+          }}
         >
           {({
             errors,
@@ -173,6 +168,7 @@ const Home = ({ AddBooking, navigation }) => {
                       },
                     }}
                     onDateChange={handleChange("date")}
+                    onCloseModal={CalculateDifference}
                   />
                   {errors.date && touched.date ? (
                     <Text style={styles.error}>{errors.date}</Text>
@@ -184,7 +180,6 @@ const Home = ({ AddBooking, navigation }) => {
                     date={values.checkOut}
                     mode="date"
                     placeholder="Check out"
-               
                     minDate={"2021-12-20"}
                     maxDate={"2022-12-30"}
                     confirmBtnText="Confirm"
@@ -203,12 +198,12 @@ const Home = ({ AddBooking, navigation }) => {
                       },
                     }}
                     onDateChange={handleChange("checkOut")}
+                    onCloseModal={CalculateDifference}
                   />
                   {errors.checkOut && touched.checkOut ? (
                     <Text style={styles.error}>{errors.checkOut}</Text>
                   ) : null}
                 </View>
-                
               </View>
               <View style={styles.numberText}>
                 <TextInput
@@ -237,7 +232,7 @@ const Home = ({ AddBooking, navigation }) => {
               {errors.rooms && touched.rooms ? (
                 <Text style={styles.error}>{errors.rooms}</Text>
               ) : null}
-{/* <Text>{differents}gh</Text> */}
+              {/* <Text>{differents}gh</Text> */}
               <TouchableOpacity
                 style={styles.touchableOpacity}
                 onPress={handleSubmit}
@@ -334,4 +329,4 @@ const styles = StyleSheet.create({
     fontSize: 11,
   },
 });
-export default Home
+export default Home;

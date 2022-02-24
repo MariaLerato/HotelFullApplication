@@ -17,6 +17,7 @@ const MyBookings = ({ navigation }) => {
   const maslow = require("../../assets/maslow.png");
   const [hotelGuest, setGuest] = useState([]);
   const [client, setClient] = useState([]);
+  const [isLoadig,setLoading] = useState(true)
 
   const SearchInput = () => {
     return (
@@ -31,6 +32,7 @@ const MyBookings = ({ navigation }) => {
   const retrieveGuest = (e) => {
     BackendInfo.getAllGuests().then((res) => {
       console.log(res.data);
+      setLoading(false)
       setGuest(res.data.hotelGuest);
     });
   };
@@ -52,31 +54,37 @@ const MyBookings = ({ navigation }) => {
   const ShowBookings = () => {
     return (
       <>
-        {hotelGuest.map((data) => (
+      {isLoadig?(
+        <Text>Please Wait While We Sync Your Bookings</Text>
+      ):(
+        <>
+           {hotelGuest.map((data) => {
           
-              <ListItem key={data._id} >
-                  <Avatar size={'medium'} source={{ uri: data.hotelImage }}></Avatar>
-               <ListItem.Content>
-               
-                  <ListItem.Title style={{ color: "#1C5248",fontSize:20}}>{data.hotelname}</ListItem.Title>
-                </ListItem.Content>
-                <ListItem.Chevron
-                  onPress={() =>
-                    navigation.navigate("historyDetails", {
-                      hotelname: data.hotelname,
-                      dateIn: data.dateIn,
-                      dateOut: data.dateOut,
-                      roomNo: data.rooms,
-                      Totalprice: data.roomPrice,
-                      name: data.name,
-                      image: data.hotelImage,
-                    })
-                  }
-                />
-              </ListItem>
-          
-          
-        ))}
+          <ListItem key={data._id} >
+              <Avatar size={'medium'} source={{ uri: data.hotelImage }}></Avatar>
+           <ListItem.Content>
+              <ListItem.Title style={{ color: "#1C5248",fontSize:20}}>{data.hotelname}</ListItem.Title>
+            </ListItem.Content>
+            <ListItem.Chevron
+              onPress={() =>
+                navigation.navigate("historyDetails", {
+                  hotelname: data.hotelname,
+                  dateIn: data.dateIn,
+                  dateOut: data.dateOut,
+                  roomNo: data.rooms,
+                  Totalprice: data.roomPrice,
+                  name: data.name,
+                  image: data.hotelImage,
+                })
+              }
+            />
+          </ListItem>
+      
+      
+            })}
+        </>
+      )}
+     
       </>
     );
   };

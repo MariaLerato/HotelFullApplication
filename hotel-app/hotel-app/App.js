@@ -59,7 +59,7 @@ const Menu = () => {
             <Stack.Screen name={"bathA"} component={BathA} />
             <Stack.Screen name={"bookingDetails"} component={Confirm} />
             <Stack.Screen name={"payment"} component={PaymentMethod} />
-            <Stack.Screen name={"finalpayment"} component={ConfirmPayment} />
+            {/* <Stack.Screen name={"finalpayment"} component={ConfirmPayment} /> */}
             <Stack.Screen name={"paymentmethod"} component={Method} />
             <Stack.Screen name={"message"} component={Message} />
             <Stack.Screen name={"review"} component={Review} />
@@ -104,7 +104,7 @@ const Menu = () => {
             <Stack.Screen name={"bathA"} component={BathA} />
             <Stack.Screen name={"bookingDetails"} component={Confirm} />
             <Stack.Screen name={"payment"} component={PaymentMethod} />
-            <Stack.Screen name={"finalpayment"} component={ConfirmPayment} />
+            {/* <Stack.Screen name={"finalpayment"} component={ConfirmPayment} /> */}
             <Stack.Screen name={"paymentmethod"} component={Method} />
             <Stack.Screen name={"message"} component={Message} />
             <Stack.Screen name={"review"} component={Review} />

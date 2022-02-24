@@ -33,13 +33,14 @@ const PretoriaHotels = ({ navigation, route }) => {
     retrieveData();
 
   }, []);
+  console.log('days',days)
   let searchString = city;
   const searchData = hotels.filter((data) =>
     data.city.includes(searchString)
   );
   return (
     <>
-      <View style={{flex:1, backgroundColor:'white'}}>
+      <View style={{flex:1, backgroundColor:'white',}}>
         <View
           style={{
             display: "flex",
@@ -56,36 +57,46 @@ const PretoriaHotels = ({ navigation, route }) => {
           </Text>
         </View>
         <ScrollView>
-        
           {
-            searchData.map(data=>
-              <View key={data._id}>
-             <ListItem key={data._id} >
-                  <Avatar size={'xlarge'} source={{ uri: data.image.image }} onPress={() =>
-                    navigation.navigate("hotelrooms", {
-                      roomNo:roomNo,
-                       main:data.image.image,
-                       name:name,
-                       dateIn:dateIn,
-                       dateOut:dateOut,
-                       guestNo:guestNo,
-                       location:location,
-                       email:data.email,
-                       days:days
-                 
-                    })}></Avatar>
-               
-               <ListItem.Content  >
-                  <ListItem.Title style={{ color: "#1C5248",fontSize:20}}>{data.name}</ListItem.Title>
-                  <ListItem.Subtitle>{data.text}</ListItem.Subtitle>
-                </ListItem.Content>
+            !isLoaded?(
+              <Text>Please Wait While We Load Your Hotels</Text>
+            ):(
+              <>{
+                searchData.map(data=>
+                  <View key={data._id}>
+                 <ListItem key={data._id} >
+                      <Avatar size={'xlarge'} source={{ uri: data.image.image }}  onPress={() =>
+                        navigation.navigate("hotelrooms", {
+                          roomNo:roomNo,
+                           main:data.image.image,
+                           name:data.name,
+                           dateIn:dateIn,
+                           dateOut:dateOut,
+                           guestNo:guestNo,
+                           location:location,
+                           email:data.email,
+                           days:days
+                     
+                        })}></Avatar>
+                   
+                   <ListItem.Content  >
+                      <ListItem.Title style={{ color: "#1C5248",fontSize:20}}>{data.name}</ListItem.Title>
+                      <ListItem.Subtitle style={{fontSize:10}}>{data.text}</ListItem.Subtitle>
+                      <ListItem.Subtitle style={{color:'#FAA455'}}>Hotel Reviews</ListItem.Subtitle>
+                    </ListItem.Content>
+                  
+                
+                  </ListItem>
+              </View>
+                  
+                  )
+              }
+              </>
               
-            
-              </ListItem>
-          </View>
-              
-              )
+            )
           }
+        
+         
          
         </ScrollView>
       </View>

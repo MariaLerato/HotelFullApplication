@@ -37,6 +37,60 @@ export  default class HotelGuestsDAO{
             console.error(`Unable to post hotel guests :${e}`)
         }
     }
+    static async addGuestHistory(hotelId,roomId,GuestInfo){
+        try{
+            const guestHoc = {
+                hotelId:hotelId,
+                roomId:roomId,
+                name:GuestInfo.name,
+                rooms:GuestInfo.rooms,
+                guests:GuestInfo.guests,
+                roomPrice:GuestInfo.roomPrice,
+                hotelImage:GuestInfo.hotelImage,
+                dateIn:GuestInfo.dateIn,
+                dateOut:GuestInfo.dateOut
+            }
+            console.log(guestHoc)
+            return await hotelGuests.insertOne(guestHoc)
+        }catch(e){
+            console.error(`Unable to post guests in history:${e}`)
+        }
+    }
+    static async deleteHotelGuest(hotelId,roomId){
+        try{
+            const deleteHistory = await hotelGuests.deleteMany({
+                _id:ObjectId(hotelId),
+                userId:ObjectId(userId)
+            })
+            return deleteHistory
+        }catch(e){
+            console.error(`Unable to delete hotel guest:${e}`);
+        }
+    
+    }
+    static async getGuestHistory(
+        {
+            filters = null,
+            page=0,
+            GuestPerPage = 10,
+        } = {}){
+        let query
+        let cursor
+        try{
+            cursor = await hotelGuests
+            .find(query)
+        }catch(e){
+            console.log(`Unable to issue or find a command:${e}`)
+        }
+        const displayCursor = cursor.limit(GuestPerPage).skip(GuestPerPage * page)
+        try{
+            const HistoryList = await displayCursor.toArray()
+            const totalNumHistory =  await hotelGuests.countDocuments(query)
+            return {HistoryList:[], totalNumHistory:0}
+        }catch(e){
+            console.log(`Unable to convert cursor to array,${e}`);
+        }
+    }
     static async getHotelGuests({
         filters = null,
         page=0,
