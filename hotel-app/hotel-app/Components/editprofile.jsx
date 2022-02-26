@@ -8,7 +8,7 @@ import EditComponent from './editComponent';
 import BackendInfo from './service/service'
 
 const EditProfile = ({ navigation }) => {
-    const [image, setImage] = useState(null)
+    const [image, setImage] = useState()
     const [name, setName] = useState('')
     const [surname, setSurname] = useState('')
     const [email, setEmail] = useState('')
@@ -16,19 +16,32 @@ const EditProfile = ({ navigation }) => {
     const [password, setPassword] = useState()
     const [userId, setId] = useState(0)
 
-        let openImagePickerAsync = async ()=>{
-            let permissionResult = await ImagePicker.requestMediaLibraryPermissionsAsync();
-            if(permissionResult.granted===false){
-                alert("Permissionn to access camera roll is required")
-                return;
-            }
-            let pickerResult = await ImagePicker.launchImageLibraryAsync();
-            if(pickerResult.cancelled===true){
-                return;
-            }
-            setImage({localUri:pickerResult.base64})
-            console.log(pickerResult)
+    let openImagePickerAsync = async () => {
+        let permissionResult = await ImagePicker.requestMediaLibraryPermissionsAsync();
+        if (permissionResult.granted === false) {
+            alert("Permissionn to access camera roll is required")
+            return;
         }
+        let pickerResult = await ImagePicker.launchImageLibraryAsync({
+            mediaTypes:ImagePicker.MediaTypeOptions.Images,
+            allowsEditing:true,
+            aspect:[3,3],
+            quality:1,
+            base64:true
+        });
+        
+        if(!pickerResult.cancelled){
+            setImage("data:image/jpeg;base64,"+pickerResult.base64)
+        }else{
+            console.log('cancelled')
+        }
+        // if (pickerResult.cancelled === true) {
+        //     return;
+        // }
+        // setImage({ localUri: pickerResult.uri })
+        // console.log(pickerResult)
+
+    }
     async function PostClient(e) {
         e.preventDefault()
         const newClient = {
@@ -43,7 +56,7 @@ const EditProfile = ({ navigation }) => {
             .then((res) => {
                 console.log(res.data)
             }).catch((e) => {
-                console.log(e)
+                console.log('error posting',e)
             })
         navigation.goBack()
     }
@@ -58,18 +71,29 @@ const EditProfile = ({ navigation }) => {
                     <TouchableOpacity onPress={PostClient}><Text style={Styles.subtext}>Done</Text></TouchableOpacity>
                 </View>
                 <View style={{ alignItems: 'center', marginTop: '2%' }}>
-                <Avatar source={{uri:image.localUri}} rounded style={{ width: 100, height: 100,borderRadius:50}}></Avatar>
+                {!image?(<>
+                            <ProfilePicture
+                    isPicture={false}
+                    shape={'circle'}
+                    user={'User Name'}
+                    width={100}
+                    height={100}
+                    backgroundColor={'white'}
+                    userTextColor={'#1C5248'}
+                    />
+                        </>):(
+                    <Avatar source={{ uri: image.localUri }} rounded style={{ width: 100, height: 100, borderRadius: 50 }}/>
+                    )}
                     <TouchableOpacity onPress={openImagePickerAsync}>
                         <Text style={{ color: 'white', fontSize: 24, marginBottom: '2%' }}>Change Profile Picture</Text>
                     </TouchableOpacity>
                     <View style={{ width: '100%', alignItems: 'center' }}>
-                        <TextInput  label={'First Name'} value={name} onChangeText={(e) => setName(e)} style={{ backgroundColor: '#E8FDF9', borderRadius: 10, width: '80%', margin: '2%' }} />
-                        <TextInput  label={'Last Name'} value={surname} onChangeText={(e) => setSurname(e)} style={{ backgroundColor: '#E8FDF9', borderRadius: 10, width: '80%', margin: '2%' }} />
-                        <TextInput  label={'Email Address'} value={email} onChangeText={(e) => setEmail(e)} style={{ backgroundColor: '#E8FDF9', borderRadius: 10, width: '80%', margin: '2%' }} />
+                        <TextInput label={'First Name'} value={name} onChangeText={(e) => setName(e)} style={{ backgroundColor: '#E8FDF9', borderRadius: 10, width: '80%', margin: '2%' }} />
+                        <TextInput label={'Last Name'} value={surname} onChangeText={(e) => setSurname(e)} style={{ backgroundColor: '#E8FDF9', borderRadius: 10, width: '80%', margin: '2%' }}/>
+                        <TextInput label={'Email Address'} value={email} onChangeText={(e) => setEmail(e)} style={{ backgroundColor: '#E8FDF9', borderRadius: 10, width: '80%', margin: '2%' }} />
                         <TextInput type={'password'} label={'Old Password'} value={password} onChangeText={(e) => setPassword(e)} style={{ backgroundColor: '#E8FDF9', borderRadius: 10, width: '80%', margin: '2%' }} />
-                        <TextInput  label={'New Password'} style={{ backgroundColor: '#E8FDF9', borderRadius: 10, width: '80%', margin: '2%' }} />
+                        <TextInput label={'New Password'} style={{ backgroundColor: '#E8FDF9', borderRadius: 10, width: '80%', margin: '2%' }} />
                     </View>
-    
                 </View>
             </ScrollView>
         </>

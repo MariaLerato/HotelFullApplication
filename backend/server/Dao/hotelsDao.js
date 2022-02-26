@@ -16,7 +16,7 @@ export default class HotelDAO{
             )
         }
     }
-    static async addHotel(hotelId,image,adminInfo,name,text,province,city){
+    static async addHotel(hotelId,image,adminInfo,name,text,province,city,address){
         try{
             const hotelDoc = { 
             hotel_id:hotelId, 
@@ -26,7 +26,9 @@ export default class HotelDAO{
             name: name,
             text:text,
             province:province,
-            city:city
+            city:city,
+            longitude:address.longitude,
+            latitude:address.latitude
             }
             console.log('info',hotelDoc)
            return await hotels.insertOne(hotelDoc)

@@ -6,7 +6,7 @@ import Info from '../info';
 
 const Detail = ({ route, navigation }) => {
 
-    const {name,main,roomNo,des,price,location,longitude,latitude, roomName,dateIn,dateOut,guestNo,roomId,days} = route.params
+    const {name,main,roomNo,des,price,location,longitude,latitude, roomName,dateIn,dateOut,guestNo,roomId,days,id} = route.params
 
 
     return (
@@ -50,7 +50,8 @@ const Detail = ({ route, navigation }) => {
                     longitude:longitude,
                     latitude:latitude,
                     hotelname:name,
-                    price:price
+                    price:price,
+                    id:id
                 })}>
                     <ImageBackground source={require('../../assets/map.png')} style={{width:344,height:150,alignSelf:'center',marginTop:'5%',borderRadius:20,overflow:'hidden'}}>
                         <TouchableOpacity  onPress={()=>navigation.navigate('bookingDetails',{

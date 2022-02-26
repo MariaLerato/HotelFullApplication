@@ -38,6 +38,7 @@ import Limpoporooms from "./Components/hotelLocation/limpopo/limpopoRooms";
 import "localstorage-polyfill";
 import Pay from "./Components/payment/pay";
 import SearchBookings from "./Components/BookingHisttory/SearchBookings";
+import Profile from "./Components/profile";
 
 const Menu = () => {
   const Stack = createNativeStackNavigator();
@@ -53,15 +54,16 @@ const Menu = () => {
       >
         {uid ? (
           <>
+            
             <Stack.Screen name={"bottomTab"} component={TabNavigator} />
             <Stack.Screen name={"roomA"} component={RoomA} />
             <Stack.Screen name={"other"} component={RoomB} />
             <Stack.Screen name={"bathA"} component={BathA} />
-            <Stack.Screen name={"bookingDetails"} component={Confirm} />
             <Stack.Screen name={"payment"} component={PaymentMethod} />
-            {/* <Stack.Screen name={"finalpayment"} component={ConfirmPayment} /> */}
+            <Stack.Screen name={"finalpayment"} component={ConfirmPayment} />
             <Stack.Screen name={"paymentmethod"} component={Method} />
             <Stack.Screen name={"message"} component={Message} />
+            <Stack.Screen name={"profile"} component={Profile} />
             <Stack.Screen name={"review"} component={Review} />
             <Stack.Screen name={"feedback"} component={Feedback} />
             <Stack.Screen name={"notification"} component={Notification} />
@@ -87,6 +89,7 @@ const Menu = () => {
             <Stack.Screen name={"resetpassword"} component={Reset} />
             <Stack.Screen name={"passwordAlert"} component={Alert} />
             <Stack.Screen name={"bottomTab"} component={TabNavigator} />
+            <Stack.Screen name={"profile"} component={Profile} />
             <Stack.Screen
               name={"SignIn"}
               component={SignIn}
@@ -104,7 +107,6 @@ const Menu = () => {
             <Stack.Screen name={"bathA"} component={BathA} />
             <Stack.Screen name={"bookingDetails"} component={Confirm} />
             <Stack.Screen name={"payment"} component={PaymentMethod} />
-            {/* <Stack.Screen name={"finalpayment"} component={ConfirmPayment} /> */}
             <Stack.Screen name={"paymentmethod"} component={Method} />
             <Stack.Screen name={"message"} component={Message} />
             <Stack.Screen name={"review"} component={Review} />

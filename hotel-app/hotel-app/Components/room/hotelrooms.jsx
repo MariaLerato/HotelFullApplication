@@ -24,7 +24,8 @@ const hotelroom = ({ navigation, route }) => {
     guestNo,
     location,
     email,
-    days
+    days,
+    id
   } = route.params;
   const [hotelrooms, setHotelRoom] = useState([]);
   const [isLoaded,setIsLoaded] = useState(false)
@@ -62,7 +63,7 @@ const hotelroom = ({ navigation, route }) => {
       </View>
       <View>
         {!isLoaded?(
-        <Text>Please Wait for your rooms to load</Text> 
+        <Text>Please Wait While We Sync Your Rooms</Text> 
         ):(
         <> 
         {SearchRooms.map((data) => (
@@ -86,7 +87,8 @@ const hotelroom = ({ navigation, route }) => {
                     latitude: latitude,
                     guestNo: guestNo,
                     location: location,
-                    days:days
+                    days:days,
+                    id:id
                   })
                 }
               >

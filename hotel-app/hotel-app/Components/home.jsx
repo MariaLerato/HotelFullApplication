@@ -5,11 +5,9 @@ import {
   StyleSheet,
   Image,
   TouchableOpacity,
-  Picker,
   TextInput,
 } from "react-native";
-import { Icon, Input } from "react-native-elements";
-import Info from "./info";
+
 import DatePicker from "react-native-datepicker";
 import * as Yup from "yup";
 import { Formik } from "formik";
@@ -31,8 +29,8 @@ const Home = ({ AddBooking, navigation }) => {
 
   const Validate = Yup.object({
     place: Yup.string().required("Missing"),
-    rooms: Yup.string().required("Missing").max(2, "Invalid"),
-    guests: Yup.string().required("Missing").max(2, "Too Long"),
+    rooms: Yup.number().required("Missing").max(2, "Not More Than Two Characters"),
+    guests: Yup.number().required("Missing").max(2, "Too Many Guests"),
     date: Yup.date().required("Missing"),
     checkOut: Yup.date().required("Missing"),
   });
@@ -64,7 +62,7 @@ const Home = ({ AddBooking, navigation }) => {
   };
   useEffect(() => {
     retrieveData();
-    // CalculateDifference();
+  
   }, []);
 
   const CalculateDifference = (date1, date2) => {
@@ -73,7 +71,6 @@ const Home = ({ AddBooking, navigation }) => {
     setdays(a.diff(b, "days"));
     console.log(date1, "---", date2);
     console.log(a.diff(b, "days"));
- 
   };
   return (
     <>
@@ -84,8 +81,11 @@ const Home = ({ AddBooking, navigation }) => {
         />
       </View>
       <View style={styles.container}>
+
+
         {client.map((data) => (
-          <View style={styles.header} key={data._id}>
+        <>
+              <View style={styles.header} key={data._id}>
             <View>
               <Text style={styles.headertext}>Hi {data.name}</Text>
               <Text
@@ -94,8 +94,9 @@ const Home = ({ AddBooking, navigation }) => {
                 Where do you want to stay?
               </Text>
             </View>
-            <Image source={{ uri: data.image }} width={50} height={50} />
-          </View>
+            <Image source={{ uri:data.image.localUri}} style={{ width: 60, height: 60,borderRadius:40 }}></Image>
+          </View> 
+        </>
         ))}
         <Formik
           initialValues={{
@@ -232,7 +233,6 @@ const Home = ({ AddBooking, navigation }) => {
               {errors.rooms && touched.rooms ? (
                 <Text style={styles.error}>{errors.rooms}</Text>
               ) : null}
-              {/* <Text>{differents}gh</Text> */}
               <TouchableOpacity
                 style={styles.touchableOpacity}
                 onPress={handleSubmit}
@@ -263,6 +263,7 @@ const styles = StyleSheet.create({
     display: "flex",
     flexDirection: "row",
     width: "100%",
+    justifyContent:'space-between'
   },
   text: {
     backgroundColor: "#FFFFFF",

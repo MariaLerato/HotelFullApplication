@@ -8,7 +8,6 @@ import {
   ImageBackground,
   ScrollView,
 } from "react-native";
-import Info from "./info";
 import { Icon } from "react-native-elements";
 import SearchAlt from "./searchAlt";
 import ProfilePicture from "react-native-profile-picture";
@@ -55,7 +54,7 @@ const Search = ({ navigation, route }) => {
     BackendInfo.getClient()
       .then((res) => {
         console.log(res.data);
-        setIsLoaded(false);
+        setIsLoaded(true);
         setClient(res.data);
       })
       .catch((e) => {
@@ -65,19 +64,20 @@ const Search = ({ navigation, route }) => {
   useEffect(() => {
     retrieveData();
     getClient();
-   
   }, []);
 
   let searchString = location;
   const searchData = hotels.filter((data) =>
-    data.province.includes(searchString)
+    data.province.toUpperCase().includes(searchString)
   );
   const DisplayHotels = () => {
     return (
-      
         <View
      style={{flexDirection:'row',paddingLeft:'6%'}}
         >
+          {/* {!isLoading?(<>
+          <Text>Please Wait While We Sync The </Text>
+          </>)} */}
           {searchData.map((data) => (
             <View style={{ padding: "2%" }} key={data._id}>
               <ImageBackground
@@ -130,11 +130,12 @@ const Search = ({ navigation, route }) => {
               <View style={styles.ImageContainer}>
                 <ProfilePicture
                   isPicture={true}
-                  requirePicture={{ uri: action.image }}
+                  requirePicture={{ uri: action.image.localUri }}
                   shape="circle"
                   pictureResizeMode="cover"
                   pictureStyle={styles.Image}
                 />
+
                 <View style={styles.name}>
                   <Text style={styles.profilename}>
                     {action.name} {action.surname}
@@ -187,9 +188,6 @@ const Search = ({ navigation, route }) => {
           <View style={{ marginTop: "-3%" }}>
             <View style={styles.map}>
               <Text style={styles.location}>By Location</Text>
-              {/* <TouchableOpacity onPress={() => navigation.navigate("hotels")}>
-                <Text style={styles.view}>View All</Text>
-              </TouchableOpacity> */}
             </View>
             <View style={{ marginTop: "-2%"  ,
                   height: 190,}}>
@@ -284,7 +282,7 @@ const styles = StyleSheet.create({
   },
   alarm: {
     marginTop: "5%",
-    marginLeft: "20%",
+    marginLeft: "18%",
   },
   container: {
     backgroundColor: "#FBF4F4",

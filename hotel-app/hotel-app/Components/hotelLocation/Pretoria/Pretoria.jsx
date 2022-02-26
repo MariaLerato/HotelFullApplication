@@ -14,15 +14,14 @@ import BackendInfo from '../../service/service'
 
 const PretoriaHotels = ({ navigation, route }) => {
   const [hotels, setHotels] = useState([]);
-  const { hotelpic, des, name ,place,roomNo, dateIn, dateOut,guestNo,location,days,city} = route.params;
+  const {roomNo, dateIn, dateOut,guestNo,location,days,city} = route.params;
   const [isLoaded,setIsLoaded] = useState(false)
-
 
   const retrieveData = () => {
     BackendInfo.getAll()
       .then((res) => {
-        console.log('sandton',res.data);
-        setIsLoaded(true)
+        console.log('location',res.data);
+        setIsLoaded(true);
         setHotels(res.data);
       })
       .catch((e) => {
@@ -34,6 +33,8 @@ const PretoriaHotels = ({ navigation, route }) => {
 
   }, []);
   console.log('days',days)
+
+
   let searchString = city;
   const searchData = hotels.filter((data) =>
     data.city.includes(searchString)
@@ -49,7 +50,7 @@ const PretoriaHotels = ({ navigation, route }) => {
             alignItems: "center",
           }}
         >
-          <TouchableOpacity onPress={() => navigation.goBack()}>
+          <TouchableOpacity style={{marginLeft:'3%'}} onPress={() => navigation.goBack()}>
             <Icon name={"arrow-back"} size={25} color={"#1C5248"} />
           </TouchableOpacity>
           <Text style={{ fontSize: 25, paddingLeft: "8%", color: "#1C5248" }}>
@@ -59,7 +60,7 @@ const PretoriaHotels = ({ navigation, route }) => {
         <ScrollView>
           {
             !isLoaded?(
-              <Text>Please Wait While We Load Your Hotels</Text>
+              <Text style={{padding:'2%'}}>Please Wait While We Load Your Hotels</Text>
             ):(
               <>{
                 searchData.map(data=>
@@ -75,7 +76,8 @@ const PretoriaHotels = ({ navigation, route }) => {
                            guestNo:guestNo,
                            location:location,
                            email:data.email,
-                           days:days
+                           days:days,
+                           id:data.hotel_id
                      
                         })}></Avatar>
                    

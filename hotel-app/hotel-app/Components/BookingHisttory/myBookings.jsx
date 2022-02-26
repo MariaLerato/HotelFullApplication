@@ -9,15 +9,14 @@ import {
   StyleSheet,
 } from "react-native";
 import { Icon, Input, Avatar, ListItem } from "react-native-elements";
-import { img } from "../gallery/reusables";
+// import { img } from "../gallery/reusables";
 import BackendInfo from "../service/service";
 
 const MyBookings = ({ navigation }) => {
-  const palm = require("../../assets/palm.png");
-  const maslow = require("../../assets/maslow.png");
+
   const [hotelGuest, setGuest] = useState([]);
   const [client, setClient] = useState([]);
-  const [isLoadig,setLoading] = useState(true)
+  const [isLoadig,setLoading] = useState(false)
 
   const SearchInput = () => {
     return (
@@ -31,10 +30,13 @@ const MyBookings = ({ navigation }) => {
   };
   const retrieveGuest = (e) => {
     BackendInfo.getAllGuests().then((res) => {
-      console.log(res.data);
-      setLoading(false)
+      console.log('guest',res.data.hotelGuest);
+      setLoading(true)
       setGuest(res.data.hotelGuest);
-    });
+      console.log('log---------------------------')
+    }).catch((e)=>{
+      console.log('error',e);
+    })
   };
   const getClient = () => {
     BackendInfo.getClient()
@@ -49,24 +51,23 @@ const MyBookings = ({ navigation }) => {
   };
   useEffect(() => {
     retrieveGuest();
-    getClient();
   }, []);
+
   const ShowBookings = () => {
     return (
       <>
-      {isLoadig?(
+      {!isLoadig?(
         <Text>Please Wait While We Sync Your Bookings</Text>
       ):(
         <>
-           {hotelGuest.map((data) => {
-          
+           {hotelGuest.map((data) => 
           <ListItem key={data._id} >
               <Avatar size={'medium'} source={{ uri: data.hotelImage }}></Avatar>
            <ListItem.Content>
               <ListItem.Title style={{ color: "#1C5248",fontSize:20}}>{data.hotelname}</ListItem.Title>
             </ListItem.Content>
             <ListItem.Chevron
-              onPress={() =>
+              onPress={()=>
                 navigation.navigate("historyDetails", {
                   hotelname: data.hotelname,
                   dateIn: data.dateIn,
@@ -79,11 +80,10 @@ const MyBookings = ({ navigation }) => {
               }
             />
           </ListItem>
-      
-      
-            })}
+            )}
+            
         </>
-      )}
+      )} 
      
       </>
     );
@@ -96,14 +96,14 @@ const MyBookings = ({ navigation }) => {
             style={{
               fontSize: 28,
               color: "#1C5248",
-              paddingLeft: "4%",
-              marginTop: "5%",
+              paddingLeft: "2%",
+              marginTop: "3%",
               fontWeight:'700'
             }}   
           >
             My Bookings
           </Text>
-          <TouchableOpacity onPress={()=>navigation.navigate('SearchBookings')} style={{   marginTop: "5%",}}>
+          <TouchableOpacity onPress={()=>navigation.navigate('SearchBookings')} style={{marginTop: "5%",paddingRight:'2%'}}>
              <Icon name='search' type='font-awesome' color={"#1C5248"} size={25} />
           </TouchableOpacity>
         </View>
