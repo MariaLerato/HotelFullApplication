@@ -4,8 +4,8 @@ import HotelRoomCtrl from '../Controllers/hotelRooms.controllers.js'
 import HotelGuestCtrl from "../Controllers/hotelGuests.controller.js"
 import FacilityController from '../Controllers/hotelFacility.js'
 import UserController from '../Controllers/User.controllers.js'
-import { SignIn,SignUp } from '../Controllers/AdminController.js'
 import ClientCtrl from '../Controllers/ClientController.js'
+import ReviewsCtrl from '../Controllers/Reviews.js'
 
 const router = express.Router()
 
@@ -13,12 +13,15 @@ const router = express.Router()
 router.route("/")
 .get(HotelsCtrl.apiGetHotels)
 .post(HotelsCtrl.apiPostHotel)
-
-.delete(HotelsCtrl.apiDeleteHotel)
 .put(HotelsCtrl.apiUpdateHotel)
+.delete(HotelsCtrl.apiDeleteHotel)
 
-router.route('/adminSignIn').post(SignIn)
-router.route('/adminSignUp').post(SignUp)
+router.route("/review").post(ReviewsCtrl.apiPostReview)
+.delete(ReviewsCtrl.apiDeleteReview)
+
+.put(ReviewsCtrl.apiUpdateReview)
+
+
 router.route("/id/:id")
 .get(HotelsCtrl.apiGetRestaurantById)
 
@@ -39,6 +42,7 @@ router.route("/log").get(UserController.apiGetUser)
 router.route("/guests").get(HotelGuestCtrl.apiGetHotelGuests)
 .post(HotelGuestCtrl.apiPostHotelGuests)
 .delete(HotelGuestCtrl.apiDeleteHotelGuests)
+.put(HotelGuestCtrl.apiUpdateHotelGuest)
 
 
 router.route('/facility').post(FacilityController.apiPostFacility)

@@ -1,7 +1,6 @@
 import mongodb from 'mongodb'
 
-const ObjectId = mongodb.ObjectID
-
+const ObjectId = mongodb.ObjectId
 let Client
 
 export default class ClientDao{
@@ -15,16 +14,17 @@ export default class ClientDao{
             console.log(`Unable to establish a connection handle at ClientDao:${e}`)
         }
     }
-    static async addClient(userId,personal,date){
+    static async addClient(userId,appId,name,surname,image,email,password,date){
         try{
             const clientDao ={
+                appId:appId,
                 userId:userId,
-                name:personal.name,
-                surname:personal.surname,
-                age:personal.age,
-                image:personal.image,
-                email:personal.email,
-                password:personal.password,
+                name:name,
+                surname:surname,
+                age:age,
+                image:image,
+                email:email,
+                password:password,
                 date:date
             }
             console.log(clientDao)
@@ -40,6 +40,7 @@ export default class ClientDao{
         ClientPerPage = 10,
     }={}){
         let cursor
+
         let query
         try{
             cursor = await Client
@@ -58,15 +59,19 @@ export default class ClientDao{
             return {ClientList:[],totalNumClientList:0}
         }
     }
-    static async updateClient(userId,personal){
+    static async updateClient(userId,hotelId,name,surname,image,email,date){
         try{
             const updateClient = await Client.updateOne(
-                {userId:ObjectId(userId)},
-                {$set:{ name:personal.name,surname:personal.surname,image:personal.image,age:personal.age,email:personal.email,password:personal.password,}}
+                {user_id:userId,},
+                {$set:{ name:name,surname:surname,image:image,email:email,date:date,}}
             )
+            console.log('{{{{}}}}}')
+            console.log("dafk",updateClient)
             return updateClient
         }catch(e){
-            console.error(`Unable to update review`)
+            console.error(`Unable to update client info:${e}`)
+            // return{error:e}
         }
+        
     }
 }

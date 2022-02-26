@@ -34,9 +34,11 @@ find(query,by = "guest", page = 0){
 deleteRoom(id){
     return httpCommon.delete(`?id=${id}`)
 }
-update(data,id){
-    console.log(data)
-    return httpCommon.put("/",data)
+updateRoom(data){
+    return httpCommon.put("/room",data)
+}
+updateGuest(data){
+    return httpCommon.put("/guests",data)
 }
 }
 export default new BackendInfo()

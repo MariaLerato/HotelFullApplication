@@ -15,6 +15,7 @@ export default class HotelDAO{
                 `Unable to establish a connection handle in hotelDao:${err},`
             )
         }
+        
     }
     static async addHotel(hotelId,image,adminInfo,name,text,province,city,address){
         try{

@@ -8,8 +8,7 @@ export default class HotelGuestController{
     static async apiPostHotelGuests(req,res,next){
         try{
             const hotelId = req.body.hotel_id
-            const roomId = req.body.roomId
-            const guestId=req.body.guestId
+            const user_id=req.body.user_id
             const GuestInfo = {
                 name:req.body.name,
                 rooms:req.body.rooms,
@@ -20,18 +19,13 @@ export default class HotelGuestController{
                 dateIn:req.body.dateIn,
                 dateOut:req.body.dateOut,
                 Room:req.body.Room
-        
             }
-            const status = {
-                checkIn :req.body.checkIn,
-                checkOut : req.body.checkOut
-            }
+            const status = req.body.status
             
             console.log("Details",req.body)
             const HotelGuestResponse = await HotelGuestDAO.addHotelGuests(
                ObjectId(hotelId),
-               roomId,
-               ObjectId(guestId),
+               user_id,
                GuestInfo
             )
             console.log(HotelGuestResponse)
@@ -118,6 +112,33 @@ export default class HotelGuestController{
                 hotelId,
                 userId
             )
+        }catch(e){
+            res.status(500).json({error:e.message})
+        }
+    }
+    static async apiUpdateHotelGuest(req,res,next){
+        try{
+            const hotelId = req.body.hotel_id
+            const status = req.body.status
+            const date = new Date()
+            const guestResponse = await HotelGuestDAO.updateHotelGuest(
+                hotelId,
+                req.body.user_id,
+                status,
+                date
+            )
+            console.log('guests',guestResponse)
+            res.json({status:"Success"})
+            var {error} = guestResponse
+            if(error){
+                res.status(400).json({error})
+            }
+            
+            if(guestResponse.modifiedCount ===0){
+                throw new Error(
+                    "unable to update guest - user may not be original poster"
+                )
+            }
         }catch(e){
             res.status(500).json({error:e.message})
         }

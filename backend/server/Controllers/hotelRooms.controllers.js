@@ -7,8 +7,10 @@ export default class HotelRoomController{
         try{
             const hotelId = req.body.hotel_id
             const roomId = req.body.roomId
+            const status=req.body.status
+            const userId = req.body.userId
             const roomInfo = {
-                roomName:req.body.roomName,
+               roomName:req.body.roomName,
                 roomType:req.body.roomType,
                 roomDes:req.body.roomType,
                 roomPrice:req.body.roomPrice
@@ -21,7 +23,8 @@ export default class HotelRoomController{
             const HotelRoomResponse = await HotelRoomDAO.addHotelRoom(
                 hotelId,
                 roomId,
-                roomInfo,images
+                roomInfo,images,status,
+                userId
             )
             console.log(HotelRoomResponse)
             res.json({status:"Success"})
@@ -54,11 +57,11 @@ export default class HotelRoomController{
     }
     static async apiDeleteHotelRooms(req,res,next){
         try{
-            const hotelId = req.query.id
-            const roomId = req.body.roomId
-            console.log(hotelId)
+            const roomId = req.query.id
+            const hotel_id = req.body.roomId
+            console.log(hotel_id)
             const HotelResponse = await HotelRoomDAO.deleteHotelRoom(
-              hotelId,
+              hotel_id,
               roomId
             )
                 console.log(HotelResponse)
@@ -72,21 +75,26 @@ export default class HotelRoomController{
             const roomId = req.body.room_id
             const status = req.body.status
             const date = new Date()
+            // const {roomId,roomName,date} = req.body
+            console.log('dets',req.body)
             const roomResponse = await HotelRoomDAO.updateHotelRoom(
                 roomId,
-                req.body.hotel_id,
+                req.body.user_id,
                 status,
                 date
             )
-            console.log(roomResponse)
+            console.log('--------------------')
+            console.log('responseRoom',roomResponse)
+            res.json({status:"Success"})
             var {error} = roomResponse
             if(error){
                 res.status(400).json({error})
             }
             if (roomResponse.modifiedCount === 0){
                 throw new Error(
-                    "unable to update hotel room"
+                    "unable to update hotel room user may not be original user"
                 )
+
             }
         }catch(e){
             res.status(500).json({error:e.message})

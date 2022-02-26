@@ -18,19 +18,23 @@ export default class ClientController{
     }
     static async apiPostClient(req,res){
         try{
+            const appId = req.body.app_id
             const userId = req.body.user_id
-            const personal = {
-                name:req.body.name,
-                surname:req.body.surname,
-                age:req.body.age,
-                image:req.body.image,
-                email:req.body.email,
-                password:req.body.password
-            }
+            const name=req.body.name
+            const  surname=req.body.surname
+             const  image=req.body.image
+             const  email=req.body.email
+            const   password=req.body.password
             const date = new Date()
+           
             const ClientRes = await ClientDao.addClient(
-                ObjectId(userId),
-                personal,
+                appId,
+                userId,
+                name,
+                surname,
+                image,
+                email,
+                password,
                 date
             )
             console.log(ClientRes)
@@ -41,32 +45,39 @@ export default class ClientController{
     }
     static async apiUpdateClient(req,res,next){
         try{
-            const userId = req.body.user_id
-            const personal ={
-                name:req.body.name,
-               surname:req.body.surname,
-                age:req.body.age,
-                image:req.body.image,
-                email:req.body.email,
-                password:req.body.password
-            }
-            const date = new Date()
-            const ClientResponse = await ClientDao.updateClient(
-               ObjectId(userId),
+            // const hotelId = req.body.hotel_id
+            //    const name=req.body.name
+            //  const  surname=req.body.surname
+            //   const  age=req.body.age
+            //   const  image=req.body.image
+            //   const  email=req.body.email
+            //  const   password=req.body.password
+             const date = new Date()
+           const {hotelId,name,surname,image,email,password} = req.body
+           console.log('modei',req.body)
+           
+           const ClientResponse = await ClientDao.updateClient(
+               hotelId,
                 req.body.user_id,
-                personal,
-                date
+                name,
+                surname,
+                image,
+                email,
+                password,
+                date,
             )
-            console.log(ClientResponse)
+            console.log("client",ClientResponse)
+            console.log({status:"Success"})
             var {error} = ClientResponse
             if(error){
                 res.status(400).json({error})
             }
             if (ClientResponse.modifiedCount === 0){
                 throw new Error(
-                    "unable to update hotel room"
+                    "unable to update client info user may not be original poster"
                 )
             }
+
         }catch(e){
             res.status(500).json({error:e.message})
         }

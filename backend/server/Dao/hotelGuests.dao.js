@@ -37,11 +37,11 @@ export  default class HotelGuestsDAO{
             console.error(`Unable to post hotel guests :${e}`)
         }
     }
-    static async addGuestHistory(hotelId,roomId,GuestInfo){
+    static async addGuestHistory(hotelId,GuestInfo){
         try{
             const guestHoc = {
                 hotelId:hotelId,
-                roomId:roomId,
+              
                 name:GuestInfo.name,
                 rooms:GuestInfo.rooms,
                 guests:GuestInfo.guests,
@@ -133,4 +133,19 @@ export  default class HotelGuestsDAO{
             return {error:e}
         }
     }
+    static async updateHotelGuest(hotelId,userId,status,date){
+        try{
+            const updateResponse = await hotelGuests.updateOne(
+                {user_id:userId,_id:ObjectId(hotelId)},
+                {$set:{status:status,date:date}}
+            )
+            console.log('-[[[[[[[[[')
+            return updateResponse
+        }catch(e){
+            console.error(`Unable to update hotel guest:${e}`)
+            return {error:e}
+        }
+    }
 }
+
+

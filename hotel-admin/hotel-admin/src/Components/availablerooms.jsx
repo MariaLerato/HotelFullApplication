@@ -138,7 +138,6 @@ const Rooms = ({users}) => {
                                                {users === data.email?(<>
                                                 <img src ={data.bedImage.bedImage} alt={'bedroom'} style={{width:144,height:90,borderRadius:10}}/>
                                                <button type='submit' style={{ height: 40, width: 144 }} onClick={deleteHotelRoom}>Not Available</button>
-                                               
                                                </>):(<>
                                              
                                                </>
