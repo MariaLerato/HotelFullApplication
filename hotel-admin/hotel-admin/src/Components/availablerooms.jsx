@@ -5,6 +5,7 @@ import { Link } from 'react-router-dom';
 import Modal from "@material-ui/core/Modal";
 import BackendInfo from './service/guest'
 import FileBase64 from 'react-file-base64'
+import RoomsComponent from './roomsComponent';
 
 const Rooms = ({users}) => {
     console.log('user',users)
@@ -28,6 +29,8 @@ const Rooms = ({users}) => {
         .then((res)=>{
             console.log(res.data)
             setGuestList(res.data.hotelrooms)
+        }).catch((e)=>{
+            console.log('errorndjkfsd',e)
         })
     }
     const retrieveRoom = (e)=>{
@@ -128,25 +131,18 @@ const Rooms = ({users}) => {
                         </div>
                         <div className='hotel'>
                             <h2>Hotel Rooms</h2>
-                            <p>Hotel @ Hatfield</p>
+                           
                         </div>
                         <div className='list'>
 
                                         {
                                             hotelrooms.map(data =>
-                                            <div style={{display:'flex',margin:'2%',justifyContent:'space-between'}}>
-                                               {users === data.email?(<>
-                                                <img src ={data.bedImage.bedImage} alt={'bedroom'} style={{width:144,height:90,borderRadius:10}}/>
-                                               <button type='submit' style={{ height: 40, width: 144 }} onClick={deleteHotelRoom}>Not Available</button>
-                                               </>):(<>
-                                             
-                                               </>
-                                               )}
-                                            </div>
+                                           <RoomsComponent data={data} users={users}/>
                                             )   
                                                
 
                                         }
+
                                {/* <Link to ={'/newroom' + data._id}> */}
                                    {/* <img src={data.image.image} alt={data.name} style={{width:144,height:94,borderRadius:10}}/></Link>       */}
                                      
