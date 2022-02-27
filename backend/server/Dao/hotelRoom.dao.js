@@ -83,7 +83,7 @@ export default class HotelRoomDAO{
     static async updateHotelRoom(roomId,userId,status,date,){
         try{
             const updateHotel = await hotelRoom.updateOne(
-                {user_id:userId,_id:ObjectId(roomId)},
+                {user_id:userId,},
                 {$set:{status:status,date:date}}
             )
             console.log('...............cehck')

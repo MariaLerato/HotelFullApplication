@@ -25,7 +25,7 @@ const Menu = ({props})=>{
                      <Route exact path={'/newroom/:id'} element={<SearchGuest users={users} />}/>
                         <Route exact path={'/guestlist'} element={<Guests users={users} id={id} />}/>
                          <Route exact path={'/availablerooms'} element={<Rooms users={users} />}/>
-                         <Route exact path={'/status'} element={<Status/>}/>
+                         <Route exact path={'/status'} element={<Status users={users}/>}/>
                          <Route exact path={'/notifications'} element={<Notifications/>}/>
                
                     <Route exact path={'/'} element={<Splash/>}/>

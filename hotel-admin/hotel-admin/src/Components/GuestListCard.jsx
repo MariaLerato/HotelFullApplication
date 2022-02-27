@@ -53,7 +53,7 @@ const ShowSkeleton = ()=>{
             </div>
             <div className="roomLine">
             <h5>Total</h5>
-            <p>  {data.Totalprice}</p> 
+            <p> R{data.roomPrice}</p> 
             </div>        
             </div>
       )}

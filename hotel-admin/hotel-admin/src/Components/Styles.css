@@ -289,6 +289,7 @@ i {
   flex-direction: row;
   width: 100%;
   justify-content: space-between;
+
 }
 .hotel h2 {
   color: #256b5e;
@@ -299,6 +300,7 @@ i {
   padding: 2%;
   margin-top: -2%;
   width: 90%;
+  /* background-color: red; */
 }
 .hotel p {
   color: #b2b2b2;
@@ -307,7 +309,7 @@ i {
 }
 
 .list li {
-  background-color: rgb(255, 255, 255);
+  background-color: #ffffff;
   padding: 1%;
   margin-top: 1px;
   color: #1c5248;

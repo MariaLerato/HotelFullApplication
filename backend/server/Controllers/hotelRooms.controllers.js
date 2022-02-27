@@ -71,6 +71,7 @@ export default class HotelRoomController{
         }
     }
     static async apiUpdateHotelRooms(req,res,next){
+        
         try{
             const roomId = req.body.room_id
             const status = req.body.status
@@ -85,7 +86,7 @@ export default class HotelRoomController{
             )
             console.log('--------------------')
             console.log('responseRoom',roomResponse)
-            res.json({status:"Success"})
+            // res.json({status:"Success"})
             var {error} = roomResponse
             if(error){
                 res.status(400).json({error})

@@ -2,17 +2,21 @@ import React,{useState} from 'react'
 import BackendInfo from './service/guest'
 
 const RoomsComponent = ({data,users}) => {
-    const [status,setStatus] = useState('Not Available')
+    const [status,setStatus] = useState(data.status)
     const [roomId,setHotelId] = useState(data._id)
     const [user_id,setUserId] = useState(data.user_id)
 
     const date = new Date()
     
     const ChangeStatus = (e) => {
-        setStatus('Checked In');
+      if(status === 'Available'){
+        setStatus('Available')
+      }else{
+       setStatus('Not Available');
+      }
         console.log('changed')
         e.preventDefault()
-        const Data = {roomId,status,user_id,date}
+        const Data = {status,user_id,date}
         console.log('info',Data)
         BackendInfo.updateRoom(Data)
         .then((res)=>{
@@ -23,11 +27,6 @@ const RoomsComponent = ({data,users}) => {
       };
     console.log('email',users)
     
-    
-    async function updateRoom(e){
-        
-      
-    }
 
   return (<>
     <div style={{display:'flex',margin:'2%',justifyContent:'space-between'}}>
