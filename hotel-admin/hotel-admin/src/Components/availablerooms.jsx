@@ -90,7 +90,7 @@ const Rooms = ({users}) => {
                     </div>
                     <h2 className='subheading'>Reservations</h2>
                     <div className='reserv'>
-                    <Link to='/guestlist'> <p> Guests</p></Link>
+                    <Link to='/newroom'> <p> Guests</p></Link>
                     <Link to='/status'>  <p> Check In</p></Link>
                     </div>
                     <h2>Management</h2>

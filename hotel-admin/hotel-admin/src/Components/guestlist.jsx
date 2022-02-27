@@ -44,7 +44,6 @@ const Guests = ({isLoaded,data}) => {
                 <p className='activity2'> Guests</p>
                 <Link to='/status'>  <p> Check In</p></Link>
                 </div>
-              
                 <h2>Management</h2>
                 <div className='reserv'>
                     <p className='settings'> Settings </p>

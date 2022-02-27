@@ -54,8 +54,9 @@ const Menu = () => {
       >
         {uid ? (
           <>
-            
+             
             <Stack.Screen name={"bottomTab"} component={TabNavigator} />
+            <Stack.Screen name={"editprofile"} component={EditProfile} />
             <Stack.Screen name={"roomA"} component={RoomA} />
             <Stack.Screen name={"other"} component={RoomB} />
             <Stack.Screen name={"bathA"} component={BathA} />
@@ -68,7 +69,7 @@ const Menu = () => {
             <Stack.Screen name={"feedback"} component={Feedback} />
             <Stack.Screen name={"notification"} component={Notification} />
             <Stack.Screen name={"searchHistory"} component={SearchHistory} />
-            <Stack.Screen name={"editprofile"} component={EditProfile} />
+          
             <Stack.Screen name="detail" component={Detail} />
             <Stack.Screen name={"map"} component={Maps} />
             <Stack.Screen name={"Search"} component={Search} />
