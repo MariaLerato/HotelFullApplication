@@ -9,19 +9,30 @@ import {
   TouchableOpacity,
 } from "react-native";
 import { Icon } from "react-native-elements";
-import HotelRooms from "./maping";
-import axios from "axios";
+import BackendInfo from "../service/service";
+
 
 const hotelroom = ({ navigation, route }) => {
-  const { roomNo, main, name, longitude, latitude, dateIn, dateOut, guestNo,location } =
-    route.params;
+  const {
+    roomNo,
+    main,
+    name,
+    longitude,
+    latitude,
+    dateIn,
+    dateOut,
+    guestNo,
+    location,
+    email
+  } = route.params;
   const [hotelrooms, setHotelRoom] = useState([]);
+  const [isLoaded,setIsLoaded] = useState(false)
 
   const retrieveData = () => {
-    axios
-      .get(`http://e628-156-0-230-6.ngrok.io/api/v1/hotelRoom`)
+    BackendInfo.getRooms()
       .then((res) => {
         console.log(res.data);
+        setIsLoaded(true)
         setHotelRoom(res.data.hotelrooms);
       })
       .catch((e) => {
@@ -31,6 +42,11 @@ const hotelroom = ({ navigation, route }) => {
   useEffect(() => {
     retrieveData();
   }, []);
+
+  console.log(email)
+  const SearchRooms = hotelrooms.filter((data)=>
+  data.email === email
+  )
 
   return (
     <ScrollView style={Styles.container}>
@@ -44,44 +60,46 @@ const hotelroom = ({ navigation, route }) => {
         <Text style={Styles.textHead}>Our Rooms</Text>
       </View>
       <View>
-        {hotelrooms.map((data) => (
+        {SearchRooms.map((data) => (
           <View key={data.id}>
-            <View style={Styles.subHead}>
+        
+              <>
+                <View style={Styles.subHead}>
               <TouchableOpacity
                 onPress={() =>
                   navigation.navigate("detail", {
                     hotelname: data.name,
-                    price: data.price,
-                    des: data.text,
+                    price: data.roomPrice,
+                    des:data.roomDes,
                     roomNo: roomNo,
                     main: main,
                     name: name,
                     dateIn: dateIn,
                     dateOut: dateOut,
-                    roomName: data.name,
+                    roomName: data.roomName,
                     longitude: longitude,
                     latitude: latitude,
                     guestNo: guestNo,
-                    location:location
+                    location: location,
                   })
                 }
               >
-                <Text style={Styles.RoomHead}>{data.name}</Text>
+                <Text style={Styles.RoomHead}>{data.roomName}</Text>
               </TouchableOpacity>
-              <Text style={Styles.price}>R {data.price}</Text>
+              <Text style={Styles.price}>R {data.roomPrice}</Text>
             </View>
             <View>
-              <Text style={Styles.subtext}>{data.text}</Text>
+              <Text style={Styles.subtext}>{data.roomDes}</Text>
             </View>
             <ScrollView horizontal style={{ padding: "2%" }}>
               <TouchableOpacity
                 style={Styles.touchable}
                 onPress={() =>
-                  navigation.navigate("roomA", { pic: data.image.image })
+                  navigation.navigate("roomA", { pic: data.bedImage.bedImage })
                 }
               >
                 <Image
-                  source={{ uri: data.image.image }}
+                  source={{ uri: data.bedImage.bedImage }}
                   style={{ width: 200, borderRadius: 20, height: 150 }}
                 />
               </TouchableOpacity>
@@ -93,22 +111,23 @@ const hotelroom = ({ navigation, route }) => {
               >
                 <Image
                   source={{ uri: data.lounge.lounge }}
-                  style={{ width: 200, borderRadius: 20, height: 150 }}
-                />
+                  style={{ width: 200, borderRadius: 20, height: 150 }}/>
               </TouchableOpacity>
               <TouchableOpacity
                 style={Styles.touchable}
                 onPress={() =>
-                  navigation.navigate("roomA", { pic: data.image.image })
-                }
+                  navigation.navigate("roomA", { pic: data.bedImage.bedImage })}
               >
                 <Image
-                  source={{ uri: data.image.image }}
+                  source={{ uri: data.other.other }}
                   style={{ width: 180, borderRadius: 20, height: 150 }}
                 />
               </TouchableOpacity>
-              <Text>           </Text>
+              <Text> </Text>
             </ScrollView>
+              </>
+            
+            
           </View>
         ))}
       </View>
@@ -124,7 +143,7 @@ const Styles = StyleSheet.create({
   header: {
     display: "flex",
     flexDirection: "row",
-    paddingVertical:'2%'
+    paddingVertical: "2%",
     // padding: '2%'
   },
   textHead: {
@@ -132,7 +151,6 @@ const Styles = StyleSheet.create({
     fontSize: 24,
     paddingLeft: "5%",
     fontWeight: "700",
-
   },
   subHead: {
     display: "flex",
@@ -144,7 +162,7 @@ const Styles = StyleSheet.create({
     color: "#1C5248",
     fontSize: 20,
     paddingVertical: "2%",
-    paddingHorizontal:'2%'
+    paddingHorizontal: "2%",
   },
   price: {
     color: "#06AC8E",

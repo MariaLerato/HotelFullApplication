@@ -1,11 +1,14 @@
-import React from 'react';
+import React,{useState,useEffect} from 'react';
 import {View,Text,ImageBackground,Image,TouchableOpacity,ScrollView,StyleSheet} from 'react-native'
 import {Icon,Input,Avatar} from 'react-native-elements'
 import { img } from '../gallery/reusables';
+import BackendInfo from '../service/service'
 
 const MyBookings = ({navigation})=>{
     const palm = require('../../assets/palm.png')
     const maslow = require('../../assets/maslow.png')
+    const [hotelGuest, setHotelGuests] = useState([]);
+    const [client,setClient] = useState([])
     
     const SearchInput =()=>{
         return(
@@ -17,12 +20,41 @@ const MyBookings = ({navigation})=>{
             </View>
         )
     }
+    const retrieveData = () => {
+        BackendInfo.getGuest()
+          .then((res) => {
+            console.log(res.data.hotelGuest);
+            setHotels(res.data.hotelGuest);
+          })
+          .catch((e) => {
+            console.log(e);
+          });
+      };
+      const getClient = () => {
+        BackendInfo.getClient()
+          .then((res) => {
+            console.log(res.data);
+            setClient(res.data);
+          })
+          .catch((e) => {
+            console.log(e);
+          });
+      };
+      useEffect(() => {
+        retrieveData();
+        getClient()
+      }, []);
     return(
         <>
         <ScrollView style={{marginTop:'5%',flex:1,padding:'1%'}}>
-        <View style={{display:'flex',flexDirection:'row',justifyContent:'space-between',marginTop:'2%',borderBottomColor:'#C4C4C4',borderBottomWidth:0.5}}>
+        <View style={{display:'flex',flexDirection:'row',justifyContent:'space-between',marginTop:'2%'}}>
             <View style={{display:'flex',flexDirection:'row',padding:'1%'}}>
-                <Avatar rounded size={'medium'} source={require('../../assets/users.jpeg')} />
+                {client.map(data=>
+                    <>
+                     <Avatar rounded size={'medium'} source={{uri:data.image}} />
+                    </>
+                    )}
+               
                 <Text style={{fontSize:22,color:'#1C5248',paddingLeft:'4%',marginTop:'3%'}}>My Bookings</Text>
             </View>
            <TouchableOpacity style={{marginRight:'8%',marginTop:'2%'}} onPress={SearchInput}>
@@ -30,12 +62,15 @@ const MyBookings = ({navigation})=>{
            </TouchableOpacity>
         </View>
         <View style={{width:'100%',marginTop:'2%',alignItems:'center'}}>
-                   <View style={{display:'flex',flexDirection:'row',padding:'1%'}}>
+                    {
+                        hotelGuest.map(data=>
+                            <>
+                              <View style={{display:'flex',flexDirection:'row',padding:'1%'}}>
                       
                       <TouchableOpacity onPress={()=>navigation.navigate('historyDetails',{hotel:img.hotel10})}>
                         <ImageBackground source={img.hotel10} style={{width:180,height:170,borderRadius:30,marginTop:'4%',overflow:'hidden'}}>
                         <View style={styles.textContainer}>
-                            <Text style={{color:'#C4C4C4',fontSize:20}}>Hotel Name </Text>
+                            <Text style={{color:'#C4C4C4',fontSize:20}}>{data.hotelname} </Text>
                             <Text style={{color:'#FAA455'}} >Reviews</Text>
                         </View>
                         </ImageBackground>
@@ -50,6 +85,11 @@ const MyBookings = ({navigation})=>{
                      </TouchableOpacity>
                        
                    </View>
+                            </>
+                            
+                            )
+                    }
+                 
                    <View style={{display:'flex',flexDirection:'row',padding:'1%'}}>
                        <TouchableOpacity  onPress={()=>navigation.navigate('historyDetails',{hotel:img.sand})}>
                        <ImageBackground source={img.sand} style={{width:180,height:226,marginTop:'-15%',margin:'2%',borderRadius:20,overflow:'hidden'}}>

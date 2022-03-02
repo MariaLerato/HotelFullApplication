@@ -23,7 +23,6 @@ export default class UserController{
             const userId = req.body.userId
             const email = req.body.email
             const password = req.body.password
-
             const LogResponse = await UserDAO.logUser(
                 ObjectId(hotelId),
                 userId,

@@ -16,11 +16,14 @@ class BackendInfo {
     createGuest(data){
         return http.post("/guests",data)
     }
+    getGuest(page=0){
+        return http.get(`/guests=${page}`)
+    }
     postClient(data){
         return http.post("/client",data)
     }
     deleteBooking(id){
-        return http.delete(`/hotelGuest?id=${id}`)
+        return http.delete(`/guests?id=${id}`)
     }
     getHotels(id){
         return http.get(`/:id/${id}`)

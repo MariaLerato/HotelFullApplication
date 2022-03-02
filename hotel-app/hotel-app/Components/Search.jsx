@@ -12,18 +12,33 @@ import Info from "./info";
 import { Icon } from "react-native-elements";
 import SearchAlt from "./searchAlt";
 import ProfilePicture from "react-native-profile-picture";
-import axios from "axios";
-import BackendInfo from './service/service'
+// import axios from "axios";
+import { Bones } from "react-bones/native"
+import BackendInfo from "./service/service";
 
 const Search = ({ navigation, route }) => {
   const [hotels, setHotels] = useState([]);
+  const [client,setClient] = useState([])
+  const [isLoading,setIsLoaded] = useState(false)
   const { location, roomNo, guestNo, dateIn, dateOut } = route.params;
 
   const retrieveData = () => {
     BackendInfo.getAll()
       .then((res) => {
         console.log(res.data);
+        setIsLoaded(true)
         setHotels(res.data);
+      })
+      .catch((e) => {
+        console.log(e);
+      });
+  };
+  const getClient = () => {
+    BackendInfo.getClient()
+      .then((res) => {
+        console.log(res.data);
+        setIsLoaded(true)
+        setClient(res.data);
       })
       .catch((e) => {
         console.log(e);
@@ -31,12 +46,17 @@ const Search = ({ navigation, route }) => {
   };
   useEffect(() => {
     retrieveData();
+    getClient()
   }, []);
+ 
   let searchString = location;
   const searchData = hotels.filter((data) =>
     data.province.includes(searchString)
   );
   const DisplayHotels = () => {
+    if(!isLoading){
+      return <Bones variant="rectangular" width={165}  height={170}/>
+    }else
     return (
       <View>
         <View
@@ -66,14 +86,16 @@ const Search = ({ navigation, route }) => {
                       dateIn: dateIn,
                       dateOut: dateOut,
                       guestNo: guestNo,
-                      location:location 
+                      location: location,
+                      email:data.email,
+                      city:data.city
                     })
                   }
                   style={styles.hotelname}
                 >
-                  <Text style={styles.loca}>{data.province}</Text>
+                  <Text style={styles.loca}>{data.city}</Text>
                   <Text style={styles.number}>
-                    {data.province.length} Hotels
+                    {data.city.length} Hotels
                   </Text>
                 </TouchableOpacity>
               </ImageBackground>
@@ -83,16 +105,24 @@ const Search = ({ navigation, route }) => {
       </View>
     );
   };
+
   return (
     <View style={{ flex: 1 }}>
       <View style={styles.HeaderContainer}>
         <View>
-          {Info.info.map((action) => (
-            <View key={action.id}>
-              <View style={styles.ImageContainer}>
+          {client.map((action) => (
+
+            <View key={action._id}>
+              {isLoading?(
+                <View style={{flexDirection:'row'}}>
+                <Bones variant="circular" width={75} height={75}/>
+                <Bones variant="text"/>
+                </View>
+              ):(
+                <View style={styles.ImageContainer}>
                 <ProfilePicture
                   isPicture={true}
-                  requirePicture={require("../assets/users.jpeg")}
+                  requirePicture={{uri:action.image}}
                   shape="circle"
                   pictureResizeMode="cover"
                   pictureStyle={styles.Image}
@@ -115,6 +145,8 @@ const Search = ({ navigation, route }) => {
                   />
                 </TouchableOpacity>
               </View>
+              )}
+              
             </View>
           ))}
         </View>
@@ -149,17 +181,16 @@ const Search = ({ navigation, route }) => {
           <View style={{ marginTop: "-3%" }}>
             <View style={styles.map}>
               <Text style={styles.location}>By Location</Text>
-              <TouchableOpacity onPress={() => navigation.navigate("hotels")}>
+              {/* <TouchableOpacity onPress={() => navigation.navigate("hotels")}>
                 <Text style={styles.view}>View All</Text>
-              </TouchableOpacity>
+              </TouchableOpacity> */}
             </View>
-
             <View style={{ marginTop: "-3%" }}>
               <DisplayHotels />
             </View>
           </View>
           <View>
-            <Text style={styles.neartext}>Near You</Text>
+            <Text style={styles.neartext}>Best Rated</Text>
             {SearchAlt.nearby
               .filter((data) => data.province === location)
               .map((action) => (
@@ -221,7 +252,7 @@ const styles = StyleSheet.create({
   ImageContainer: {
     display: "flex",
     flexDirection: "row",
-    marginTop: "-25%",
+    marginTop: "-27%",
   },
   name: {
     color: "white",
@@ -247,7 +278,7 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   destinationContainer: {
-    marginTop: "-40%",
+    marginTop: "-38%",
     backgroundColor: "white",
     margin: "5%",
     borderRadius: 10,

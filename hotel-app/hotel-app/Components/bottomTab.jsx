@@ -1,5 +1,5 @@
 import React from 'react'
-import {createMaterialBottomTabNavigator} from '@react-navigation/material-bottom-tabs'
+import {createMaterialBottomTabNavigator} from 'react-navigation-material-bottom-tabs'
 import Home from './home'
 import {Icon} from 'react-native-elements'
 import Search from './Search'

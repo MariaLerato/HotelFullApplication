@@ -48,7 +48,7 @@ const Menu = () => {
   return (
     <NavigationContainer>
     
-        <Stack.Navigator initialRouteName={'bottomTab'} screenOptions={{ headerShown: false }}>
+        <Stack.Navigator initialRouteName={'SplashScreen'} screenOptions={{ headerShown: false }}>
           {uid?(
             <>
                  <Stack.Screen name={'bottomTab'} component={TabNavigator} />

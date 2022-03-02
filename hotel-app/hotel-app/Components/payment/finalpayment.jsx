@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { View, Text, Image, TouchableOpacity, StyleSheet } from "react-native";
 import { Icon } from "react-native-elements";
-import axios from "axios";
 import BackendInfo from '../service/service'
 
 const ConfirmPayment = ({ navigation, route }) => {
@@ -11,27 +10,26 @@ const ConfirmPayment = ({ navigation, route }) => {
     name,
     number,
     cvv,
-    Totalprice,
-    guestsNo,
+    roomPrice,
+    guests,
     Room,
     dateIn,
     dateOut,
-    roomNo,
-    image
-    // location
+    rooms,
+    hotelImage
   } = route.params;
  
 async function addClient(e){
     e.preventDefault()
     const newGuest = {
         name,
-        guestsNo,
-        roomNo,
+        guests,
+        rooms,
         Room,
-        Totalprice,
+        roomPrice,
         dateIn,
         dateOut,
-        // location
+        hotelImage
       };
     console.log(newGuest)
     BackendInfo.createGuest (newGuest)
@@ -44,7 +42,6 @@ async function addClient(e){
 }
   const PaymentCard = () => {
     return (
-    
       <View
         style={{
           width: "95%",

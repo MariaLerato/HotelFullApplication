@@ -58,15 +58,19 @@ export default class ClientDao{
             return {ClientList:[],totalNumClientList:0}
         }
     }
-    static async updateClient(userId,personal){
+    static async updateClient(userId,name,id){
         try{
             const updateClient = await Client.updateOne(
-                {userId:ObjectId(userId)},
-                {$set:{ name:personal.name,surname:personal.surname,image:personal.image,age:personal.age,email:personal.email,password:personal.password,}}
+                {user_id:ObjectId(userId)},
+                // {$set:{ name:personal.name,surname:personal.surname,image:personal.image,age:personal.age,email:personal.email,password:personal.password,}}
+                {$set:{name:name}},
+                {$upsertedId:userId}
+                
             )
             return updateClient
         }catch(e){
-            console.error(`Unable to update review`)
+            console.error(`Unable to update review:${e}`)
+            return {error :e}
         }
     }
 }

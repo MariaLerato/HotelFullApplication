@@ -50,7 +50,7 @@ class Client{
         firebase.app.auth().signOut().then(() => {
             console.log('logged out')
             localStorage.removeItem('userid')
-            navigation.goBack()
+            navigation.navigate('/SignIn')
         }).catch(err => {
             console.log(err.message)
         })

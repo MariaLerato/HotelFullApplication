@@ -10,6 +10,8 @@
     "eject": "expo eject"
   },
   "dependencies": {
+    "@emotion/react": "^11.8.1",
+    "@emotion/styled": "^11.8.1",
     "@react-navigation/bottom-tabs": "^6.0.9",
     "@react-navigation/material-bottom-tabs": "^6.0.9",
     "@react-navigation/native": "^6.0.6",
@@ -21,19 +23,27 @@
     "firebase": "^8.10.1",
     "formik": "^2.2.9",
     "localstorage-polyfill": "^1.0.1",
+    "native-notify": "^2.0.1",
     "react": "17.0.1",
+    "react-bones": "^1.0.3",
     "react-dom": "17.0.1",
     "react-native": "0.64.3",
     "react-native-bottom-tab": "^1.0.2",
     "react-native-datepicker": "^1.7.2",
     "react-native-elements": "^3.4.2",
+    "react-native-gesture-handler": "^2.2.0",
+    "react-native-google-places-api": "^1.0.2",
     "react-native-maps": "^0.29.4",
     "react-native-material-dropdown": "^0.11.1",
-    "react-native-paper": "^4.10.1",
+    "react-native-notifications": "^4.2.2",
+    "react-native-paper": "^4.11.2",
     "react-native-picker": "^4.3.7",
     "react-native-profile-picture": "^1.0.0",
     "react-native-web": "0.17.1",
-    "yup": "^0.32.11"
+    "react-navigation-material-bottom-tabs": "^2.3.5",
+    "yup": "^0.32.11",
+    "expo-device": "~4.0.3",
+    "expo-notifications": "~0.13.3"
   },
   "devDependencies": {
     "@babel/core": "^7.12.9",

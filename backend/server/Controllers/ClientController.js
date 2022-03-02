@@ -19,6 +19,7 @@ export default class ClientController{
     static async apiPostClient(req,res){
         try{
             const userId = req.body.user_id
+            const id = req.body.id
             const personal = {
                 name:req.body.name,
                 surname:req.body.surname,
@@ -31,7 +32,8 @@ export default class ClientController{
             const ClientRes = await ClientDao.addClient(
                 ObjectId(userId),
                 personal,
-                date
+                date,
+                id
             )
             console.log(ClientRes)
             res.json({status:"Success"})
@@ -41,30 +43,29 @@ export default class ClientController{
     }
     static async apiUpdateClient(req,res,next){
         try{
-            const userId = req.body.user_id
-            const personal ={
-                name:req.body.name,
-               surname:req.body.surname,
-                age:req.body.age,
-                image:req.body.image,
-                email:req.body.email,
-                password:req.body.password
-            }
+        const userId = req.body.user_id
+        const name = req.body.name
+            // const personal ={
+            //     name:req.body.name,
+            //    surname:req.body.surname,
+            //     age:req.body.age,
+            //     image:req.body.image,
+            //     email:req.body.email,
+            //     password:req.body.password
+            // }
             const date = new Date()
             const ClientResponse = await ClientDao.updateClient(
-               ObjectId(userId),
-                req.body.user_id,
-                personal,
-                date
+                userId,
+                name,
             )
-            console.log(ClientResponse)
+            console.log('updated',ClientResponse)
             var {error} = ClientResponse
             if(error){
                 res.status(400).json({error})
             }
             if (ClientResponse.modifiedCount === 0){
                 throw new Error(
-                    "unable to update hotel room"
+                    "unable to update client"
                 )
             }
         }catch(e){

@@ -79,15 +79,15 @@ const Method = ({navigation,route}) => {
                     name:name,
                     date:date,
                     cvv:cvv,
-                    Totalprice:Totalprice,
+                    roomPrice:Totalprice,
                     Room:Room,
-                    guestsNo:guestsNo,
+                    guests:guestsNo,
                     hotelname:hotelname,
                     dateIn:dateIn,
                     dateOut:dateOut,
-                    roomNo:roomNo,
+                    rooms:roomNo,
                     location:location,
-                    image:image
+                   hotelImage:image
                 })}><Text style={{color:'#61B0A2',fontSize:24}}>Save</Text></TouchableOpacity>
             </View>
         </View>
