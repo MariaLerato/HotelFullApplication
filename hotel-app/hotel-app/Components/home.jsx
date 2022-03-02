@@ -5,20 +5,18 @@ import {
   StyleSheet,
   Image,
   TouchableOpacity,
-  Picker,
   TextInput,
 } from "react-native";
-import { Icon, Input } from "react-native-elements";
-import Info from "./info";
+
 import DatePicker from "react-native-datepicker";
 import * as Yup from "yup";
 import { Formik } from "formik";
 import ProfilePicture from "react-native-profile-picture";
+import moment from "moment";
 import BackendInfo from "./service/service";
-import { Bones } from "react-bones/native";
 
 const Home = ({ AddBooking, navigation }) => {
-  const [isLoaded, setIsLoaded] = useState(false);
+  const [open, setOpen] = useState(true);
   const [book, setBook] = useState("");
   const [place, setPlace] = useState("");
   const [rooms, setRooms] = useState("");
@@ -27,10 +25,12 @@ const Home = ({ AddBooking, navigation }) => {
   const [checkOut, setOut] = useState();
   const [client, setClient] = useState([]);
 
+  const [days, setdays] = useState("");
+
   const Validate = Yup.object({
     place: Yup.string().required("Missing"),
-    rooms: Yup.string().required("Missing").max(2, "Invalid"),
-    guests: Yup.string().required("Missing").max(2, "Too Long"),
+    rooms: Yup.number().required("Missing").max(2, "Not More Than Two Characters"),
+    guests: Yup.number().required("Missing").max(2, "Too Many Guests"),
     date: Yup.date().required("Missing"),
     checkOut: Yup.date().required("Missing"),
   });
@@ -51,17 +51,21 @@ const Home = ({ AddBooking, navigation }) => {
     BackendInfo.getClient()
       .then((res) => {
         console.log(res.data);
-        setIsLoaded(true);
         setClient(res.data);
-      })
-      .catch((e) => {
-        console.log(e);
       });
   };
-
   useEffect(() => {
     retrieveData();
+  
   }, []);
+
+  const CalculateDifference = (date1, date2) => {
+    var a = moment(date1);
+    var b = moment(date2);
+    setdays(a.diff(b, "days"));
+    console.log(date1, "---", date2);
+    console.log(a.diff(b, "days"));
+  };
   return (
     <>
       <View style={styles.image}>
@@ -71,34 +75,22 @@ const Home = ({ AddBooking, navigation }) => {
         />
       </View>
       <View style={styles.container}>
+
+
         {client.map((data) => (
-          <View style={styles.header} key={data._id}>
-            {/* {!isLoaded?(
-                             <View style={{flexDirection:'row',justifyContent:'space-between'}}>
-                                  <Bones variant="text"/>
-                             <Bones variant="circular" width={75} height={75}/>
-                            
-                             </View>
-                        ):( */}
-            <>
-              <View>
-                <Text style={styles.headertext}>Hi {data.name}</Text>
-                <Text
-                  style={{ color: "#6E9B93", fontSize: 14, paddingLeft: "1%" }}
-                >
-                  Where do you want to stay?
-                </Text>
-              </View>
-              <ProfilePicture
-                isPicture={true}
-                requirePicture={{uri:data.image}}
-                shape="circle"
-                pictureResizeMode="cover"
-                pictureStyle={styles.profile}
-              />
-            </>
-            {/* )} */}
-          </View>
+        <>
+              <View style={styles.header} key={data._id}>
+            <View>
+              <Text style={styles.headertext}>Hi {data.name}</Text>
+              <Text
+                style={{ color: "#6E9B93", fontSize: 14, paddingLeft: "1%" }}
+              >
+                Where do you want to stay?
+              </Text>
+            </View>
+            <Image source={{ uri:data.image.localUri}} style={{ width: 60, height: 60,borderRadius:40 }}></Image>
+          </View> 
+        </>
         ))}
         <Formik
           initialValues={{
@@ -110,15 +102,17 @@ const Home = ({ AddBooking, navigation }) => {
           }}
           validateOnMount={true}
           validationSchema={Validate}
-          onSubmit={(values) =>
-            bookHotel(
-              values.place,
-              values.rooms,
-              values.guests,
-              values.date,
-              values.checkOut
-            )
-          }
+          onSubmit={(values) => {
+            CalculateDifference(values.checkOut, values.date);
+            navigation.navigate("Search", {
+              location: values.place,
+              roomNo: values.rooms,
+              guestNo: values.guests,
+              dateIn: values.date,
+              dateOut: values.checkOut,
+              days: days,
+            });
+          }}
         >
           {({
             errors,
@@ -151,7 +145,6 @@ const Home = ({ AddBooking, navigation }) => {
                     date={values.date}
                     mode="date"
                     placeholder="Check in"
-                    format="DD-MM-YY"
                     minDate={"2021-12-20"}
                     maxDate={"2022-12-30"}
                     confirmBtnText="Confirm"
@@ -170,10 +163,8 @@ const Home = ({ AddBooking, navigation }) => {
                       },
                     }}
                     onDateChange={handleChange("date")}
-                  />
-                  {errors.date && touched.date ? (
-                    <Text style={styles.error}>{errors.date}</Text>
-                  ) : null}
+                    />
+                
                 </View>
                 <View>
                   <DatePicker
@@ -181,7 +172,6 @@ const Home = ({ AddBooking, navigation }) => {
                     date={values.checkOut}
                     mode="date"
                     placeholder="Check out"
-                    format="DD-MM-YY"
                     minDate={"2021-12-20"}
                     maxDate={"2022-12-30"}
                     confirmBtnText="Confirm"
@@ -200,6 +190,7 @@ const Home = ({ AddBooking, navigation }) => {
                       },
                     }}
                     onDateChange={handleChange("checkOut")}
+                    onCloseModal={CalculateDifference}
                   />
                   {errors.checkOut && touched.checkOut ? (
                     <Text style={styles.error}>{errors.checkOut}</Text>
@@ -233,20 +224,9 @@ const Home = ({ AddBooking, navigation }) => {
               {errors.rooms && touched.rooms ? (
                 <Text style={styles.error}>{errors.rooms}</Text>
               ) : null}
-
               <TouchableOpacity
                 style={styles.touchableOpacity}
-                onPress={
-                  (handleSubmit,
-                  () =>
-                    navigation.navigate("Search", {
-                      location: values.place,
-                      roomNo: values.rooms,
-                      guestNo: values.guests,
-                      dateIn: values.date,
-                      dateOut: values.checkOut,
-                    }))
-                }
+                onPress={handleSubmit}
               >
                 <Text style={styles.touchableText}>Get it</Text>
               </TouchableOpacity>
@@ -274,6 +254,7 @@ const styles = StyleSheet.create({
     display: "flex",
     flexDirection: "row",
     width: "100%",
+    justifyContent:'space-between'
   },
   text: {
     backgroundColor: "#FFFFFF",

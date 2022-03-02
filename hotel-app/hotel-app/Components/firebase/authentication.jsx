@@ -23,8 +23,8 @@ class Client{
     signIn(email,password,navigation){
         firebase.app.auth().signInWithEmailAndPassword(email,password).then(res => {
             if(res.user.emailVerified){
-                console.log('email verified')
-                navigation.navigate('/bottomTab')
+                alert('email verified')
+                navigation.navigate('bottomTab')
                 localStorage.setItem('userid', res.user.uid)
             }else {
                 console.log('please verify your email address')

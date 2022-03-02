@@ -8,25 +8,42 @@ import {
   ImageBackground,
   ScrollView,
 } from "react-native";
-import Info from "./info";
 import { Icon } from "react-native-elements";
 import SearchAlt from "./searchAlt";
 import ProfilePicture from "react-native-profile-picture";
-// import axios from "axios";
-import { Bones } from "react-bones/native"
+import SkeletonContent from "react-native-skeleton-content";
+
 import BackendInfo from "./service/service";
 
 const Search = ({ navigation, route }) => {
   const [hotels, setHotels] = useState([]);
-  const [client,setClient] = useState([])
-  const [isLoading,setIsLoaded] = useState(false)
-  const { location, roomNo, guestNo, dateIn, dateOut } = route.params;
+  const [client, setClient] = useState([]);
+  const [isLoading, setIsLoaded] = useState(true);
+  const { location, roomNo, guestNo, dateIn, dateOut, days } = route.params;
 
+  const INTERVAL_Refresh = 3000;
+  const PlaceHolder = () => {
+    return (
+      <SkeletonContent
+        containerStyle={{ width: 200, height: 200, flexDirection: "row" }}
+        isLoading={isLoading}
+        // duration={120}
+        // animationType={"pulse"}
+        animationDirection={"horizontalLeft"}
+        boneColor={"#E1E9EE"}
+        layout={[
+          { key: "1", width: 165, height: 170, marginBottom: 1 },
+          { key: "2", width: 165, height: 170, marginBottom: 1 },
+        ]}
+      ></SkeletonContent>
+    );
+  };
+  console.log("diff", days);
   const retrieveData = () => {
     BackendInfo.getAll()
       .then((res) => {
         console.log(res.data);
-        setIsLoaded(true)
+        setIsLoaded(true);
         setHotels(res.data);
       })
       .catch((e) => {
@@ -37,7 +54,7 @@ const Search = ({ navigation, route }) => {
     BackendInfo.getClient()
       .then((res) => {
         console.log(res.data);
-        setIsLoaded(true)
+        setIsLoaded(true);
         setClient(res.data);
       })
       .catch((e) => {
@@ -46,24 +63,26 @@ const Search = ({ navigation, route }) => {
   };
   useEffect(() => {
     retrieveData();
-    getClient()
+    getClient();
   }, []);
- 
+
   let searchString = location;
   const searchData = hotels.filter((data) =>
-    data.province.includes(searchString)
+    data.province.toUpperCase().includes(searchString)
   );
   const DisplayHotels = () => {
     if(!isLoading){
       return <Bones variant="rectangular" width={165}  height={170}/>
     }else
     return (
-      <View>
         <View
-          style={{ display: "flex", flexDirection: "row", marginLeft: "1.5%" }}
+     style={{flexDirection:'row',paddingLeft:'6%'}}
         >
+          {/* {!isLoading?(<>
+          <Text>Please Wait While We Sync The </Text>
+          </>)} */}
           {searchData.map((data) => (
-            <View style={{ padding: "3%" }} key={data._id}>
+            <View style={{ padding: "2%" }} key={data._id}>
               <ImageBackground
                 source={{ uri: data.image.image }}
                 style={{
@@ -87,22 +106,21 @@ const Search = ({ navigation, route }) => {
                       dateOut: dateOut,
                       guestNo: guestNo,
                       location: location,
-                      email:data.email,
-                      city:data.city
+                      email: data.email,
+                      city: data.city,
+                      days: days,
                     })
                   }
                   style={styles.hotelname}
                 >
                   <Text style={styles.loca}>{data.city}</Text>
-                  <Text style={styles.number}>
-                    {data.city.length} Hotels
-                  </Text>
+                  <Text style={styles.number}>{data.city.length} Hotels</Text>
                 </TouchableOpacity>
               </ImageBackground>
             </View>
           ))}
         </View>
-      </View>
+    
     );
   };
 
@@ -111,22 +129,16 @@ const Search = ({ navigation, route }) => {
       <View style={styles.HeaderContainer}>
         <View>
           {client.map((action) => (
-
             <View key={action._id}>
-              {isLoading?(
-                <View style={{flexDirection:'row'}}>
-                <Bones variant="circular" width={75} height={75}/>
-                <Bones variant="text"/>
-                </View>
-              ):(
-                <View style={styles.ImageContainer}>
+              <View style={styles.ImageContainer}>
                 <ProfilePicture
                   isPicture={true}
-                  requirePicture={{uri:action.image}}
+                  requirePicture={{ uri: action.image.localUri }}
                   shape="circle"
                   pictureResizeMode="cover"
                   pictureStyle={styles.Image}
                 />
+
                 <View style={styles.name}>
                   <Text style={styles.profilename}>
                     {action.name} {action.surname}
@@ -162,7 +174,7 @@ const Search = ({ navigation, route }) => {
               <View>
                 <Text style={styles.title}>Date</Text>
                 <Text style={styles.input}>
-                  {dateIn} / {dateOut}
+                  {dateIn}/ {dateOut}
                 </Text>
               </View>
               <View>
@@ -181,12 +193,16 @@ const Search = ({ navigation, route }) => {
           <View style={{ marginTop: "-3%" }}>
             <View style={styles.map}>
               <Text style={styles.location}>By Location</Text>
-              {/* <TouchableOpacity onPress={() => navigation.navigate("hotels")}>
-                <Text style={styles.view}>View All</Text>
-              </TouchableOpacity> */}
             </View>
-            <View style={{ marginTop: "-3%" }}>
-              <DisplayHotels />
+            <View style={{ marginTop: "-2%"  ,
+                  height: 190,}}>
+             {
+               !isLoading?(<>
+                <Text>Loading Available Hotels</Text>
+               </>):(<>
+                    <DisplayHotels/>
+               </>)
+}
             </View>
           </View>
           <View>
@@ -271,7 +287,7 @@ const styles = StyleSheet.create({
   },
   alarm: {
     marginTop: "5%",
-    marginLeft: "20%",
+    marginLeft: "18%",
   },
   container: {
     backgroundColor: "#FBF4F4",
@@ -289,6 +305,7 @@ const styles = StyleSheet.create({
   dateContainer: {
     display: "flex",
     flexDirection: "row",
+    justifyContent: "space-between",
   },
   textDestination: {
     color: "#1C5248",
@@ -300,12 +317,12 @@ const styles = StyleSheet.create({
   },
   rooms: {
     color: "#B2B2B2",
-    alignItems: "flex-end",
-    paddingLeft: "19%",
+    // alignItems: "flex-end",
+    // paddingLeft: "19%",
   },
 
   titles: {
-    paddingLeft: "30%",
+    // paddingLeft: "30%",
     color: "#1C5248",
     fontWeight: "700",
   },
@@ -397,7 +414,7 @@ const styles = StyleSheet.create({
     fontWeight: "700",
     fontFamily: "Roboto",
     paddingLeft: "2%",
-    marginTop: "2%",
+    marginTop: "3%",
   },
   hoteltext: {
     color: "#1C5248",

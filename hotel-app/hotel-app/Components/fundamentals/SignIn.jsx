@@ -17,7 +17,7 @@ const SignIn = ({ navigation }) => {
     };
 
     const LogIn = () => {
-        alert(email)
+        // alert(email)
        Client.signIn(email,password,navigation)
        
     }

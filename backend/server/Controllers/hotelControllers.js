@@ -18,6 +18,10 @@ export default class HotelsController{
            const text = req.body.text
            const province = req.body.province
            const city = req.body.city
+           const address = {
+               lat:req.body.lat,
+               long:req.body.long
+           }
             const HotelResponse = await HotelDAO.addHotel(
                hotelId,
                image,

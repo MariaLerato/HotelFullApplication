@@ -44,7 +44,6 @@ const Guests = ({isLoaded,data}) => {
                 <p className='activity2'> Guests</p>
                 <Link to='/status'>  <p> Check In</p></Link>
                 </div>
-              
                 <h2>Management</h2>
                 <div className='reserv'>
                     <p className='settings'> Settings </p>
@@ -77,13 +76,20 @@ const Guests = ({isLoaded,data}) => {
                     </div>
                     <div className='hotel'>
                         <h2>Hotel Guests</h2>
-                        <p>Hotel @ Hatfield</p>
+                        <p>{data.name}</p>
                     </div>
                     <div className='list'>
                         {
-                            hotelGuest.map((data, index) =>
-
-                                <GuestListCard data={data} index={index} isLoaded={isLoaded} />
+                            hotelGuest.map((action, index) =>
+                                <>
+                                {data.name !== action.hotelname?(
+                               null
+                                ):(<>
+                                <GuestListCard data={action} index={index} isLoaded={isLoaded} />
+                                </>)}
+                                
+                                </>
+                                
                             )
 
 

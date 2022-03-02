@@ -6,7 +6,7 @@ import Info from '../info';
 
 const Detail = ({ route, navigation }) => {
 
-    const {name,main,roomNo,des,price,location,longitude,latitude, roomName,dateIn,dateOut,guestNo } = route.params
+    const {name,main,roomNo,des,price,location,longitude,latitude, roomName,dateIn,dateOut,guestNo,roomId,days,id} = route.params
 
 
     return (
@@ -50,7 +50,8 @@ const Detail = ({ route, navigation }) => {
                     longitude:longitude,
                     latitude:latitude,
                     hotelname:name,
-                    price:price
+                    price:price,
+                    id:id
                 })}>
                     <ImageBackground source={require('../../assets/map.png')} style={{width:344,height:150,alignSelf:'center',marginTop:'5%',borderRadius:20,overflow:'hidden'}}>
                         <TouchableOpacity  onPress={()=>navigation.navigate('bookingDetails',{
@@ -64,7 +65,9 @@ const Detail = ({ route, navigation }) => {
                             dateIn:dateIn,
                             dateOut:dateOut,
                             guestNo:guestNo,
-                            location:location
+                            location:location,
+                            days:days,
+                            roomId:roomId
                         })} style={{backgroundColor:'#53B5A3',width:'92%',height:57,alignSelf:'center',justifyContent:'center',alignItems:'center',marginTop:'auto',borderRadius:10,marginBottom:'2%'}}>
                             <Text style={{color:'white',fontSize:24,fontWeight:'700'}}>Book Now</Text></TouchableOpacity>
                     </ImageBackground>

@@ -18,22 +18,24 @@ export default class ClientController{
     }
     static async apiPostClient(req,res){
         try{
+            const appId = req.body.app_id
             const userId = req.body.user_id
-            const id = req.body.id
-            const personal = {
-                name:req.body.name,
-                surname:req.body.surname,
-                age:req.body.age,
-                image:req.body.image,
-                email:req.body.email,
-                password:req.body.password
-            }
+            const name=req.body.name
+            const  surname=req.body.surname
+             const  image=req.body.image
+             const  email=req.body.email
+            const   password=req.body.password
             const date = new Date()
+           
             const ClientRes = await ClientDao.addClient(
-                ObjectId(userId),
-                personal,
-                date,
-                id
+                appId,
+                userId,
+                name,
+                surname,
+                image,
+                email,
+                password,
+                date
             )
             console.log(ClientRes)
             res.json({status:"Success"})
@@ -65,9 +67,10 @@ export default class ClientController{
             }
             if (ClientResponse.modifiedCount === 0){
                 throw new Error(
-                    "unable to update client"
+                    "unable to update client info user may not be original poster"
                 )
             }
+
         }catch(e){
             res.status(500).json({error:e.message})
         }

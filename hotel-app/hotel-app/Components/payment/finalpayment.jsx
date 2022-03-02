@@ -16,30 +16,13 @@ const ConfirmPayment = ({ navigation, route }) => {
     dateIn,
     dateOut,
     rooms,
-    hotelImage
+    hotelImage,
+    location,
+    roomId
   } = route.params;
- 
-async function addClient(e){
-    e.preventDefault()
-    const newGuest = {
-        name,
-        guests,
-        rooms,
-        Room,
-        roomPrice,
-        dateIn,
-        dateOut,
-        hotelImage
-      };
-    console.log(newGuest)
-    BackendInfo.createGuest (newGuest)
-    .then((res)=>{
-        console.log(res.data)
-    }).catch((e)=>{
-        console.log(e)
-    })
-    navigation.navigate("historyDetails",{hotelname:hotelname,dateIn:dateIn,dateOut:dateOut,roomNo:roomNo,Totalprice:Totalprice,name:name,image:image})
-}
+ console.log('total',roomPrice)
+ console.log(hotelImage,hotelname,rooms,guests)
+
   const PaymentCard = () => {
     return (
       <View
@@ -188,7 +171,7 @@ async function addClient(e){
         >
           <View>
             <Text style={{ color: "#C4C4C4", fontSize: 18 }}>
-              JI,Makua - Johannesburg
+            {location} , {hotelname}
             </Text>
             <Text
               style={{
@@ -198,7 +181,7 @@ async function addClient(e){
                 fontSize: 20,
               }}
             >
-              {hotelname}, {Room}
+             {Room}
             </Text>
           </View>
         </View>
@@ -249,7 +232,7 @@ async function addClient(e){
             <Text
               style={{ color: "#1C5248", fontWeight: "700", paddingLeft: "2%" }}
             >
-              {roomNo} Rooms, {guestsNo} Guests
+              {rooms} Rooms, {guests} Guests
             </Text>
           </View>
           <View style={{ marginTop: "7%" }}>
@@ -261,7 +244,7 @@ async function addClient(e){
                 fontSize: 18,
               }}
             >
-              R {Totalprice}{" "}
+              R {roomPrice}{" "}
             </Text>
           </View>
         </View>
@@ -276,7 +259,7 @@ async function addClient(e){
             alignSelf: "center",
             marginTop: "10%",
           }}
-          onPress={addClient}
+          onPress={()=>navigation.navigate("pay",{hotelname:hotelname,dateIn:dateIn,dateOut:dateOut,rooms:rooms,roomPrice:roomPrice,name:name,hotelImage:hotelImage,guests:guests,Room:Room,roomId:roomId})}
         >
           <Text
             style={{

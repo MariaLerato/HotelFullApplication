@@ -1,21 +1,15 @@
 import React from 'react';
 import { useState } from 'react';
-import {View,Text,ScrollView,TouchableOpacity,StyleSheet} from 'react-native'
+import {View,Text,ScrollView,TouchableOpacity,StyleSheet,Image} from 'react-native'
 import { Avatar,Icon } from 'react-native-elements';
 import BackendInfo from '../service/service'
 
 const DetailsHistory = ({navigation,route}) =>{
-    const {name,Totalprice,dateIn,dateOut,roomNo,image,hotelname,guestId} = route.params
+    const {name,Totalprice,dateIn,dateOut,roomNo,image,hotelname} = route.params
  const [hotelGuests,setHotelGuests] = useState([])
+//  const [isLoading,setLoading] = useState(true)
     const [status,setStatus] = useState('Booked')
-    const ChangeStatus = () => {
-        if(status === true){
-            return status
-        }else{
-            setStatus('Payment Unsuccessful')
-            return;
-        }
-    }
+   console.log('image',image)
     const deleteBooking = (guestId,index)=>{
         BackendInfo.deleteBooking(guestId)
         .then(response=>{
@@ -41,12 +35,11 @@ const DetailsHistory = ({navigation,route}) =>{
                 <Icon name={'times'} type={'font-awesome-5'} color={'#C4C4C4'} onPress={() =>navigation.navigate('message')} />
             </TouchableOpacity>
             </View>
-       
-           <View style={{alignItems:'center',marginTop:'15%'}}>
-               <Avatar size={'xlarge'} rounded source={{uri:image}}></Avatar>
+           <View style={{alignItems:'center',marginTop:'10%',justifyContent:'center'}}>
+               <Avatar size={'medium'} style={{borderColor:'white',borderWidth:0.5,width:200,height:200}} source={{uri:image}}/>
                <Text style={{color:'#4C9285',fontSize:30,padding:'2%'}}>{hotelname}</Text>
            </View>
-           <View style={{display:'flex',flexDirection:'row',marginTop:'10%'}}>
+           <View style={{display:'flex',flexDirection:'row',marginTop:'8%',alignItems:'center',justifyContent:'center9'}}>
                <View style={{padding:'2%'}}>
                     <Text style={{fontSize:20}}>Guest</Text>
                     <Text style={{fontSize:20}}>No. of Rooms</Text>
@@ -66,7 +59,7 @@ const DetailsHistory = ({navigation,route}) =>{
            </View>
            <View>
                
-           <TouchableOpacity style={styles.touchableOpacity} onPress={deleteBooking}>
+           <TouchableOpacity style={{width:'90%',height:65,borderColor:'#61B0A2',borderWidth:4,borderRadius:10,alignItems:'center',justifyContent:'center',alignSelf:'center',marginTop:'10%'}} onPress={deleteBooking}>
                <Text style={styles.touchableText}>Delete Booking</Text>
             </TouchableOpacity>
            </View>
@@ -96,7 +89,7 @@ const styles = StyleSheet.create({
     },
     touchableText: {
         fontSize: 22,
-        color: '#FFFFFF',
+        color: '#61B0A2',
         fontWeight: '700'
 
 

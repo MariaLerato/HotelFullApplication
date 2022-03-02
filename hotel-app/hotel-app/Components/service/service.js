@@ -16,8 +16,8 @@ class BackendInfo {
     createGuest(data){
         return http.post("/guests",data)
     }
-    getGuest(page=0){
-        return http.get(`/guests=${page}`)
+    getAllGuests(page=0){
+        return http.get(`/guests?page=${page}`)
     }
     postClient(data){
         return http.post("/client",data)

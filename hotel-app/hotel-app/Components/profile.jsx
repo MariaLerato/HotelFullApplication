@@ -2,40 +2,37 @@ import React, { useEffect, useState } from 'react';
 import { View, Text, Image, ImageBackground, ScrollView, StyleSheet, TouchableOpacity, Avatar } from 'react-native'
 import { Icon } from 'react-native-elements';
 import { img } from './gallery/reusables';
-import ProfilePicture from 'react-native-profile-picture'
 import BackendInfo from './service/service'
-import { Bones } from "react-bones/native";
+import ProfilePicture from 'react-native-profile-picture';
 
 const Profile = ({ navigation, route }) => {
     const [Client, setClient] = useState([])
     const [isLoaded,setIsLoaded] = useState(false)
     const retrieveData = (e) => {
         BackendInfo.getClient()
-
             .then((res) => {
-                console.log(res.data)
+                console.log('client',res.data)
                 setIsLoaded(true)
                 setClient(res.data)
             })
     }
-
     useEffect(() => {
         retrieveData()
     }, [])
     return (
         <View style={Styles.container}>
-            {
-                Client.map(data =>
+              
+            {Client.map(data =>
                     <>
-                    {/* {!isLoaded?(<>
-                        <Bones variant='circular' width={160} height={160} animation='wave'/>
-                        <Bones variant='text' />
-                    </>):( */}
-                        <View style={Styles.header}>
-                        <Image source={{ uri: data.image }} style={{ width: 160, height: 160, borderRadius: 70, borderColor: 'grey', borderWidth: 5, marginTop: '-8%' }}></Image>
+                    <View style={Styles.header}>
+                        <Image source={{ uri:data.image.localUri}} style={{ width: 160, height: 160, borderRadius: 70, borderColor: 'white', borderWidth: 5, marginTop: '-8%' }}></Image>
                         <Text style={Styles.headText}>{data.name} {data.surname}</Text>
+                        </View>
                         
-                        <TouchableOpacity onPress={() => navigation.navigate('editprofile')} style={Styles.edit}>
+                    </>
+                )
+            }
+            <TouchableOpacity onPress={() => navigation.navigate('editprofile')} style={Styles.edit}>
                             <Text style={{ color: 'black', fontSize: 24, fontWeight: '600' }}>Edit Profile</Text>
                         </TouchableOpacity >
                         <TouchableOpacity onPress={() => navigation.navigate('myHistory')} style={Styles.touchableOpacity}>
@@ -44,13 +41,6 @@ const Profile = ({ navigation, route }) => {
                         <TouchableOpacity onPress={() => navigation.navigate('login')} style={Styles.touchable}>
                             <Icon name='logout' size={45} />
                         </TouchableOpacity >
-                        </View>
-                    {/* )} */}
-                        
-                        
-                    </>
-                )
-            }
         </View>
     )
     {/* <ScrollView style={Styles.history}>
@@ -105,7 +95,9 @@ const Profile = ({ navigation, route }) => {
 }
 const Styles = StyleSheet.create({
     container: {
-        flex: 1
+        flex: 1,
+        justifyContent:'center',
+        alignItems:'center'
     },
     user: {
         width: 90,
@@ -117,8 +109,8 @@ const Styles = StyleSheet.create({
     header: {
         alignSelf: 'center',
         justifyContent: 'center',
-        backgroundColor: 'white',
-        flex: 1,
+        // backgroundColor: 'white',
+        
         width: '100%',
         alignItems: 'center'
     },
@@ -126,13 +118,13 @@ const Styles = StyleSheet.create({
         color: '#1C5248',
         fontSize: 30,
         fontWeight: '700',
-        marginBottom: '2%',
-        marginTop: '4%'
+        marginBottom: '5%',
+      
     },
     edit: {
         backgroundColor: '#EBE9E9',
         height: 60,
-        marginTop: '10%',
+        marginTop: '2%',
         borderRadius: 10,
         alignItems: 'center',
         justifyContent: 'center',
@@ -148,7 +140,7 @@ const Styles = StyleSheet.create({
         borderColor: 'black',
     },
     history: {
-        marginTop: '-15%',
+        marginTop: '4%',
         backgroundColor: '#EBE9E9',
         borderTopStartRadius: 40,
         borderTopEndRadius: 20,
@@ -174,7 +166,7 @@ const Styles = StyleSheet.create({
     touchableOpacity: {
         backgroundColor: '#06AC8E',
         height: 68,
-        marginTop: '6%',
+        marginTop: '4%',
         borderRadius: 10,
         alignItems: 'center',
         justifyContent: 'center',
@@ -195,7 +187,8 @@ const Styles = StyleSheet.create({
         fontWeight: '600'
     },
     touchable:{
-        marginTop:'12%'
+        marginBottom:'2%',
+        marginTop:'2%'
     }
 
 })

@@ -35,7 +35,7 @@ const ShowSkeleton = ()=>{
         <div className="dropThingie" >
             <div className="roomLine">
                 <h5>Room</h5>
-                <p>  {index +1}.{data.Room} </p>
+                <p>{data.Room} </p>
               
             </div>
             <div className="roomLine">
@@ -53,7 +53,7 @@ const ShowSkeleton = ()=>{
             </div>
             <div className="roomLine">
             <h5>Total</h5>
-            <p>  {data.Totalprice}</p> 
+            <p> R{data.roomPrice}</p> 
             </div>        
             </div>
       )}
